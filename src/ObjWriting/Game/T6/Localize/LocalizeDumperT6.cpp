@@ -26,9 +26,9 @@ namespace localize
             stringFileDumper.SetLanguageName(language);
 
             // Magic string. Original string files do have this config file. The purpose of the config file is unknown though.
-            stringFileDumper.SetConfigFile(R"(C:/projects/cod/t6/bin/StringEd.cfg)");
+            stringFileDumper.SetConfigFile(R"(C:/t6/main/game/bin/StringEd.cfg)");
 
-            stringFileDumper.SetNotes("");
+            stringFileDumper.SetNotes("No known notes.");
 
             for (const auto* localizeEntry : localizeAssets)
             {
