@@ -15,7 +15,13 @@ namespace map_ents
     {
         const auto* mapEnts = asset.Asset();
 
-        const auto mapEntsFile = context.OpenAssetFile(std::format("{}.ents", mapEnts->name));
+        std::string name = mapEnts->name;
+
+        constexpr std::string_view suffix = ".d3dbsp";
+        if (name.ends_with(suffix))
+            name.erase(name.size() - suffix.size());
+
+        const auto mapEntsFile = context.OpenAssetFile(std::format("{}.mapents", name));
 
         if (!mapEntsFile)
             return;

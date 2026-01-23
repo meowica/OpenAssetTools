@@ -7,6 +7,7 @@
 #include "Image/ImageDumperT6.h"
 #include "Leaderboard/LeaderboardJsonDumperT6.h"
 #include "Localize/LocalizeDumperT6.h"
+#include "Maps/AddonMapEntsDumperT6.h"
 #include "Maps/MapEntsDumperT6.h"
 #include "ObjWriting.h"
 #include "PhysConstraints/PhysConstraintsInfoStringDumperT6.h"
@@ -87,7 +88,7 @@ bool ObjWriter::DumpZone(AssetDumpingContext& context) const
     // REGISTER_DUMPER(AssetDumperKeyValuePairs, m_key_value_pairs)
     REGISTER_DUMPER(vehicle::DumperT6, m_vehicle)
     // REGISTER_DUMPER(AssetDumperMemoryBlock, m_memory_block)
-    // REGISTER_DUMPER(AssetDumperAddonMapEnts, m_addon_map_ents)
+    REGISTER_DUMPER(addon_map_ents::DumperT6, m_addon_map_ents)
     REGISTER_DUMPER(tracer::DumperT6, m_tracer)
     // REGISTER_DUMPER(AssetDumperSkinnedVertsDef, m_skinned_verts)
     REGISTER_DUMPER(qdb::DumperT6, m_qdb)
