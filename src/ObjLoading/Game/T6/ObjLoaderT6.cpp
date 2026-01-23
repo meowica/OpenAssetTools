@@ -20,6 +20,8 @@
 #include "Material/LoaderMaterialT6.h"
 #include "ObjContainer/IPak/IPak.h"
 #include "ObjLoading.h"
+#include "Maps/LoaderAddonMapEntsT6.h"
+#include "Maps/LoaderMapEntsT6.h"
 #include "PhysConstraints/GdtLoaderPhysConstraintsT6.h"
 #include "PhysConstraints/RawLoaderPhysConstraintsT6.h"
 #include "PhysPreset/GdtLoaderPhysPresetT6.h"
@@ -403,7 +405,7 @@ namespace T6
             // collection.AddAssetCreator(std::make_unique<AssetLoaderComWorld>(memory));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderGameWorldSp>(memory));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderGameWorldMp>(memory));
-            // collection.AddAssetCreator(std::make_unique<AssetLoaderMapEnts>(memory));
+            collection.AddAssetCreator(map_ents::CreateLoaderT6(memory, searchPath));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderGfxWorld>(memory));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderLightDef>(memory));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderFont>(memory));
@@ -433,7 +435,7 @@ namespace T6
             collection.AddAssetCreator(vehicle::CreateRawLoaderT6(memory, searchPath, zone));
             collection.AddAssetCreator(vehicle::CreateGdtLoaderT6(memory, searchPath, gdt, zone));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderMemoryBlock>(memory));
-            // collection.AddAssetCreator(std::make_unique<AssetLoaderAddonMapEnts>(memory));
+            collection.AddAssetCreator(addon_map_ents::CreateLoaderT6(memory, searchPath));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderTracer>(memory));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderSkinnedVerts>(memory));
             collection.AddAssetCreator(qdb::CreateLoaderT6(memory, searchPath));
