@@ -26,6 +26,7 @@ namespace
 
             auto* mapEnts = m_memory.Alloc<MapEnts>();
 
+            // strip the name down to just map.d3dbsp
             std::string cleanName = assetName;
             if (cleanName.ends_with(".mapents"))
                 cleanName.erase(cleanName.size() - 8);
