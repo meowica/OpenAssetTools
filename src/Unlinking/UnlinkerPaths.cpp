@@ -45,7 +45,7 @@ bool UnlinkerPaths::LoadUserPaths(const UnlinkerArgs& args)
         }
     }
 
-    con::info("{} SearchPaths{}", m_specified_user_paths.size(), !m_specified_user_paths.empty() ? ":" : "");
+    con::info("{} Search Paths{}", m_specified_user_paths.size(), !m_specified_user_paths.empty() ? ":" : "");
     for (const auto& absoluteSearchPath : m_specified_user_paths)
         con::info("  \"{}\"", absoluteSearchPath);
 
