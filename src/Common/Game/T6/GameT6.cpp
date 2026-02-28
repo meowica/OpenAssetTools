@@ -12,26 +12,26 @@ namespace
         "xmodelpieces",
         "physpreset",
         "physconstraints",
-        "destructibledef",
+        "destructible",
         "xanim",
         "xmodel",
         "material",
-        "techniqueset",
+        "techset",
         "image",
-        "soundbank",
-        "soundpatch",
-        "clipmap_unused",
-        "clipmap",
-        "comworld",
-        "gameworldsp",
-        "gameworldmp",
-        "mapents",
-        "gfxworld",
-        "gfxlightdef",
-        "uimap",
+        "sound",
+        "sound_patch",
+        "col_map_sp", // is this correct?
+        "col_map_mp",
+        "com_map",
+        "game_map_sp",
+        "game_map_mp",
+        "map_ents",
+        "gfx_map",
+        "lightdef",
+        "ui_map",
         "font",
         "fonticon",
-        "menulist",
+        "menufile",
         "menu",
         "localize",
         "weapon",
@@ -43,7 +43,7 @@ namespace
         "camo",
         "snddriverglobals",
         "fx",
-        "fximpacttable",
+        "impactfx",
         "aitype",
         "mptype",
         "mpbody",
@@ -53,26 +53,26 @@ namespace
         "rawfile",
         "stringtable",
         "leaderboard",
-        "xglobals",
+        "xGlobals",
         "ddl",
         "glasses",
-        "emblemset",
+        "emblemSet",
         "script",
         "keyvaluepairs",
         "vehicle",
-        "memoryblock",
-        "addonmapents",
+        "memory",
+        "addon_map_ents",
         "tracer",
-        "skinnedverts",
+        "skin",
         "qdb",
         "slug",
-        "footsteptable",
-        "footstepfxtable",
+        "footstep",
+        "footstepfx",
         "zbarrier",
     };
     static_assert(std::extent_v<decltype(ASSET_TYPE_NAMES)> == ASSET_TYPE_COUNT);
 
-    constexpr const char* SUB_ASSET_TYPE_NAMES[]{
+    constexpr const char* SUB_ASSET_TYPE_NAMES[SUB_ASSET_TYPE_COUNT]{
         "technique",
         "vertexdecl",
         "vertexshader",
@@ -102,7 +102,8 @@ namespace T6
 
     const std::vector<GameLanguagePrefix>& Game::GetLanguagePrefixes() const
     {
-        static std::vector<GameLanguagePrefix> prefixes{
+        static std::vector<GameLanguagePrefix> prefixes
+        {
             {GameLanguage::LANGUAGE_ENGLISH,         "en_"},
             {GameLanguage::LANGUAGE_FRENCH,          "fr_"},
             {GameLanguage::LANGUAGE_FRENCH_CAN,      "fc_"},
@@ -120,7 +121,6 @@ namespace T6
             {GameLanguage::LANGUAGE_PORTUGUESE,      "bp_"},
             {GameLanguage::LANGUAGE_MEXICAN_SPANISH, "ms_"},
         };
-
         return prefixes;
     }
 
@@ -133,7 +133,6 @@ namespace T6
     {
         if (assetType < std::extent_v<decltype(ASSET_TYPE_NAMES)>)
             return ASSET_TYPE_NAMES[assetType];
-
         return std::nullopt;
     }
 
@@ -146,7 +145,6 @@ namespace T6
     {
         if (subAssetType < std::extent_v<decltype(SUB_ASSET_TYPE_NAMES)>)
             return SUB_ASSET_TYPE_NAMES[subAssetType];
-
         return std::nullopt;
     }
 } // namespace T6
