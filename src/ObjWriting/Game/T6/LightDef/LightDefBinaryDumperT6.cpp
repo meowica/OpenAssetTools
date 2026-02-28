@@ -9,11 +9,6 @@ using namespace T6;
 
 namespace light_def
 {
-    BinaryDumperT6::BinaryDumperT6(const AssetPool<AssetLightDef::Type>& pool)
-        : AbstractAssetDumper(pool)
-    {
-    }
-
     void BinaryDumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetLightDef::Type>& asset)
     {
         const auto* lightDef = asset.Asset();
