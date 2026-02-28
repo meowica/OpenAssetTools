@@ -12,11 +12,6 @@ namespace
 
 namespace font
 {
-    BinaryDumperT6::BinaryDumperT6(const AssetPool<AssetFont::Type>& pool)
-        : AbstractAssetDumper(pool)
-    {
-    }
-
     void BinaryDumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetFont::Type>& asset)
     {
         const auto* lightDef = asset.Asset();
