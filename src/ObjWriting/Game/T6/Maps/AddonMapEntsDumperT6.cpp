@@ -9,11 +9,6 @@ using namespace T6;
 
 namespace addon_map_ents
 {
-    DumperT6::DumperT6(const AssetPool<AssetAddonMapEnts::Type>& pool)
-        : AbstractAssetDumper(pool)
-    {
-    }
-
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetAddonMapEnts::Type>& asset)
     {
         const auto* addonMapEnts = asset.Asset();

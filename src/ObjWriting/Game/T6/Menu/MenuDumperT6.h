@@ -7,9 +7,6 @@ namespace menu
 {
     class MenuDumperT6 final : public AbstractAssetDumper<T6::AssetMenu>
     {
-    public:
-        explicit MenuDumperT6(const AssetPool<T6::AssetMenu::Type>& pool);
-
     protected:
         void DumpAsset(AssetDumpingContext& context, const XAssetInfo<T6::AssetMenu::Type>& asset) override;
     };

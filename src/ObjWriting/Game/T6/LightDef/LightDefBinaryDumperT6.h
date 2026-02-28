@@ -7,9 +7,6 @@ namespace light_def
 {
     class BinaryDumperT6 final : public AbstractAssetDumper<T6::AssetLightDef>
     {
-    public:
-        explicit BinaryDumperT6(const AssetPool<T6::AssetLightDef::Type>& pool);
-
     protected:
         void DumpAsset(AssetDumpingContext& context, const XAssetInfo<T6::AssetLightDef::Type>& asset) override;
     };

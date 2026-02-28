@@ -7,9 +7,6 @@ namespace addon_map_ents
 {
     class DumperT6 final : public AbstractAssetDumper<T6::AssetAddonMapEnts>
     {
-    public:
-        explicit DumperT6(const AssetPool<T6::AssetAddonMapEnts::Type>& pool);
-
     protected:
         void DumpAsset(AssetDumpingContext& context, const XAssetInfo<T6::AssetAddonMapEnts::Type>& asset) override;
     };

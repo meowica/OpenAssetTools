@@ -5,7 +5,7 @@
 
 #include <memory>
 
-namespace light
+namespace light_def
 {
-    std::unique_ptr<IAssetDumper> CreateDumperT6(const AssetPool<T6::AssetLightDef::Type>& pool);
-} // namespace light
+    std::unique_ptr<IAssetDumper> CreateDumperT6();
+} // namespace light_def

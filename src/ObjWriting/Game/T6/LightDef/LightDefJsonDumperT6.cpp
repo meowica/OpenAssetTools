@@ -34,11 +34,6 @@ namespace
 
 namespace light_def
 {
-    JsonDumperT6::JsonDumperT6(const AssetPool<AssetLightDef::Type>& pool)
-        : AbstractAssetDumper(pool)
-    {
-    }
-
     void JsonDumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetLightDef::Type>& asset)
     {
         const auto assetFile = context.OpenAssetFile(light_def::GetJsonFileNameForAsset(asset.m_name));

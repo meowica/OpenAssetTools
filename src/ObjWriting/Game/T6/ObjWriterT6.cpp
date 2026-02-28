@@ -52,17 +52,17 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     // REGISTER_DUMPER(AssetDumperGameWorldMp, m_game_world_mp)
     RegisterAssetDumper(std::make_unique<map_ents::DumperT6>());
     // REGISTER_DUMPER(AssetDumperGfxWorld, m_gfx_world)
-    REGISTER_DUMPER_WITH_FACTORY(light::CreateDumperT6, m_gfx_light_def, AssetLightDef)
-    REGISTER_DUMPER_WITH_FACTORY(font::CreateDumperT6, m_font, AssetFont)
-    REGISTER_DUMPER_WITH_FACTORY(font_icon::CreateDumperT6, m_font_icon, AssetFontIcon)
-    REGISTER_DUMPER(menu::MenuListDumperT6, m_menu_list)
-    REGISTER_DUMPER(menu::MenuDumperT6, m_menu_def)
-    REGISTER_DUMPER(localize::DumperT6, m_localize)
-    REGISTER_DUMPER(weapon::DumperT6, m_weapon)
-    REGISTER_DUMPER(attachment::DumperT6, m_attachment)
-    REGISTER_DUMPER(attachment_unique::DumperT6, m_attachment_unique)
-    REGISTER_DUMPER(camo::JsonDumperT6, m_camo)
-    REGISTER_DUMPER(sound::SndDriverGlobalsDumperT6, m_snd_driver_globals)
+    RegisterAssetDumper(light_def::CreateDumperT6());
+    RegisterAssetDumper(font::CreateDumperT6());
+    RegisterAssetDumper(font_icon::CreateDumperT6());
+    RegisterAssetDumper(std::make_unique<menu::MenuListDumperT6>());
+    RegisterAssetDumper(std::make_unique<menu::MenuDumperT6>());
+    RegisterAssetDumper(std::make_unique<localize::DumperT6>());
+    RegisterAssetDumper(std::make_unique<weapon::DumperT6>());
+    RegisterAssetDumper(std::make_unique<attachment::DumperT6>());
+    RegisterAssetDumper(std::make_unique<attachment_unique::DumperT6>());
+    RegisterAssetDumper(std::make_unique<camo::JsonDumperT6>());
+    RegisterAssetDumper(std::make_unique<sound::SndDriverGlobalsDumperT6>());
     // REGISTER_DUMPER(AssetDumperFxEffectDef, m_fx)
     // REGISTER_DUMPER(AssetDumperFxImpactTable, m_fx_impact_table)
     RegisterAssetDumper(std::make_unique<raw_file::DumperT6>());
@@ -76,8 +76,8 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     // REGISTER_DUMPER(AssetDumperKeyValuePairs, m_key_value_pairs)
     RegisterAssetDumper(std::make_unique<vehicle::DumperT6>());
     // REGISTER_DUMPER(AssetDumperMemoryBlock, m_memory_block)
-    REGISTER_DUMPER(addon_map_ents::DumperT6, m_addon_map_ents)
-    REGISTER_DUMPER(tracer::DumperT6, m_tracer)
+    RegisterAssetDumper(std::make_unique<addon_map_ents::DumperT6>());
+    RegisterAssetDumper(std::make_unique<tracer::DumperT6>());
     // REGISTER_DUMPER(AssetDumperSkinnedVertsDef, m_skinned_verts)
     RegisterAssetDumper(std::make_unique<qdb::DumperT6>());
     RegisterAssetDumper(std::make_unique<slug::DumperT6>());
