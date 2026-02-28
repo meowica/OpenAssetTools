@@ -41,7 +41,8 @@ namespace
             PathTemplateParameterType m_type;
         };
 
-        static constexpr Pattern PATTERNS[]{
+        static constexpr Pattern PATTERNS[]
+        {
             {PATTERN_BIN,     PathTemplateParameterType::BIN    },
             {PATTERN_BASE,    PathTemplateParameterType::BASE   },
             {PATTERN_GAME,    PathTemplateParameterType::GAME   },
@@ -58,6 +59,7 @@ namespace
         {
             const auto templateStringLength = templateString.size();
             auto partStart = 0uz;
+
             for (auto i = 0uz; i < templateStringLength; i++)
             {
                 if (templateString[i] != '?')
@@ -83,8 +85,7 @@ namespace
                 m_parts.emplace_back(templateString.substr(partStart, templateStringLength - partStart));
         }
 
-        [[nodiscard]] std::string
-            Render(const std::string& binDir, const std::string& baseDir, const std::string& projectName, const std::string& gameName) const
+        [[nodiscard]] std::string Render(const std::string& binDir, const std::string& baseDir, const std::string& projectName, const std::string& gameName) const
         {
             if (m_parts.empty())
                 return "";
@@ -97,6 +98,7 @@ namespace
 
             const auto partsCount = m_parts.size();
             const auto parameterCount = m_parameters.size();
+
             for (auto parameterIndex = 0u; parameterIndex < parameterCount; parameterIndex++)
             {
                 switch (m_parameters[parameterIndex])
@@ -138,11 +140,15 @@ namespace
 
     class LinkerSearchPathBuilder final : public ILinkerSearchPathBuilder
     {
-        static constexpr auto INDEPENDENT_MASK = static_cast<unsigned>(PathTemplateParameterType::BIN) | static_cast<unsigned>(PathTemplateParameterType::BASE);
-        static constexpr auto PROJECT_MASK = static_cast<unsigned>(PathTemplateParameterType::BIN) | static_cast<unsigned>(PathTemplateParameterType::BASE)
-                                             | static_cast<unsigned>(PathTemplateParameterType::PROJECT);
-        static constexpr auto GAME_MASK = static_cast<unsigned>(PathTemplateParameterType::BIN) | static_cast<unsigned>(PathTemplateParameterType::BASE)
-                                          | static_cast<unsigned>(PathTemplateParameterType::PROJECT) | static_cast<unsigned>(PathTemplateParameterType::GAME);
+        static constexpr auto INDEPENDENT_MASK = static_cast<unsigned>(PathTemplateParameterType::BIN) |
+                                                 static_cast<unsigned>(PathTemplateParameterType::BASE);
+        static constexpr auto PROJECT_MASK     = static_cast<unsigned>(PathTemplateParameterType::BIN) |
+                                                 static_cast<unsigned>(PathTemplateParameterType::BASE) |
+                                                 static_cast<unsigned>(PathTemplateParameterType::PROJECT);
+        static constexpr auto GAME_MASK        = static_cast<unsigned>(PathTemplateParameterType::BIN) |
+                                                 static_cast<unsigned>(PathTemplateParameterType::BASE) |
+                                                 static_cast<unsigned>(PathTemplateParameterType::PROJECT) |
+                                                 static_cast<unsigned>(PathTemplateParameterType::GAME);
 
     public:
         LinkerSearchPathBuilder(const char* typeName, std::string binDir, std::string baseDir)
@@ -242,7 +248,8 @@ namespace
 
             if (!fs::is_directory(path))
             {
-                con::debug("Adding {} search path (Not found): {}", m_type_name, path);
+                // TODO: conver this into a debug_warn
+                con::warn("Couldn't add {} search path {}", m_type_name, path);
                 return false;
             }
 

@@ -36,6 +36,12 @@ const CommandLineOption* const OPTION_VERBOSE =
     .WithDescription("Outputs a lot more and more detailed messages.")
     .Build();
 
+const CommandLineOption* const OPTION_SHOW_SUMMARY =
+    CommandLineOption::Builder::Create()
+    .WithLongName("show-summary")
+    .WithDescription("Show an output summary after linking the fast file.")
+    .Build();
+
 const CommandLineOption* const OPTION_NO_COLOR =
     CommandLineOption::Builder::Create()
     .WithLongName("no-color")
@@ -122,6 +128,7 @@ const CommandLineOption* const COMMAND_LINE_OPTIONS[]{
     OPTION_HELP,
     OPTION_VERSION,
     OPTION_VERBOSE,
+    OPTION_SHOW_SUMMARY,
     OPTION_NO_COLOR,
     OPTION_BASE_FOLDER,
     OPTION_OUTPUT_FOLDER,
@@ -168,6 +175,10 @@ void LinkerArgs::SetBinFolder()
 
 bool LinkerArgs::ParseArgs(const int argc, const char** argv, bool& shouldContinue)
 {
+    m_raw_arguments.clear();
+    for (int i = 0; i < argc; ++i)
+        m_raw_arguments.emplace_back(argv[i]);
+
     shouldContinue = true;
     if (!m_argument_parser.ParseArguments(argc, argv))
     {
@@ -203,9 +214,16 @@ bool LinkerArgs::ParseArgs(const int argc, const char** argv, bool& shouldContin
 
     // -v; --verbose
     if (m_argument_parser.IsOptionSpecified(OPTION_VERBOSE))
+    {
+        m_verbose_mode = true;
         con::set_log_level(con::LogLevel::DEBUG);
+    }
     else
         con::set_log_level(con::LogLevel::INFO);
+
+    // --show-summary
+    if (m_argument_parser.IsOptionSpecified(OPTION_SHOW_SUMMARY))
+        m_show_summary = true;
 
     // --no-color
     con::set_use_color(!m_argument_parser.IsOptionSpecified(OPTION_NO_COLOR));
