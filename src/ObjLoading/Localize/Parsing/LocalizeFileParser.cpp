@@ -8,8 +8,11 @@
 #include "Sequence/SequenceLocalizeFileReference.h"
 #include "Sequence/SequenceLocalizeFileVersion.h"
 
-LocalizeFileParser::LocalizeFileParser(SimpleLexer* lexer, GameLanguage language, ILocalizeFileDuplicationChecker& duplicationChecker)
-    : AbstractParser(lexer, std::make_unique<LocalizeFileParserState>(language, duplicationChecker))
+LocalizeFileParser::LocalizeFileParser(SimpleLexer* lexer,
+                                       GameLanguage language,
+                                       ILocalizeFileDuplicationChecker& duplicationChecker)
+    : AbstractParser(lexer,
+                     std::make_unique<LocalizeFileParserState>(language, duplicationChecker))
 {
 }
 

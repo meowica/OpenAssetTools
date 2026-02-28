@@ -1515,6 +1515,35 @@ namespace T6
         int vertAlign;
     };
 
+    // This is data from IW4, could be different for T6, to be investigated
+    enum WindowDefStaticFlag : unsigned int
+    {
+        WINDOW_FLAG_DECORATION = 0x100000,
+        WINDOW_FLAG_HORIZONTAL_SCROLL = 0x200000,
+        WINDOW_FLAG_OUT_OF_BOUNDS_CLICK = 0x2000000,
+        WINDOW_FLAG_SCREEN_SPACE = 0x400000,
+        WINDOW_FLAG_AUTO_WRAPPED = 0x800000,
+        WINDOW_FLAG_POPUP = 0x1000000,
+        WINDOW_FLAG_LEGACY_SPLIT_SCREEN_SCALE = 0x4000000,
+        WINDOW_FLAG_HIDDEN_DURING_FLASH_BANG = 0x10000000,
+        WINDOW_FLAG_HIDDEN_DURING_SCOPE = 0x20000000,
+        WINDOW_FLAG_HIDDEN_DURING_UI = 0x40000000,
+        WINDOW_FLAG_TEXT_ONLY_FOCUS = 0x80000000,
+    };
+
+    // This is data from IW4, could be different for T6, to be investigated
+    enum WindowDefDynamicFlag : unsigned int
+    {
+        WINDOW_FLAG_HOVERED = 0x1,
+        WINDOW_FLAG_FOCUSED = 0x2,
+        WINDOW_FLAG_VISIBLE = 0x4,
+        WINDOW_FLAG_FADING_OUT = 0x10,
+        WINDOW_FLAG_FADING_IN = 0x20,
+        WINDOW_FLAG_80 = 0x80,
+        WINDOW_FLAG_NON_DEFAULT_BACKCOLOR = 0x8000,
+        WINDOW_FLAG_NON_DEFAULT_FORECOLOR = 0x10000
+    };
+
     struct windowDef_t
     {
         const char* name;
@@ -4112,6 +4141,36 @@ namespace T6
         RPN_CMD_IDX = 0x1,
         RPN_CMD = 0x2,
         RPN_END = 0x3,
+    };
+
+    enum expressionOperatorType_e
+    {
+        OP_NOOP = 0x0,
+        OP_RIGHTPAREN = 0x1,
+        OP_MUL = 0x2,
+        OP_DIV = 0x3,
+        OP_MOD = 0x4,
+        OP_PLUS = 0x5,
+        OP_MINUS = 0x6,
+        OP_MINUS_2 = 0x7,
+        OP_NEG = 0x8,
+        OP_SMALLER = 0x9,
+        OP_SMALLEREQ = 0xA,
+        OP_GREATER = 0xB,
+        OP_GREATEREQ = 0xC,
+        OP_EQ = 0xD,
+        OP_NOTEQ = 0xE,
+        OP_LOGAND = 0xF,
+        OP_LOGOR = 0x10,
+        OP_LEFTPAREN = 0x11,
+        OP_COMMA = 0x12,
+        OP_BITAND = 0x13,
+        OP_BITOR = 0x14,
+        OP_BITNEG = 0x15,
+        OP_SHIFTLEFT = 0x16,
+        OP_SHIFTRIGHT = 0x17,
+
+        OP_COUNT
     };
 
     struct expressionRpn
@@ -6980,6 +7039,23 @@ namespace T6
     {
         int gameMsgWindowIndex;
         int gameMsgWindowMode;
+    };
+
+    // This is data from IW4, could be different for T6, to be investigated
+    enum ItemDefFlag : unsigned int
+    {
+        ITEM_FLAG_SAVE_GAME_INFO = 0x1,
+        ITEM_FLAG_CINEMATIC_SUBTITLE = 0x2,
+    };
+
+    // This is data from IW4, could be different for T6, to be investigated
+    enum ItemDefDvarFlag
+    {
+        ITEM_DVAR_FLAG_ENABLE = 0x1,
+        ITEM_DVAR_FLAG_DISABLE = 0x2,
+        ITEM_DVAR_FLAG_SHOW = 0x4,
+        ITEM_DVAR_FLAG_HIDE = 0x8,
+        ITEM_DVAR_FLAG_FOCUS = 0x10,
     };
 
     struct columnInfo_s

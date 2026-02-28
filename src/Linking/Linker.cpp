@@ -26,6 +26,44 @@ namespace fs = std::filesystem;
 
 namespace
 {
+    enum class RawColor
+    {
+        Default,
+        Yellow,
+        Red
+    };
+
+    bool globalUseColor = true;
+
+    void raw(const std::string& text)
+    {
+        std::cout << text << '\n';
+    }
+
+    void raw_colored(const std::string& text, RawColor color)
+    {
+        if (!globalUseColor || color == RawColor::Default)
+        {
+            std::cout << text << '\n';
+            return;
+        }
+
+        const char* code = "";
+        switch (color)
+        {
+        case RawColor::Yellow:
+            code = "\x1B[33m";
+            break;
+        case RawColor::Red:
+            code = "\x1B[31m";
+            break;
+        default:
+            break;
+        }
+
+        std::cout << code << text << "\x1B[0m\n";
+    }
+
     class LinkerSearchPathContext
     {
     public:
@@ -166,7 +204,11 @@ namespace
             LinkerPathManager paths(m_args);
 
             if (!LoadZones())
+            {
+                if (m_args.m_show_summary || m_args.m_verbose_mode)
+                    ShowLinkerSummary(false);
                 return false;
+            }
 
             auto result = true;
             for (const auto& projectSpecifier : m_args.m_project_specifiers_to_build)
@@ -188,10 +230,74 @@ namespace
 
             UnloadZones();
 
+            if (m_args.m_show_summary || m_args.m_verbose_mode)
+                ShowLinkerSummary(result);
             return result;
         }
 
     private:
+        void ShowLinkerSummary(bool success) const
+        {
+            const int warningCount = con::warning_count();
+            const int errorCount = con::error_count();
+
+            con::info("\n=====================================");
+            con::info("Linker Summary:");
+
+            if (warningCount == 0 && errorCount == 0)
+            {
+                con::info("\nThere were no errors or warnings.");
+                con::info("=====================================");
+                return;
+            }
+
+            const char* warningText = (warningCount == 1) ? "warning" : "warnings";
+            const char* errorText = (errorCount == 1) ? "error" : "errors";
+            const char* verb = (warningCount == 1) ? "was" : "were";
+
+            con::info(std::format("\nThere {} {} {} and {} {}.", verb, warningCount, warningText, errorCount, errorText));
+
+            if (warningCount > 0)
+            {
+                con::info("\nWarnings:");
+
+                for (const auto& msg : con::warnings())
+                    raw_colored(std::format("  {}", msg), RawColor::Yellow);
+            }
+
+            if (errorCount > 0)
+            {
+                con::info("\nErrors:");
+
+                for (const auto& msg : con::errors())
+                    raw_colored(std::format("  {}", msg), RawColor::Red);
+            }
+
+            const auto& args = m_args.m_raw_arguments;
+
+            if (args.size() > 1)
+            {
+                con::info("\nArguments passed to linker:");
+
+                for (size_t i = 1; i < args.size(); ++i)
+                {
+                    const auto& arg = args[i];
+
+                    if ((arg.starts_with("-") || arg.starts_with("--")) && i + 1 < args.size() && !args[i + 1].starts_with("-"))
+                    {
+                        con::info(std::format("  {} {}", arg, args[i + 1]));
+                        ++i;
+                    }
+                    else
+                        con::info(std::format("  {}", arg));
+                }
+            }
+            else
+                con::info("No arguments were passed to linker.\n");
+
+            con::info("\n=====================================\n");
+        }
+
         std::unique_ptr<ZoneDefinition> ReadZoneDefinition(LinkerPathManager& paths, const std::string& targetName, bool logMissing = true) const
         {
             auto& sourceSearchPath = paths.m_source_paths.GetSearchPaths();
@@ -300,6 +406,7 @@ namespace
             ZoneCreationContext context(&zoneDefinition, &paths.m_asset_paths.GetSearchPaths(), outDir, cacheDir);
             if (!ProcessZoneDefinitionIgnores(paths, targetName, context))
                 return nullptr;
+
             if (!LoadGdtFilesFromZoneDefinition(context.m_gdt_files, zoneDefinition, &paths.m_gdt_paths.GetSearchPaths()))
                 return nullptr;
 
@@ -323,7 +430,7 @@ namespace
                 return false;
             }
 
-            con::info("Created zone \"{}\"", zone.m_name);
+            con::info("Built zone \"{}\"", zone.m_name);
 
             return true;
         }
@@ -398,7 +505,6 @@ namespace
                 auto zoneDirectory = fs::path(zonePath).remove_filename();
                 if (zoneDirectory.empty())
                     zoneDirectory = fs::current_path();
-                auto absoluteZoneDirectory = absolute(zoneDirectory).string();
 
                 auto maybeZone = ZoneLoading::LoadZone(zonePath, std::nullopt);
                 if (!maybeZone)

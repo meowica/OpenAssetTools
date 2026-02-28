@@ -17,7 +17,11 @@ namespace
     class ReusableEntry
     {
     public:
-        ReusableEntry(void* startPtr, const size_t entrySize, const size_t entryCount, const size_t blockSize, const uintptr_t startZonePtr)
+        ReusableEntry(void* startPtr,
+                      const size_t entrySize,
+                      const size_t entryCount,
+                      const size_t blockSize,
+                      const uintptr_t startZonePtr)
             : m_start_ptr(startPtr),
               m_end_ptr(reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(startPtr) + entrySize * entryCount)),
               m_start_zone_ptr(startZonePtr),
@@ -38,8 +42,11 @@ namespace
     class InMemoryZoneOutputStream final : public ZoneOutputStream
     {
     public:
-        InMemoryZoneOutputStream(
-            const unsigned pointerBitCount, const unsigned blockBitCount, std::vector<XBlock*>& blocks, const block_t insertBlock, InMemoryZoneData& zoneData)
+        InMemoryZoneOutputStream(const unsigned pointerBitCount,
+                                 const unsigned blockBitCount,
+                                 std::vector<XBlock*>& blocks,
+                                 const block_t insertBlock,
+                                 InMemoryZoneData& zoneData)
             : m_zone_data(zoneData),
               m_blocks(blocks),
               m_block_bit_count(blockBitCount),
@@ -350,10 +357,17 @@ void* ZoneOutputOffset::Offset() const
     return m_offset;
 }
 
-std::unique_ptr<ZoneOutputStream>
-    ZoneOutputStream::Create(unsigned pointerBitCount, unsigned blockBitCount, std::vector<XBlock*>& blocks, block_t insertBlock, InMemoryZoneData& zoneData)
+std::unique_ptr<ZoneOutputStream> ZoneOutputStream::Create(unsigned pointerBitCount,
+                                                           unsigned blockBitCount,
+                                                           std::vector<XBlock*>& blocks,
+                                                           block_t insertBlock,
+                                                           InMemoryZoneData& zoneData)
 {
-    return std::make_unique<InMemoryZoneOutputStream>(pointerBitCount, blockBitCount, blocks, insertBlock, zoneData);
+    return std::make_unique<InMemoryZoneOutputStream>(pointerBitCount,
+                                                      blockBitCount,
+                                                      blocks,
+                                                      insertBlock,
+                                                      zoneData);
 }
 
 ZoneStreamFillWriteAccessor::ZoneStreamFillWriteAccessor(void* blockBuffer, const size_t bufferSize)

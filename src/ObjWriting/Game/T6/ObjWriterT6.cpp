@@ -1,5 +1,6 @@
 #include "ObjWriterT6.h"
 
+#include "Font/FontDumperT6.h"
 #include "FontIcon/FontIconDumperT6.h"
 #include "Game/T6/GameAssetPoolT6.h"
 #include "Game/T6/Material/MaterialJsonDumperT6.h"
@@ -7,8 +8,12 @@
 #include "Image/ImageDumperT6.h"
 #include "Leaderboard/LeaderboardJsonDumperT6.h"
 #include "Localize/LocalizeDumperT6.h"
-#include "MapEnts/AddonMapEntsDumperT6.h"
-#include "MapEnts/MapEntsDumperT6.h"
+#include "LightDef/LightDefDumperT6.h"
+#include "Maps/AddonMapEntsDumperT6.h"
+#include "Maps/MapEntsDumperT6.h"
+#include "Menu/MenuListDumperT6.h"
+#include "Menu/MenuDumperT6.h"
+#include "Menu/MenuWriterT6.h"
 #include "ObjWriting.h"
 #include "PhysConstraints/PhysConstraintsInfoStringDumperT6.h"
 #include "PhysPreset/PhysPresetInfoStringDumperT6.h"
@@ -64,11 +69,11 @@ bool ObjWriter::DumpZone(AssetDumpingContext& context) const
     // REGISTER_DUMPER(AssetDumperGameWorldMp, m_game_world_mp)
     REGISTER_DUMPER(map_ents::DumperT6, m_map_ents)
     // REGISTER_DUMPER(AssetDumperGfxWorld, m_gfx_world)
-    // REGISTER_DUMPER(AssetDumperGfxLightDef, m_gfx_light_def)
-    // REGISTER_DUMPER(AssetDumperFont, m_font)
+    REGISTER_DUMPER_WITH_FACTORY(light::CreateDumperT6, m_gfx_light_def, AssetLightDef)
+    REGISTER_DUMPER_WITH_FACTORY(font::CreateDumperT6, m_font, AssetFont)
     REGISTER_DUMPER_WITH_FACTORY(font_icon::CreateDumperT6, m_font_icon, AssetFontIcon)
-    // REGISTER_DUMPER(AssetDumperMenuList, m_menu_list)
-    // REGISTER_DUMPER(AssetDumperMenuDef, m_menu_def)
+    REGISTER_DUMPER(menu::MenuListDumperT6, m_menu_list)
+    REGISTER_DUMPER(menu::MenuDumperT6, m_menu_def)
     REGISTER_DUMPER(localize::DumperT6, m_localize)
     REGISTER_DUMPER(weapon::DumperT6, m_weapon)
     REGISTER_DUMPER(attachment::DumperT6, m_attachment)

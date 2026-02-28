@@ -38,7 +38,7 @@ namespace
 
 namespace zone_creator
 {
-    void InitLookup(const ZoneCreationContext& context, GdtLookup& lookup)
+    static void InitLookup(const ZoneCreationContext& context, GdtLookup& lookup)
     {
         std::vector<const Gdt*> gdtFiles;
         gdtFiles.reserve(context.m_gdt_files.size());
@@ -70,14 +70,13 @@ namespace zone_creator
 
         OutputPathFilesystem outDir(context.m_out_dir);
         OutputPathFilesystem cacheDir(context.m_cache_dir);
-        objCompiler->ConfigureCreatorCollection(
-            creatorCollection, *zone, zoneDefinitionContext, *context.m_asset_search_path, lookup, creationContext, outDir, cacheDir);
+
+        objCompiler->ConfigureCreatorCollection(creatorCollection, *zone, zoneDefinitionContext, *context.m_asset_search_path, lookup, creationContext, outDir, cacheDir);
         objLoader->ConfigureCreatorCollection(creatorCollection, *zone, *context.m_asset_search_path, lookup);
 
         for (const auto& assetEntry : context.m_definition->m_assets)
         {
             const auto* createdAsset = creationContext.LoadDependencyGeneric(assetEntry.m_asset_type, assetEntry.m_asset_name);
-
             if (!createdAsset)
                 return nullptr;
 

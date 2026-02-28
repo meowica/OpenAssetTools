@@ -47,6 +47,7 @@ namespace
         {
             const auto uncompressedBuffer = std::make_unique<char[]>(static_cast<size_t>(file.m_length));
             file.m_stream->read(uncompressedBuffer.get(), file.m_length);
+
             if (file.m_stream->gcount() != file.m_length)
                 return AssetCreationResult::Failure();
 
@@ -66,9 +67,7 @@ namespace
             int ret = deflateInit2(&zs, Z_DEFAULT_COMPRESSION, Z_DEFLATED, -DEF_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
 
             if (ret != Z_OK)
-            {
                 throw std::runtime_error("Initializing deflate failed");
-            }
 
             ret = deflate(&zs, Z_FINISH);
 
