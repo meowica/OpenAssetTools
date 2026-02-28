@@ -296,58 +296,58 @@ namespace
         void WriteItemData(const itemDef_s* item)
         {
             WriteStringProperty("name", item->window.name);
-            WriteStringProperty("text", item->typeData.textDef->text);
-            WriteKeywordProperty("textsavegame", item->typeData.textDef->itemFlags & ITEM_FLAG_SAVE_GAME_INFO);
-            WriteKeywordProperty("textcinematicsubtitle", item->typeData.textDef->itemFlags & ITEM_FLAG_CINEMATIC_SUBTITLE);
+            //WriteStringProperty("text", item->typeData.textDef->text);
+            //WriteKeywordProperty("textsavegame", item->typeData.textDef->itemFlags & ITEM_FLAG_SAVE_GAME_INFO);
+            //WriteKeywordProperty("textcinematicsubtitle", item->typeData.textDef->itemFlags & ITEM_FLAG_CINEMATIC_SUBTITLE);
             WriteStringProperty("group", item->window.group);
             WriteRectProperty("rect", item->window.rectClient);
             WriteIntProperty("style", item->window.style, 0);
-            WriteKeywordProperty("decoration", item->window.staticFlags & WINDOW_FLAG_DECORATION);
-            WriteKeywordProperty("autowrapped", item->window.staticFlags & WINDOW_FLAG_AUTO_WRAPPED);
-            WriteKeywordProperty("horizontalscroll", item->window.staticFlags & WINDOW_FLAG_HORIZONTAL_SCROLL);
+            //WriteKeywordProperty("decoration", item->window.staticFlags & WINDOW_FLAG_DECORATION);
+            //WriteKeywordProperty("autowrapped", item->window.staticFlags & WINDOW_FLAG_AUTO_WRAPPED);
+            //WriteKeywordProperty("horizontalscroll", item->window.staticFlags & WINDOW_FLAG_HORIZONTAL_SCROLL);
             WriteIntProperty("type", item->type, ITEM_TYPE_TEXT);
             WriteIntProperty("border", item->window.border, 0);
             WriteFloatProperty("borderSize", item->window.borderSize, 0.0f);
 
             WriteIntProperty("ownerdraw", item->window.ownerDraw, 0);
             WriteFlagsProperty("ownerdrawFlag", item->window.ownerDrawFlags);
-            WriteIntProperty("align", item->typeData.textDef->alignment, 0);
-            WriteIntProperty("textalign", item->typeData.textDef->textAlignMode, 0);
-            WriteFloatProperty("textalignx", item->typeData.textDef->textalignx, 0.0f);
-            WriteFloatProperty("textaligny", item->typeData.textDef->textaligny, 0.0f);
-            WriteFloatProperty("textscale", item->typeData.textDef->textscale, 0.0f);
-            WriteIntProperty("textstyle", item->typeData.textDef->textStyle, 0);
-            WriteIntProperty("textfont", item->typeData.textDef->fontEnum, 0);
-            WriteColorProperty("backcolor", item->window.backColor, COLOR_0000);
-            WriteColorProperty("forecolor", item->window.foreColor, COLOR_1111);
-            WriteColorProperty("bordercolor", item->window.borderColor, COLOR_0000);
-            WriteColorProperty("outlinecolor", item->window.outlineColor, COLOR_0000);
-            WriteColorProperty("disablecolor", item->typeData.textDef->textTypeData.focusItemDef->focusTypeData.listBox->disableColor, COLOR_0000);
-            WriteColorProperty("glowcolor", item->typeData.textDef->glowColor, COLOR_0000);
+            //WriteIntProperty("align", item->typeData.textDef->alignment, 0);
+            //WriteIntProperty("textalign", item->typeData.textDef->textAlignMode, 0);
+            //WriteFloatProperty("textalignx", item->typeData.textDef->textalignx, 0.0f);
+            //WriteFloatProperty("textaligny", item->typeData.textDef->textaligny, 0.0f);
+            //WriteFloatProperty("textscale", item->typeData.textDef->textscale, 0.0f);
+            //WriteIntProperty("textstyle", item->typeData.textDef->textStyle, 0);
+            //WriteIntProperty("textfont", item->typeData.textDef->fontEnum, 0);
+            //WriteColorProperty("backcolor", item->window.backColor, COLOR_0000);
+            //WriteColorProperty("forecolor", item->window.foreColor, COLOR_1111);
+            //WriteColorProperty("bordercolor", item->window.borderColor, COLOR_0000);
+            //WriteColorProperty("outlinecolor", item->window.outlineColor, COLOR_0000);
+            //WriteColorProperty("disablecolor", item->typeData.textDef->textTypeData.focusItemDef->focusTypeData.listBox->disableColor, COLOR_0000);
+            //WriteColorProperty("glowcolor", item->typeData.textDef->glowColor, COLOR_0000);
             WriteMaterialProperty("background", item->window.background);
-            WriteMenuEventHandlerSetProperty("mouseEnter", item->typeData.textDef->textTypeData.focusItemDef->mouseEnter);
-            WriteMenuEventHandlerSetProperty("mouseExit", item->typeData.textDef->textTypeData.focusItemDef->mouseExit);
-            WriteMenuEventHandlerSetProperty("mouseEnterText", item->typeData.textDef->textTypeData.focusItemDef->mouseEnterText);
-            WriteMenuEventHandlerSetProperty("mouseExitText", item->typeData.textDef->textTypeData.focusItemDef->mouseExitText);
+            //WriteMenuEventHandlerSetProperty("mouseEnter", item->typeData.textDef->textTypeData.focusItemDef->mouseEnter);
+            //WriteMenuEventHandlerSetProperty("mouseExit", item->typeData.textDef->textTypeData.focusItemDef->mouseExit);
+            //WriteMenuEventHandlerSetProperty("mouseEnterText", item->typeData.textDef->textTypeData.focusItemDef->mouseEnterText);
+            //WriteMenuEventHandlerSetProperty("mouseExitText", item->typeData.textDef->textTypeData.focusItemDef->mouseExitText);
             WriteStringProperty("dvarTest", item->dvarTest);
 
-            if (item->dvarFlags & ITEM_DVAR_FLAG_ENABLE)
-                WriteMultiTokenStringProperty("enableDvar", item->enableDvar);
-            else if (item->dvarFlags & ITEM_DVAR_FLAG_DISABLE)
-                WriteMultiTokenStringProperty("disableDvar", item->enableDvar);
-            else if (item->dvarFlags & ITEM_DVAR_FLAG_SHOW)
-                WriteMultiTokenStringProperty("showDvar", item->enableDvar);
-            else if (item->dvarFlags & ITEM_DVAR_FLAG_HIDE)
-                WriteMultiTokenStringProperty("hideDvar", item->enableDvar);
-            else if (item->dvarFlags & ITEM_DVAR_FLAG_FOCUS)
-                WriteMultiTokenStringProperty("focusDvar", item->enableDvar);
+            //if (item->dvarFlags & ITEM_DVAR_FLAG_ENABLE)
+            //    WriteMultiTokenStringProperty("enableDvar", item->enableDvar);
+            //else if (item->dvarFlags & ITEM_DVAR_FLAG_DISABLE)
+            //    WriteMultiTokenStringProperty("disableDvar", item->enableDvar);
+            //else if (item->dvarFlags & ITEM_DVAR_FLAG_SHOW)
+            //    WriteMultiTokenStringProperty("showDvar", item->enableDvar);
+            //else if (item->dvarFlags & ITEM_DVAR_FLAG_HIDE)
+            //    WriteMultiTokenStringProperty("hideDvar", item->enableDvar);
+            //else if (item->dvarFlags & ITEM_DVAR_FLAG_FOCUS)
+            //    WriteMultiTokenStringProperty("focusDvar", item->enableDvar);
 
-            WriteItemKeyHandlerProperty(item->typeData.textDef->textTypeData.focusItemDef->onKey);
-            WriteIntProperty("gamemsgwindowindex", item->typeData.textDef->textTypeData.gameMsgDef->gameMsgWindowIndex, 0);
-            WriteIntProperty("gamemsgwindowmode", item->typeData.textDef->textTypeData.gameMsgDef->gameMsgWindowMode, 0);
+            //WriteItemKeyHandlerProperty(item->typeData.textDef->textTypeData.focusItemDef->onKey);
+            //WriteIntProperty("gamemsgwindowindex", item->typeData.textDef->textTypeData.gameMsgDef->gameMsgWindowIndex, 0);
+            //WriteIntProperty("gamemsgwindowmode", item->typeData.textDef->textTypeData.gameMsgDef->gameMsgWindowMode, 0);
 
             WriteListBoxProperties(item);
-            WriteEditFieldProperties(item);
+            //WriteEditFieldProperties(item);
             WriteMultiProperties(item);
             WriteEnumDvarProperties(item);
         }
@@ -368,8 +368,8 @@ namespace
         {
             WriteStringProperty("name", menu->window.name);
             WriteBoolProperty("fullscreen", menu->fullScreen, false);
-            WriteKeywordProperty("screenSpace", menu->window.staticFlags & WINDOW_FLAG_SCREEN_SPACE);
-            WriteKeywordProperty("decoration", menu->window.staticFlags & WINDOW_FLAG_DECORATION);
+            //WriteKeywordProperty("screenSpace", menu->window.staticFlags & WINDOW_FLAG_SCREEN_SPACE);
+            //WriteKeywordProperty("decoration", menu->window.staticFlags & WINDOW_FLAG_DECORATION);
             WriteRectProperty("rect", menu->window.rect);
             WriteIntProperty("style", menu->window.style, 0);
             WriteIntProperty("border", menu->window.border, 0);
@@ -382,20 +382,20 @@ namespace
             WriteMaterialProperty("background", menu->window.background);
             WriteIntProperty("ownerdraw", menu->window.ownerDraw, 0);
             WriteFlagsProperty("ownerdrawFlag", menu->window.ownerDrawFlags);
-            WriteKeywordProperty("outOfBoundsClick", menu->window.staticFlags & WINDOW_FLAG_OUT_OF_BOUNDS_CLICK);
+            //WriteKeywordProperty("outOfBoundsClick", menu->window.staticFlags & WINDOW_FLAG_OUT_OF_BOUNDS_CLICK);
             WriteStringProperty("soundLoop", menu->soundName);
-            WriteKeywordProperty("popup", menu->window.staticFlags & WINDOW_FLAG_POPUP);
+            //WriteKeywordProperty("popup", menu->window.staticFlags & WINDOW_FLAG_POPUP);
             WriteFloatProperty("fadeClamp", menu->fadeClamp, 0.0f);
             WriteIntProperty("fadeCycle", menu->fadeCycle, 0);
             WriteFloatProperty("fadeAmount", menu->fadeAmount, 0.0f);
             WriteFloatProperty("fadeInAmount", menu->fadeInAmount, 0.0f);
             WriteFloatProperty("blurWorld", menu->blurRadius, 0.0f);
-            WriteKeywordProperty("legacySplitScreenScale", menu->window.staticFlags & WINDOW_FLAG_LEGACY_SPLIT_SCREEN_SCALE);
-            WriteKeywordProperty("hiddenDuringScope", menu->window.staticFlags & WINDOW_FLAG_HIDDEN_DURING_SCOPE);
-            WriteKeywordProperty("hiddenDuringFlashbang", menu->window.staticFlags & WINDOW_FLAG_HIDDEN_DURING_FLASH_BANG);
-            WriteKeywordProperty("hiddenDuringUI", menu->window.staticFlags & WINDOW_FLAG_HIDDEN_DURING_UI);
+            //WriteKeywordProperty("legacySplitScreenScale", menu->window.staticFlags & WINDOW_FLAG_LEGACY_SPLIT_SCREEN_SCALE);
+            //WriteKeywordProperty("hiddenDuringScope", menu->window.staticFlags & WINDOW_FLAG_HIDDEN_DURING_SCOPE);
+            //WriteKeywordProperty("hiddenDuringFlashbang", menu->window.staticFlags & WINDOW_FLAG_HIDDEN_DURING_FLASH_BANG);
+            //WriteKeywordProperty("hiddenDuringUI", menu->window.staticFlags & WINDOW_FLAG_HIDDEN_DURING_UI);
             WriteStringProperty("allowedBinding", menu->allowedBinding);
-            WriteKeywordProperty("textOnlyFocus", menu->window.staticFlags & WINDOW_FLAG_TEXT_ONLY_FOCUS);
+            //WriteKeywordProperty("textOnlyFocus", menu->window.staticFlags & WINDOW_FLAG_TEXT_ONLY_FOCUS);
 
             WriteItemKeyHandlerProperty(menu->onKey);
             WriteItemDefs(menu->items, menu->itemCount);
