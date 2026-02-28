@@ -3,6 +3,8 @@
 #include "Game/T6/CommonT6.h"
 #include "Game/T6/T6.h"
 
+#include "Utils/Logging/Log.h"
+
 #include <cstring>
 
 using namespace T6;
@@ -27,7 +29,6 @@ namespace
             auto* addonMapEnts = m_memory.Alloc<AddonMapEnts>();
 
             addonMapEnts->name = m_memory.Dup(assetName.c_str());
-            addonMapEnts->numEntityChars = static_cast<int>(file.m_length + 1);
 
             auto* buffer = m_memory.Alloc<char>(static_cast<size_t>(file.m_length + 1));
             file.m_stream->read(buffer, file.m_length);
@@ -36,7 +37,14 @@ namespace
                 return AssetCreationResult::Failure();
 
             buffer[file.m_length] = '\0';
-            addonMapEnts->entityString = buffer;
+
+            // Skip the iwmap header
+            char* fileStart = std::strchr(buffer, '{');
+            if (!fileStart)
+                return AssetCreationResult::Failure();
+
+            addonMapEnts->entityString = fileStart;
+            addonMapEnts->numEntityChars = static_cast<int>(std::strlen(fileStart) + 1);
 
             return AssetCreationResult::Success(context.AddAsset<AssetAddonMapEnts>(assetName, addonMapEnts));
         }

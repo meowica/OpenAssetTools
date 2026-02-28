@@ -17,6 +17,7 @@
 #include "Leaderboard/JsonLoaderLeaderboardT6.h"
 #include "Localize/LocalizeLoaderT6.h"
 #include "Material/LoaderMaterialT6.h"
+#include "Menu/LoaderMenuListT6.h"
 #include "ObjContainer/IPak/IPak.h"
 #include "ObjLoading.h"
 #include "Maps/LoaderAddonMapEntsT6.h"
@@ -45,6 +46,7 @@
 #include "Weapon/WeaponRawLoaderT6.h"
 #include "ZBarrier/GdtLoaderZBarrierT6.h"
 #include "ZBarrier/RawLoaderZBarrierT6.h"
+#include "LightDef/JsonLoaderLightDefT6.h"
 
 #include <format>
 #include <memory>
@@ -399,11 +401,12 @@ namespace T6
             // collection.AddAssetCreator(std::make_unique<AssetLoaderGameWorldMp>(memory));
             collection.AddAssetCreator(map_ents::CreateLoaderT6(memory, searchPath));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderGfxWorld>(memory));
-            // collection.AddAssetCreator(std::make_unique<AssetLoaderLightDef>(memory));
+            //collection.AddAssetCreator(light_def::CreateBinaryLoaderT6(memory, searchPath));
+            collection.AddAssetCreator(light_def::CreateJsonLoaderT6(memory, searchPath));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderFont>(memory));
             collection.AddAssetCreator(font_icon::CreateCsvLoaderT6(memory, searchPath));
             collection.AddAssetCreator(font_icon::CreateJsonLoaderT6(memory, searchPath));
-            // collection.AddAssetCreator(std::make_unique<AssetLoaderMenuList>(memory));
+            collection.AddAssetCreator(menu::CreateMenuListLoaderT6(memory, searchPath));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderMenu>(memory));
             collection.AddAssetCreator(localize::CreateLoaderT6(memory, searchPath, zone));
             collection.AddAssetCreator(weapon::CreateRawLoaderT6(memory, searchPath, zone));
@@ -428,7 +431,8 @@ namespace T6
             collection.AddAssetCreator(vehicle::CreateGdtLoaderT6(memory, searchPath, gdt, zone));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderMemoryBlock>(memory));
             collection.AddAssetCreator(addon_map_ents::CreateLoaderT6(memory, searchPath));
-            // collection.AddAssetCreator(std::make_unique<AssetLoaderTracer>(memory));
+            collection.AddAssetCreator(tracer::CreateRawLoaderT6(memory, searchPath, zone));
+            collection.AddAssetCreator(tracer::CreateGdtLoaderT6(memory, searchPath, gdt, zone));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderSkinnedVerts>(memory));
             collection.AddAssetCreator(qdb::CreateLoaderT6(memory, searchPath));
             collection.AddAssetCreator(slug::CreateLoaderT6(memory, searchPath));

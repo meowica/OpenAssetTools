@@ -8,4 +8,9 @@ namespace light_def
     {
         return std::format("lights/{}", assetName);
     }
+
+    std::string GetJsonFileNameForAsset(const std::string& assetName)
+    {
+        return std::format("lights/{}.json", assetName);
+    }
 } // namespace light_def

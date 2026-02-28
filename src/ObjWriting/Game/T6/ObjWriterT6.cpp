@@ -1,13 +1,19 @@
 #include "ObjWriterT6.h"
 
+#include "Font/FontDumperT6.h"
 #include "FontIcon/FontIconDumperT6.h"
 #include "Game/T6/Material/MaterialJsonDumperT6.h"
 #include "Game/T6/XModel/XModelDumperT6.h"
 #include "Image/ImageDumperT6.h"
 #include "Leaderboard/LeaderboardJsonDumperT6.h"
 #include "Localize/LocalizeDumperT6.h"
+#include "LightDef/LightDefDumperT6.h"
 #include "Maps/AddonMapEntsDumperT6.h"
 #include "Maps/MapEntsDumperT6.h"
+#include "Menu/MenuListDumperT6.h"
+#include "Menu/MenuDumperT6.h"
+#include "Menu/MenuWriterT6.h"
+#include "ObjWriting.h"
 #include "PhysConstraints/PhysConstraintsInfoStringDumperT6.h"
 #include "PhysPreset/PhysPresetInfoStringDumperT6.h"
 #include "Qdb/QdbDumperT6.h"
@@ -46,17 +52,17 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     // REGISTER_DUMPER(AssetDumperGameWorldMp, m_game_world_mp)
     RegisterAssetDumper(std::make_unique<map_ents::DumperT6>());
     // REGISTER_DUMPER(AssetDumperGfxWorld, m_gfx_world)
-    // REGISTER_DUMPER(AssetDumperGfxLightDef, m_gfx_light_def)
-    // REGISTER_DUMPER(AssetDumperFont, m_font)
-    RegisterAssetDumper(font_icon::CreateDumperT6());
-    // REGISTER_DUMPER(AssetDumperMenuList, m_menu_list)
-    // REGISTER_DUMPER(AssetDumperMenuDef, m_menu_def)
-    RegisterAssetDumper(std::make_unique<localize::DumperT6>());
-    RegisterAssetDumper(std::make_unique<weapon::DumperT6>());
-    RegisterAssetDumper(std::make_unique<attachment::DumperT6>());
-    RegisterAssetDumper(std::make_unique<attachment_unique::DumperT6>());
-    RegisterAssetDumper(std::make_unique<camo::JsonDumperT6>());
-    RegisterAssetDumper(std::make_unique<sound::SndDriverGlobalsDumperT6>());
+    REGISTER_DUMPER_WITH_FACTORY(light::CreateDumperT6, m_gfx_light_def, AssetLightDef)
+    REGISTER_DUMPER_WITH_FACTORY(font::CreateDumperT6, m_font, AssetFont)
+    REGISTER_DUMPER_WITH_FACTORY(font_icon::CreateDumperT6, m_font_icon, AssetFontIcon)
+    REGISTER_DUMPER(menu::MenuListDumperT6, m_menu_list)
+    REGISTER_DUMPER(menu::MenuDumperT6, m_menu_def)
+    REGISTER_DUMPER(localize::DumperT6, m_localize)
+    REGISTER_DUMPER(weapon::DumperT6, m_weapon)
+    REGISTER_DUMPER(attachment::DumperT6, m_attachment)
+    REGISTER_DUMPER(attachment_unique::DumperT6, m_attachment_unique)
+    REGISTER_DUMPER(camo::JsonDumperT6, m_camo)
+    REGISTER_DUMPER(sound::SndDriverGlobalsDumperT6, m_snd_driver_globals)
     // REGISTER_DUMPER(AssetDumperFxEffectDef, m_fx)
     // REGISTER_DUMPER(AssetDumperFxImpactTable, m_fx_impact_table)
     RegisterAssetDumper(std::make_unique<raw_file::DumperT6>());

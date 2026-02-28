@@ -24,7 +24,7 @@ bool ZoneWriting::WriteZone(std::ostream& stream, const Zone& zone)
 
     const auto end = std::chrono::high_resolution_clock::now();
 
-    con::info("Writing zone \"{}\" took {} ms.", zone.m_name, std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+    con::info("Building zone \"{}\" took {} ms.", zone.m_name, std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 
     return result;
 }

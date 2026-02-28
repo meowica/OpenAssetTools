@@ -102,7 +102,8 @@ void IwdToCreate::Build(ISearchPath& searchPath, IOutputPath& outPath)
         auto readFile = searchPath.Open(filePath);
         if (!readFile.IsOpen())
         {
-            con::error("Failed to open file for iwd: {}", filePath);
+            const auto fileName = fs::path(filePath).filename().string();
+            con::error("Failed to open \"{}\" for iwd", fileName);
             continue;
         }
 
@@ -133,14 +134,15 @@ void IwdToCreate::Build(ISearchPath& searchPath, IOutputPath& outPath)
 
         zipCloseFileInZip(zipFile);
 
-        con::debug("Added {} to iwd {}", filePath, m_name);
+        const auto fileName = fs::path(filePath).filename().string();
+        con::debug("Added \"{}\" to iwd", fileName);
     }
 
     AddCustomUserInclusions(searchPath, zipFile, m_name);
 
     zipClose(zipFile, nullptr);
 
-    con::info("Created iwd {} with {} entries", m_name, m_file_paths.size());
+    con::info("Created iwd \"{}\" with \"{}\" entries", m_name, m_file_paths.size());
 }
 
 const std::vector<std::string>& IwdToCreate::GetFilePaths() const
@@ -164,7 +166,8 @@ IwdToCreate* IwdCreator::GetOrAddIwd(const std::string& iwdName)
 
 void IwdCreator::Finalize(ISearchPath& searchPath, IOutputPath& outPath)
 {
-    con::info("Writing {} iwd files to disk", m_iwds.size());
+    auto count = m_iwds.size();
+    con::info("Writing {} iwd file{} to disk", count, count == 1 ? "" : "s");
     for (const auto& iwdToCreate : m_iwds)
         iwdToCreate->Build(searchPath, outPath);
 

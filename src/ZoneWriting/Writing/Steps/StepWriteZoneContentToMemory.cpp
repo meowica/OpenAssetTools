@@ -22,7 +22,11 @@ void StepWriteZoneContentToMemory::PerformStep(ZoneWriter* zoneWriter, IWritingS
     for (const auto& block : zoneWriter->m_blocks)
         m_blocks.emplace_back(block.get());
 
-    const auto zoneOutputStream = ZoneOutputStream::Create(m_pointer_bit_count, m_offset_block_bit_count, m_blocks, m_insert_block, *m_zone_data);
+    const auto zoneOutputStream = ZoneOutputStream::Create(m_pointer_bit_count,
+                                                           m_offset_block_bit_count,
+                                                           m_blocks,
+                                                           m_insert_block,
+                                                           *m_zone_data);
     m_content_loader->WriteContent(*zoneOutputStream);
 }
 

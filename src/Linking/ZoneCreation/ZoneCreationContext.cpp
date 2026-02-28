@@ -8,7 +8,10 @@ ZoneCreationContext::ZoneCreationContext()
 {
 }
 
-ZoneCreationContext::ZoneCreationContext(ZoneDefinition* definition, ISearchPath* assetSearchPath, fs::path outDir, fs::path cacheDir)
+ZoneCreationContext::ZoneCreationContext(ZoneDefinition* definition,
+                                         ISearchPath* assetSearchPath,
+                                         fs::path outDir,
+                                         fs::path cacheDir)
     : m_definition(definition),
       m_asset_search_path(assetSearchPath),
       m_out_dir(std::move(outDir)),

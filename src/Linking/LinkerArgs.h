@@ -17,12 +17,17 @@ public:
     LinkerArgs();
     bool ParseArgs(int argc, const char** argv, bool& shouldContinue);
 
+    std::vector<std::string> m_raw_arguments;
+
     std::vector<std::string> m_zones_to_load;
     std::vector<std::string> m_project_specifiers_to_build;
 
     std::string m_bin_folder;
     std::string m_base_folder;
     std::string m_out_folder;
+
+    bool m_verbose_mode = false;
+    bool m_show_summary = false;
 
     std::set<std::string> m_asset_search_paths;
     std::set<std::string> m_gdt_search_paths;
