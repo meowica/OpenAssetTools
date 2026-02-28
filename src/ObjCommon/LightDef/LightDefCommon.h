@@ -5,4 +5,5 @@
 namespace light_def
 {
     std::string GetFileNameForAsset(const std::string& assetName);
+    std::string GetJsonFileNameForAsset(const std::string& assetName);
 }

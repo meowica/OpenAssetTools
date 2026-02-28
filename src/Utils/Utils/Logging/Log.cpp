@@ -2,6 +2,7 @@
 
 #include <format>
 #include <iostream>
+#include <vector>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -13,6 +14,9 @@ namespace
 
     bool globalUseColor = true;
     bool colorSet = false;
+
+    std::vector<std::string> g_warnings;
+    std::vector<std::string> g_errors; 
 
     bool CanUseColor()
     {
@@ -88,6 +92,8 @@ namespace con
 
     void _warn_internal(const std::string& str)
     {
+        g_warnings.emplace_back(str);
+
         if (globalUseColor)
             std::cout << std::format("\x1B[33m{}\x1B[0m\n", str);
         else
@@ -96,9 +102,43 @@ namespace con
 
     void _error_internal(const std::string& str)
     {
+        g_errors.emplace_back(str);
+
         if (globalUseColor)
             std::cerr << std::format("\x1B[31m{}\x1B[0m\n", str);
         else
             std::cerr << std::format("{}\n", str);
+    }
+
+    std::uint32_t warning_count()
+    {
+        return static_cast<std::uint32_t>(g_warnings.size());
+    }
+
+    std::uint32_t error_count()
+    {
+        return static_cast<std::uint32_t>(g_errors.size());
+    }
+
+    const std::vector<std::string>& warnings()
+    {
+        return g_warnings;
+    }
+
+    const std::vector<std::string>& errors()
+    {
+        return g_errors;
+    }
+
+    void clear_summary()
+    {
+        g_warnings.clear();
+        g_errors.clear();
+    }
+
+    void flush()
+    {
+        std::cout.flush();
+        std::cerr.flush();
     }
 } // namespace con

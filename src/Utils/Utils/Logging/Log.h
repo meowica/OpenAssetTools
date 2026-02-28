@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <format>
 #include <string>
+#include <vector>
 
 namespace con
 {
@@ -24,6 +25,15 @@ namespace con
     void _info_internal(const std::string& str);
     void _warn_internal(const std::string& str);
     void _error_internal(const std::string& str);
+
+    std::uint32_t warning_count();
+    std::uint32_t error_count();
+
+    const std::vector<std::string>& warnings();
+    const std::vector<std::string>& errors();
+
+    void clear_summary();
+    void flush();
 
     inline void debug(const std::string& str)
     {
