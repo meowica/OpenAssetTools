@@ -66,6 +66,12 @@ std::unique_ptr<XAssetInfoGeneric> GenericAssetRegistration::CreateXAssetInfo()
         std::move(dependencies),
         std::move(scriptStrings),
         std::move(indirectAssetReferences));
+        m_type,
+        std::move(m_name),
+        m_asset,
+        std::move(dependencies),
+        std::move(scriptStrings),
+        std::move(indirectAssetReferences));
 }
 
 AssetCreationContext::AssetCreationContext(Zone& zone, const AssetCreatorCollection* creators, const IgnoredAssetLookup* ignoredAssetLookup)
@@ -101,8 +107,8 @@ XAssetInfoGeneric* AssetCreationContext::AddAssetGeneric(GenericAssetRegistratio
 
 XAssetInfoGeneric* AssetCreationContext::AddSubAssetGeneric(GenericAssetRegistration registration) const
 {
-    auto xAssetInfo = registration.CreateXAssetInfo();
-    xAssetInfo->m_zone = &m_zone;
+    auto assetInfo = registration.CreateXAssetInfo();
+    assetInfo->m_zone = &m_zone;
 
     const auto subAssetType = xAssetInfo->m_type;
     const auto* pAssetName = xAssetInfo->m_name.c_str();
@@ -196,6 +202,7 @@ IndirectAssetReference AssetCreationContext::LoadIndirectAssetReferenceGeneric(c
             R"(Could not load indirectly referenced asset "{}" of type "{}")", assetName, *IGame::GetGameById(m_zone.m_game_id)->GetAssetTypeName(assetType));
     }
 
+
     return IndirectAssetReference(assetType, assetName);
 }
 
@@ -204,6 +211,7 @@ XAssetInfoGeneric* AssetCreationContext::ForceLoadDependencyGeneric(const asset_
     auto* alreadyLoadedAsset = m_zone.m_pools.GetAssetOrAssetReference(assetType, assetName);
     if (alreadyLoadedAsset && !alreadyLoadedAsset->IsReference())
         return alreadyLoadedAsset;
+
 
     alreadyLoadedAsset = m_forced_asset_pools->GetAssetOrAssetReference(assetType, assetName);
     if (alreadyLoadedAsset && !alreadyLoadedAsset->IsReference())

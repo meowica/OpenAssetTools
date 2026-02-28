@@ -244,7 +244,10 @@ namespace
             const auto existingSearchPath = existingSearchPaths.find(path);
             if (existingSearchPath != existingSearchPaths.end())
                 return false;
+
             existingSearchPaths.emplace(path);
+
+            con::debug("Adding {} search path: {}", m_type_name, path);
 
             if (!fs::is_directory(path))
             {
@@ -253,7 +256,6 @@ namespace
                 return false;
             }
 
-            con::debug("Adding {} search path: {}", m_type_name, path);
             searchPaths.CommitSearchPath(std::make_unique<SearchPathFilesystem>(path));
             return true;
         }
