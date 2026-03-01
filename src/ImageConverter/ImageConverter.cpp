@@ -4,10 +4,7 @@
 #include "Image/DdsLoader.h"
 #include "Image/DdsWriter.h"
 #include "Image/IwiLoader.h"
-#include "Image/IwiWriter13.h"
 #include "Image/IwiWriter27.h"
-#include "Image/IwiWriter6.h"
-#include "Image/IwiWriter8.h"
 #include "Image/Texture.h"
 #include "ImageConverterArgs.h"
 #include "Utils/Logging/Log.h"
@@ -31,10 +28,7 @@ namespace
     class ImageConverterImpl final : public ImageConverter
     {
     public:
-        ImageConverterImpl()
-            : m_game_to_convert_to(std::nullopt)
-        {
-        }
+        ImageConverterImpl() = default;
 
         bool Start(const int argc, const char** argv) override
         {
@@ -46,8 +40,6 @@ namespace
 
             if (!shouldContinue)
                 return true;
-
-            m_game_to_convert_to = m_args.m_game_to_convert_to;
 
             for (const auto& file : m_args.m_files_to_convert)
                 Convert(file);
@@ -129,52 +121,13 @@ namespace
 
         bool EnsureIwiWriterIsPresent()
         {
-            if (m_iwi_writer)
-                return true;
-
-            if (!m_game_to_convert_to && !ShowGameTui())
-                return false;
-
-            switch (*m_game_to_convert_to)
-            {
-            case GameId::T6:
+            if (!m_iwi_writer)
                 m_iwi_writer = std::make_unique<image::iwi27::IwiWriter>();
-                break;
-            default:
-                assert(false);
-                return false;
-            }
-
-            return true;
-        }
-
-        bool ShowGameTui()
-        {
-            con::info("Select the game to convert to:");
-            con::info("  1 - Call Of Duty 4: Modern Warfare (IW3)");
-            con::info("  2 - Call Of Duty: Modern Warfare 2 (IW4)");
-            con::info("  3 - Call Of Duty: Modern Warfare 3 (IW5)");
-            con::info("  4 - Call Of Duty: Black Ops (T5)");
-            con::info("  5 - Call Of Duty: Black Ops 2 (T6)");
-
-            unsigned num;
-            std::cin >> num;
-
-            switch (num)
-            {
-            case 5:
-                m_game_to_convert_to = GameId::T6;
-                break;
-            default:
-                con::error("Invalid input");
-                return false;
-            }
 
             return true;
         }
 
         ImageConverterArgs m_args;
-        std::optional<GameId> m_game_to_convert_to;
         DdsWriter m_dds_writer;
         std::unique_ptr<ImageWriter> m_iwi_writer;
     };
