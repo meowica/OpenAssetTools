@@ -1,29 +1,8 @@
-#options GAME(IW3, IW4, IW5, T5, T6)
+#include "LoaderXModelT6.h"
 
-#filename "Game/" + GAME + "/XModel/LoaderXModel" + GAME + ".cpp"
-
-#set LOADER_HEADER "\"LoaderXModel" + GAME + ".h\""
-#set COMMON_HEADER "\"Game/" + GAME + "/Common" + GAME + ".h\""
-#set CONSTANTS_HEADER "\"Game/" + GAME + "/XModel/XModelConstants" + GAME + ".h\""
-#set JSON_HEADER "\"Game/" + GAME + "/XModel/JsonXModel" + GAME + ".h\""
-
-#if GAME == "IW3"
-#define FEATURE_IW3
-#elif GAME == "IW4"
-#define FEATURE_IW4
-#elif GAME == "IW5"
-#define FEATURE_IW5
-#elif GAME == "T5"
-#define FEATURE_T5
-#elif GAME == "T6"
-#define FEATURE_T6
-#endif
-
-#include LOADER_HEADER
-
-#include COMMON_HEADER
-#include CONSTANTS_HEADER
-#include JSON_HEADER
+#include "Game/T6/CommonT6.h"
+#include "Game/T6/XModel/XModelConstantsT6.h"
+#include "Game/T6/XModel/JsonXModelT6.h"
 
 #include "Asset/AssetRegistration.h"
 #include "Utils/Logging/Log.h"
@@ -50,7 +29,7 @@
 #include <numeric>
 #include <vector>
 
-using namespace GAME;
+using namespace T6;
 
 namespace
 {
@@ -210,14 +189,9 @@ namespace
             if (common.m_bone_weight_data.weights.empty())
                 return;
 
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            vec3_t minCoordinate, maxCoordinate;
-            auto& offset = info.bounds.midPoint;
-#else
             auto& offset = info.offset;
             auto& minCoordinate = info.bounds[0];
             auto& maxCoordinate = info.bounds[1];
-#endif
 
             minCoordinate.x = 0.0f;
             minCoordinate.y = 0.0f;
@@ -255,12 +229,6 @@ namespace
             const Eigen::Vector3f maxEigen(maxCoordinate.x, maxCoordinate.y, maxCoordinate.z);
             const Eigen::Vector3f boundsCenter = (minEigen + maxEigen) * 0.5f;
             const Eigen::Vector3f halfSizeEigen = maxEigen - boundsCenter;
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-
-            info.bounds.halfSize.x = halfSizeEigen.x();
-            info.bounds.halfSize.y = halfSizeEigen.y();
-            info.bounds.halfSize.z = halfSizeEigen.z();
-#endif
 
             offset.x = boundsCenter.x();
             offset.y = boundsCenter.y();
@@ -329,10 +297,8 @@ namespace
                 ApplyBasePose(xmodel.baseMat[boneIndex], bone);
                 CalculateBoneBounds(xmodel.boneInfo[boneIndex], boneIndex, common);
 
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
                 // Other boneInfo data is filled when calculating bone bounds
                 xmodel.boneInfo[boneIndex].collmap = -1;
-#endif
 
                 if (xmodel.numRootBones <= boneIndex)
                 {
@@ -774,9 +740,7 @@ namespace
                 else if (maxWeightCount < std::extent_v<decltype(XSurfaceVertexInfo::vertCount)> + 1)
                 {
                     CreateVertsBlendData(surface, xmodelToCommonVertexIndexLookup, common);
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
                     surface.flags |= XSURFACE_FLAG_SKINNED | XSURFACE_FLAG_DEFORMED;
-#endif
                 }
                 else
                 {
@@ -880,52 +844,21 @@ namespace
                     lodInfo.partBits[i] |= surface.partBits[i];
             }
 
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            auto* modelSurfs = m_memory.Alloc<XModelSurfs>();
-            const auto modelSurfsName = std::format("{}_lod{}", xmodel.name, lodNumber);
-            modelSurfs->name = m_memory.Dup(modelSurfsName.c_str());
-
-            static_assert(std::extent_v<decltype(XModelLodInfo::partBits)> == std::extent_v<decltype(XModelSurfs::partBits)>);
-            memcpy(modelSurfs->partBits, lodInfo.partBits, sizeof(XModelLodInfo::partBits));
-
-            modelSurfs->numsurfs = lodInfo.numsurfs;
-            modelSurfs->surfs = m_memory.Alloc<XSurface>(modelSurfs->numsurfs);
-            memcpy(modelSurfs->surfs, &m_surfaces[lodInfo.surfIndex], sizeof(XSurface) * modelSurfs->numsurfs);
-
-            registration.AddDependency(context.AddAsset<AssetXModelSurfs>(modelSurfsName, modelSurfs));
-
-            lodInfo.modelSurfs = modelSurfs;
-            lodInfo.surfs = modelSurfs->surfs;
-
-            lodInfo.lod = static_cast<decltype(XModelLodInfo::lod)>(lodNumber);
-#endif
 
             return true;
         }
 
         static void CalculateModelBounds(XModel& xmodel)
         {
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            if (!xmodel.lodInfo[0].modelSurfs || !xmodel.lodInfo[0].modelSurfs->surfs)
-                return;
-
-            const auto* surfs = xmodel.lodInfo[0].modelSurfs->surfs;
-            vec3_t minCoordinate, maxCoordinate;
-#else
             if (!xmodel.surfs)
                 return;
 
             auto& minCoordinate = xmodel.mins;
             auto& maxCoordinate = xmodel.maxs;
-#endif
 
             for (auto surfaceIndex = 0u; surfaceIndex < xmodel.lodInfo[0].numsurfs; surfaceIndex++)
             {
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-                const auto& surface = surfs[surfaceIndex];
-#else
                 const auto& surface = xmodel.surfs[surfaceIndex + xmodel.lodInfo[0].surfIndex];
-#endif
 
                 if (!surface.verts0)
                     continue;
@@ -943,29 +876,12 @@ namespace
                 }
             }
 
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            const Eigen::Vector3f minEigen(minCoordinate.x, minCoordinate.y, minCoordinate.z);
-            const Eigen::Vector3f maxEigen(maxCoordinate.x, maxCoordinate.y, maxCoordinate.z);
-            const Eigen::Vector3f boundsCenter = (minEigen + maxEigen) * 0.5f;
-            const Eigen::Vector3f halfSizeEigen = maxEigen - boundsCenter;
-
-            xmodel.bounds.halfSize.x = halfSizeEigen.x();
-            xmodel.bounds.halfSize.y = halfSizeEigen.y();
-            xmodel.bounds.halfSize.z = halfSizeEigen.z();
-
-            xmodel.bounds.midPoint.x = boundsCenter.x();
-            xmodel.bounds.midPoint.y = boundsCenter.y();
-            xmodel.bounds.midPoint.z = boundsCenter.z();
-            xmodel.radius = halfSizeEigen.norm();
-#else
             const auto maxX = std::max(std::abs(minCoordinate.x), std::abs(maxCoordinate.x));
             const auto maxY = std::max(std::abs(minCoordinate.y), std::abs(maxCoordinate.y));
             const auto maxZ = std::max(std::abs(minCoordinate.z), std::abs(maxCoordinate.z));
             xmodel.radius = Eigen::Vector3f(maxX, maxY, maxZ).norm();
-#endif
         }
 
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
         static bool HasAnySkinnedSurfs(const XModel& xmodel)
         {
             for (auto lodIndex = 0u; lodIndex < xmodel.numLods; lodIndex++)
@@ -981,7 +897,6 @@ namespace
 
             return false;
         }
-#endif
 
         bool CreateXModelFromJson(const JsonXModel& jXModel, XModel& xmodel, AssetCreationContext& context, AssetRegistration<AssetXModel>& registration)
         {
@@ -1009,10 +924,8 @@ namespace
 
             xmodel.numsurfs = static_cast<decltype(XModel::numsurfs)>(m_surfaces.size());
 
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             xmodel.surfs = m_memory.Alloc<XSurface>(xmodel.numsurfs);
             memcpy(xmodel.surfs, m_surfaces.data(), sizeof(XSurface) * xmodel.numsurfs);
-#endif
 
             xmodel.materialHandles = m_memory.Alloc<Material*>(xmodel.numsurfs);
             memcpy(xmodel.materialHandles, m_materials.data(), sizeof(Material*) * xmodel.numsurfs);
@@ -1031,9 +944,7 @@ namespace
             else
                 xmodel.collLod = -1;
 
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             xmodel.lodRampType = HasAnySkinnedSurfs(xmodel) ? XMODEL_LOD_RAMP_SKINNED : XMODEL_LOD_RAMP_RIGID;
-#endif
 
             if (jXModel.physPreset)
             {
@@ -1051,25 +962,7 @@ namespace
                 xmodel.physPreset = nullptr;
             }
 
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            if (jXModel.physCollmap)
-            {
-                auto* physCollmap = context.LoadDependency<AssetPhysCollMap>(jXModel.physCollmap.value());
-                if (!physCollmap)
-                {
-                    PrintError(xmodel, "Could not find phys collmap");
-                    return false;
-                }
-                registration.AddDependency(physCollmap);
-                xmodel.physCollmap = physCollmap->Asset();
-            }
-            else
-            {
-                xmodel.physCollmap = nullptr;
-            }
-#endif
 
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             if (jXModel.physConstraints)
             {
                 auto* physConstraints = context.LoadDependency<AssetPhysConstraints>(jXModel.physConstraints.value());
@@ -1085,16 +978,13 @@ namespace
             {
                 xmodel.physConstraints = nullptr;
             }
-#endif
 
             xmodel.flags = jXModel.flags;
 
-#ifdef FEATURE_T6
             xmodel.lightingOriginOffset.x = jXModel.lightingOriginOffset.x;
             xmodel.lightingOriginOffset.y = jXModel.lightingOriginOffset.y;
             xmodel.lightingOriginOffset.z = jXModel.lightingOriginOffset.z;
             xmodel.lightingOriginRange = jXModel.lightingOriginRange;
-#endif
 
             return true;
         }
@@ -1111,12 +1001,11 @@ namespace
     };
 } // namespace
 
-#set CREATE_LOADER_METHOD "CreateLoader" + GAME
 
 namespace xmodel
 {
-    std::unique_ptr<AssetCreator<AssetXModel>> CREATE_LOADER_METHOD (MemoryManager& memory, ISearchPath& searchPath, Zone& zone)
+    std::unique_ptr<AssetCreator<AssetXModel>> CreateLoaderT6 (MemoryManager& memory, ISearchPath& searchPath, Zone& zone)
     {
         return std::make_unique<XModelLoader>(memory, searchPath, zone.m_script_strings);
     }
-} // namespace GAME
+} // namespace T6

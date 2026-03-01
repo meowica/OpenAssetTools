@@ -1,47 +1,6 @@
-#options GAME (IW3, IW4, IW5, T5, T6)
+#include "ImageLoaderEmbeddedT6.h"
 
-#filename "Game/" + GAME + "/Image/ImageLoaderEmbedded" + GAME + ".cpp"
-
-#if GAME == "IW3"
-#define FEATURE_IW3
-#elif GAME == "IW4"
-#define FEATURE_IW4
-#elif GAME == "IW5"
-#define FEATURE_IW5
-#elif GAME == "T5"
-#define FEATURE_T5
-#elif GAME == "T6"
-#define FEATURE_T6
-#endif
-
-#if defined(FEATURE_IW3)
-#define IWI_NS iwi6
-#define FLAG_CUBE IMG_FLAG_CUBEMAP
-#define FLAG_3D IMG_FLAG_VOLMAP
-#elif defined(FEATURE_IW4) || defined(FEATURE_IW5)
-#define IWI_NS iwi8
-#define FLAG_CUBE IMG_FLAG_MAPTYPE_CUBE
-#define FLAG_3D IMG_FLAG_MAPTYPE_3D
-#elif defined(FEATURE_T5)
-#define IWI_NS iwi13
-#define FLAG_CUBE IMG_FLAG_CUBEMAP
-#define FLAG_3D IMG_FLAG_VOLMAP
-#elif defined(FEATURE_T6)
-#define IWI_NS iwi27
-#define FLAG_CUBE IMG_FLAG_CUBEMAP
-#define FLAG_3D IMG_FLAG_VOLMAP
-#endif
-
-
-// This file was templated.
-// See ImageLoaderEmbedded.cpp.template.
-// Do not modify, changes will be lost.
-
-#set LOADER_HEADER "\"ImageLoaderEmbedded" + GAME + ".h\""
-#include LOADER_HEADER
-
-#set COMMON_HEADER "\"Game/" + GAME + "/Common" + GAME + ".h\""
-#include COMMON_HEADER
+#include "Game/T6/CommonT6.h"
 #include "Image/DdsLoader.h"
 #include "Image/ImageCommon.h"
 #include "Image/IwiTypes.h"
@@ -49,16 +8,15 @@
 
 #include <cstring>
 
-using namespace GAME;
+using namespace T6;
 using namespace image;
 
 namespace
 {
-#set LOADER_CLASS "ImageLoader" + GAME
-    class LOADER_CLASS final : public AssetCreator<AssetImage>
+    class ImageLoaderT6 final : public AssetCreator<AssetImage>
     {
     public:
-        LOADER_CLASS(MemoryManager& memory, ISearchPath& searchPath)
+        ImageLoaderT6(MemoryManager& memory, ISearchPath& searchPath)
             : m_memory(memory),
               m_search_path(searchPath)
         {
@@ -95,9 +53,7 @@ namespace
             image->height = static_cast<uint16_t>(texture->GetHeight());
             image->depth = static_cast<uint16_t>(texture->GetDepth());
             image->category = IMG_CATEGORY_AUTO_GENERATED;
-#ifndef FEATURE_IW5
             image->delayLoadPixels = false;
-#endif
 
             switch (texture->GetTextureType())
             {
@@ -130,23 +86,14 @@ namespace
             loadDef->levelCount = static_cast<char>(mipCount);
             loadDef->flags = 0;
             if (!texture->HasMipMaps())
-                loadDef->flags |= IWI_NS::IMG_FLAG_NOMIPMAPS;
+                loadDef->flags |= iwi27::IMG_FLAG_NOMIPMAPS;
             if (texture->GetTextureType() == TextureType::T_CUBE)
-                loadDef->flags |= IWI_NS::FLAG_CUBE;
+                loadDef->flags |= iwi27::IMG_FLAG_CUBEMAP;
             if (texture->GetTextureType() == TextureType::T_3D)
-                loadDef->flags |= IWI_NS::FLAG_3D;
+                loadDef->flags |= iwi27::IMG_FLAG_VOLMAP;
         
-#if defined(FEATURE_IW3)
-            loadDef->dimensions[0] = image->width;
-            loadDef->dimensions[1] = image->height;
-            loadDef->dimensions[2] = image->depth;
-#endif
 
-#if defined(FEATURE_T6)
             loadDef->format = static_cast<int>(texture->GetFormat()->GetDxgiFormat());
-#else
-            loadDef->format = static_cast<int>(texture->GetFormat()->GetD3DFormat());
-#endif
             loadDef->resourceSize = static_cast<unsigned>(dataSize);
 
             char* currentDataBuffer = loadDef->data;
@@ -171,9 +118,8 @@ namespace
 
 namespace image
 {
-#set LOADER_METHOD "CreateLoaderEmbedded" + GAME
-    std::unique_ptr<AssetCreator<AssetImage>> LOADER_METHOD(MemoryManager& memory, ISearchPath& searchPath)
+    std::unique_ptr<AssetCreator<AssetImage>> CreateLoaderEmbeddedT6(MemoryManager& memory, ISearchPath& searchPath)
     {
-        return std::make_unique<LOADER_CLASS>(memory, searchPath);
+        return std::make_unique<ImageLoaderT6>(memory, searchPath);
     }
 } // namespace image
