@@ -137,16 +137,6 @@ namespace
 
             switch (*m_game_to_convert_to)
             {
-            case GameId::IW3:
-                m_iwi_writer = std::make_unique<image::iwi6::IwiWriter>();
-                break;
-            case GameId::IW4:
-            case GameId::IW5:
-                m_iwi_writer = std::make_unique<image::iwi8::IwiWriter>();
-                break;
-            case GameId::T5:
-                m_iwi_writer = std::make_unique<image::iwi13::IwiWriter>();
-                break;
             case GameId::T6:
                 m_iwi_writer = std::make_unique<image::iwi27::IwiWriter>();
                 break;
@@ -172,18 +162,6 @@ namespace
 
             switch (num)
             {
-            case 1:
-                m_game_to_convert_to = GameId::IW3;
-                break;
-            case 2:
-                m_game_to_convert_to = GameId::IW4;
-                break;
-            case 3:
-                m_game_to_convert_to = GameId::IW5;
-                break;
-            case 4:
-                m_game_to_convert_to = GameId::T5;
-                break;
             case 5:
                 m_game_to_convert_to = GameId::T6;
                 break;

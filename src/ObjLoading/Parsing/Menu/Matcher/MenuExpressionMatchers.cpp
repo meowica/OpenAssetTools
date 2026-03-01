@@ -1,9 +1,5 @@
 #include "MenuExpressionMatchers.h"
 
-#include "Game/IW4/IW4.h"
-#include "Game/IW4/MenuConstantsIW4.h"
-#include "Game/IW5/IW5.h"
-#include "Game/IW5/MenuConstantsIW5.h"
 #include "MenuMatcherFactory.h"
 #include "Parsing/Menu/Domain/Expression/CommonExpressionBaseFunctionCall.h"
 #include "Parsing/Menu/Domain/Expression/CommonExpressionCustomFunctionCall.h"
@@ -50,41 +46,6 @@ std::unique_ptr<SimpleExpressionMatchers::matcher_t> MenuExpressionMatchers::Par
 
 const std::map<std::string, size_t>& MenuExpressionMatchers::GetBaseFunctionMapForFeatureLevel(const FeatureLevel featureLevel)
 {
-    if (featureLevel == FeatureLevel::IW4)
-    {
-        static std::map<std::string, size_t> iw4FunctionMap;
-        static bool iw4FunctionMapInitialized = false;
-
-        if (!iw4FunctionMapInitialized)
-        {
-            for (size_t i = IW4::expressionFunction_e::EXP_FUNC_DYN_START; i < std::extent_v<decltype(IW4::g_expFunctionNames)>; i++)
-            {
-                std::string functionName(IW4::g_expFunctionNames[i]);
-                utils::MakeStringLowerCase(functionName);
-                iw4FunctionMap.emplace(std::make_pair(functionName, i));
-            }
-        }
-
-        return iw4FunctionMap;
-    }
-    if (featureLevel == FeatureLevel::IW5)
-    {
-        static std::map<std::string, size_t> iw5FunctionMap;
-        static bool iw5FunctionMapInitialized = false;
-
-        if (!iw5FunctionMapInitialized)
-        {
-            for (size_t i = IW5::expressionFunction_e::EXP_FUNC_DYN_START; i < std::extent_v<decltype(IW5::g_expFunctionNames)>; i++)
-            {
-                std::string functionName(IW5::g_expFunctionNames[i]);
-                utils::MakeStringLowerCase(functionName);
-                iw5FunctionMap.emplace(std::make_pair(std::move(functionName), i));
-            }
-        }
-
-        return iw5FunctionMap;
-    }
-
     assert(false);
     throw ParsingException(TokenPos(), "Feature level has no functions registered!!");
 }

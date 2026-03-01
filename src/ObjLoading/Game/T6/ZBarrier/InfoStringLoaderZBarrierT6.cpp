@@ -56,7 +56,7 @@ namespace
     }
 } // namespace
 
-namespace z_barrier
+namespace zbarrier
 {
     InfoStringLoaderT6::InfoStringLoaderT6(MemoryManager& memory, ISearchPath& searchPath, Zone& zone)
         : m_memory(memory),
@@ -84,4 +84,4 @@ namespace z_barrier
 
         return AssetCreationResult::Success(context.AddAsset(std::move(registration)));
     }
-} // namespace z_barrier
+} // namespace zbarrier

@@ -4,7 +4,7 @@
 #include "Asset/AssetCreationResult.h"
 #include "InfoString/InfoString.h"
 
-namespace z_barrier
+namespace zbarrier
 {
     class InfoStringLoaderT6
     {
@@ -18,4 +18,4 @@ namespace z_barrier
         ISearchPath& m_search_path;
         Zone& m_zone;
     };
-} // namespace z_barrier
+} // namespace zbarrier

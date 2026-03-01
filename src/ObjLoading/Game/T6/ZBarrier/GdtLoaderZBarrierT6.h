@@ -8,7 +8,7 @@
 
 #include <memory>
 
-namespace z_barrier
+namespace zbarrier
 {
     std::unique_ptr<AssetCreator<T6::AssetZBarrier>> CreateGdtLoaderT6(MemoryManager& memory, ISearchPath& searchPath, IGdtQueryable& gdt, Zone& zone);
-} // namespace z_barrier
+} // namespace zbarrier
