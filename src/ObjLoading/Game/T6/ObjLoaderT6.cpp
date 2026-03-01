@@ -438,8 +438,8 @@ namespace T6
             collection.AddAssetCreator(slug::CreateLoaderT6(memory, searchPath));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderFootstepTable>(memory));
             // collection.AddAssetCreator(std::make_unique<AssetLoaderFootstepFxTable>(memory));
-            collection.AddAssetCreator(z_barrier::CreateRawLoaderT6(memory, searchPath, zone));
-            collection.AddAssetCreator(z_barrier::CreateGdtLoaderT6(memory, searchPath, gdt, zone));
+            collection.AddAssetCreator(zbarrier::CreateRawLoaderT6(memory, searchPath, zone));
+            collection.AddAssetCreator(zbarrier::CreateGdtLoaderT6(memory, searchPath, gdt, zone));
         }
     } // namespace
 
