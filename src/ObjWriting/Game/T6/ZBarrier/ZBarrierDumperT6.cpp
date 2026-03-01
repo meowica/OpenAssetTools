@@ -48,7 +48,7 @@ namespace
     }
 } // namespace
 
-namespace z_barrier
+namespace zbarrier
 {
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetZBarrier::Type>& asset)
     {
@@ -73,4 +73,4 @@ namespace z_barrier
             stream.write(stringValue.c_str(), stringValue.size());
         }
     }
-} // namespace z_barrier
+} // namespace zbarrier
