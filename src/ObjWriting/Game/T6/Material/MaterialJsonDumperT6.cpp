@@ -1,55 +1,17 @@
-#options GAME (IW3, IW4, IW5, T5, T6)
-
-#filename "Game/" + GAME + "/Material/MaterialJsonDumper" + GAME + ".cpp"
-
-#if GAME == "IW3"
-#define FEATURE_IW3
-#define HAS_WATER
-#define GAME_LOWER "iw3"
-#elif GAME == "IW4"
-#define FEATURE_IW4
-#define HAS_WATER
-#define GAME_LOWER "iw4"
-#elif GAME == "IW5"
-#define FEATURE_IW5
-#define HAS_WATER
-#define GAME_LOWER "iw5"
-#elif GAME == "T5"
-#define FEATURE_T5
-#define HAS_WATER
-#define GAME_LOWER "t5"
-#elif GAME == "T6"
-#define FEATURE_T6
-#define GAME_LOWER "t6"
-#endif
-
-// This file was templated.
-// See MaterialJsonDumper.cpp.template.
-// Do not modify, changes will be lost.
-
-#set WRITER_HEADER "\"MaterialJsonDumper" + GAME + ".h\""
-#include WRITER_HEADER
-
-#ifdef HAS_WATER
-#include "Base64.h"
-#endif
+#include "MaterialJsonDumperT6.h"
 
 #include "Material/MaterialCommon.h"
-#set COMMON_HEADER "\"Game/" + GAME + "/Common" + GAME + ".h\""
-#include COMMON_HEADER
-#set JSON_HEADER "\"Game/" + GAME + "/Material/JsonMaterial" + GAME + ".h\""
-#include JSON_HEADER
-#set CONSTANTS_HEADER "\"Game/" + GAME + "/Material/MaterialConstantZoneState" + GAME + ".h\""
-#include CONSTANTS_HEADER
+#include "Game/T6/CommonT6.h"
+#include "Game/T6/Material/JsonMaterialT6.h"
+#include "Game/T6/Material/MaterialConstantZoneStateT6.h"
 
 #include <cassert>
 #include <iomanip>
 #include <nlohmann/json.hpp>
 
 using namespace nlohmann;
-using namespace GAME;
+using namespace T6;
 
-#set CLASS_NAME "JsonDumper" + GAME
 
 namespace
 {
@@ -71,7 +33,7 @@ namespace
             jRoot["$schema"] = "http://openassettools.dev/schema/material.v1.json";
             jRoot["_type"] = "material";
             jRoot["_version"] = 1;
-            jRoot["_game"] = GAME_LOWER;
+            jRoot["_game"] = "t6";
 
             m_stream << std::setw(4) << jRoot << "\n";
         }
@@ -106,37 +68,6 @@ namespace
             jSamplerState.clampW = samplerState.clampW;
         }
 
-#ifdef HAS_WATER
-        static void CreateJsonWater(JsonWater& jWater, const water_t& water)
-        {
-            jWater.floatTime = water.writable.floatTime;
-            jWater.m = water.M;
-            jWater.n = water.N;
-            jWater.lx = water.Lx;
-            jWater.lz = water.Lz;
-            jWater.gravity = water.gravity;
-            jWater.windvel = water.windvel;
-            jWater.winddir[0] = water.winddir[0];
-            jWater.winddir[1] = water.winddir[1];
-            jWater.amplitude = water.amplitude;
-            jWater.codeConstant[0] = water.codeConstant[0];
-            jWater.codeConstant[1] = water.codeConstant[1];
-            jWater.codeConstant[2] = water.codeConstant[2];
-            jWater.codeConstant[3] = water.codeConstant[3];
-
-            if (water.H0)
-            {
-                const auto count = water.M * water.N;
-                jWater.h0 = base64::EncodeBase64(water.H0, sizeof(complex_s) * count);
-            }
-
-            if (water.wTerm)
-            {
-                const auto count = water.M * water.N;
-                jWater.wTerm = base64::EncodeBase64(water.wTerm, sizeof(float) * count);
-            }
-        }
-#endif
 
         void CreateJsonTexture(JsonTexture& jTextureDef, const MaterialTextureDef& textureDef) const
         {
@@ -153,36 +84,12 @@ namespace
             }
 
             jTextureDef.semantic = static_cast<TextureSemantic>(textureDef.semantic);
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             jTextureDef.isMatureContent = textureDef.isMatureContent;
-#endif
 
             CreateJsonSamplerState(jTextureDef.samplerState, textureDef.samplerState);
 
-#ifdef HAS_WATER
-            if (textureDef.semantic == TS_WATER_MAP)
-            {
-                if (textureDef.u.water)
-                {
-                    const auto& water = *textureDef.u.water;
-                    if (water.image && water.image->name)
-                        jTextureDef.image = AssetName(water.image->name);
-
-                    JsonWater jWater;
-                    CreateJsonWater(jWater, water);
-
-                    jTextureDef.water = std::move(jWater);
-                }
-            }
-            else
-            {
-                if (textureDef.u.image && textureDef.u.image->name)
-                    jTextureDef.image = AssetName(textureDef.u.image->name);
-            }
-#else
             if (textureDef.image && textureDef.image->name)
                 jTextureDef.image = AssetName(textureDef.image->name);
-#endif
         }
 
         void CreateJsonConstant(JsonConstant& jConstantDef, const MaterialConstantDef& constantDef) const
@@ -231,23 +138,11 @@ namespace
 
             assert(structured.alphaTestDisabled
                     || structured.alphaTest == GFXS_ALPHA_TEST_GT_0
-#if defined(FEATURE_IW3) || defined(FEATURE_IW4) || defined(FEATURE_IW5)
-                    || structured.alphaTest == GFXS_ALPHA_TEST_LT_128
-#elif defined(FEATURE_T5)
-                    || structured.alphaTest == GFXS_ALPHA_TEST_GE_255
-#endif
                     || structured.alphaTest == GFXS_ALPHA_TEST_GE_128);
             if (structured.alphaTestDisabled)
                 jStateBitsTableEntry.alphaTest = JsonAlphaTest::DISABLED;
             else if (structured.alphaTest == GFXS_ALPHA_TEST_GT_0)
                 jStateBitsTableEntry.alphaTest = JsonAlphaTest::GT0;
-#if defined(FEATURE_IW3) || defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            else if (structured.alphaTest == GFXS_ALPHA_TEST_LT_128)
-                jStateBitsTableEntry.alphaTest = JsonAlphaTest::LT128;
-#elif defined(FEATURE_T5)
-            else if (structured.alphaTest == GFXS_ALPHA_TEST_GE_255)
-                jStateBitsTableEntry.alphaTest = JsonAlphaTest::GE255;
-#endif
             else if (structured.alphaTest == GFXS_ALPHA_TEST_GE_128)
                 jStateBitsTableEntry.alphaTest = JsonAlphaTest::GE128;
             else
@@ -268,9 +163,6 @@ namespace
             jStateBitsTableEntry.blendOpAlpha = static_cast<GfxBlendOp>(structured.blendOpAlpha);
             jStateBitsTableEntry.colorWriteRgb = structured.colorWriteRgb;
             jStateBitsTableEntry.colorWriteAlpha = structured.colorWriteAlpha;
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            jStateBitsTableEntry.gammaWrite = structured.gammaWrite;
-#endif
             jStateBitsTableEntry.polymodeLine = structured.polymodeLine;
             jStateBitsTableEntry.depthWrite = structured.depthWrite;
 
@@ -318,13 +210,9 @@ namespace
             jMaterial.textureAtlas->columns = material.info.textureAtlasColumnCount;
 
             jMaterial.surfaceTypeBits = material.info.surfaceTypeBits;
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             jMaterial.layeredSurfaceTypes = material.info.layeredSurfaceTypes;
-#endif
-#if defined(FEATURE_T6)
             jMaterial.surfaceFlags = material.info.surfaceFlags;
             jMaterial.contents = material.info.contents;
-#endif
 
             jMaterial.stateBitsEntry.resize(std::extent_v<decltype(Material::stateBitsEntry)>);
             for (auto i = 0u; i < std::extent_v<decltype(Material::stateBitsEntry)>; i++)
@@ -348,10 +236,8 @@ namespace
             for (auto i = 0u; i < material.stateBitsCount; i++)
                 CreateJsonStateBitsTableEntry(jMaterial.stateBits[i], material.stateBitsTable[i]);
 
-#ifdef FEATURE_T6
             if (material.thermalMaterial && material.thermalMaterial->info.name)
                 jMaterial.thermalMaterial = AssetName(material.thermalMaterial->info.name);
-#endif
         }
 
         std::ostream& m_stream;
@@ -361,7 +247,7 @@ namespace
 
 namespace material
 {
-    void CLASS_NAME::Dump(AssetDumpingContext& context)
+    void JsonDumperT6::Dump(AssetDumpingContext& context)
     {
         auto* materialConstantState = context.GetZoneAssetDumperState<MaterialConstantZoneState>();
         materialConstantState->EnsureInitialized();
@@ -369,7 +255,7 @@ namespace material
         AbstractAssetDumper::Dump(context);
     }
 
-    void CLASS_NAME::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetMaterial::Type>& asset)
+    void JsonDumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetMaterial::Type>& asset)
     {
         const auto assetFile = context.OpenAssetFile(GetFileNameForAssetName(asset.m_name));
 
@@ -377,14 +263,9 @@ namespace material
             return;
 
         const auto* material = asset.Asset();
-#if defined(FEATURE_T5)
-        assert(material->info.gameFlags < 0x400);
-        assert(material->maxStreamedMips == 0);
-#elif defined(FEATURE_T6)
         assert(material->info.gameFlags < 0x8000);
         assert(material->info.hashIndex == 0);
         assert(material->probeMipBits == 0);
-#endif
 
         JsonDumperImpl dumper(context, *assetFile);
         dumper.Dump(*material);

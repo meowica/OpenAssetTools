@@ -1,43 +1,7 @@
-#options GAME (IW3, IW4, IW5, T5, T6)
+#include "JsonMaterialLoaderT6.h"
 
-#filename "Game/" + GAME + "/Material/JsonMaterialLoader" + GAME + ".cpp"
-
-#if GAME == "IW3"
-#define FEATURE_IW3
-#define HAS_WATER
-#define GAME_LOWER "iw3"
-#elif GAME == "IW4"
-#define FEATURE_IW4
-#define HAS_WATER
-#define GAME_LOWER "iw4"
-#elif GAME == "IW5"
-#define FEATURE_IW5
-#define HAS_WATER
-#define GAME_LOWER "iw5"
-#elif GAME == "T5"
-#define FEATURE_T5
-#define HAS_WATER
-#define GAME_LOWER "t5"
-#elif GAME == "T6"
-#define FEATURE_T6
-#define GAME_LOWER "t6"
-#endif
-
-// This file was templated.
-// See JsonMaterialLoader.cpp.template.
-// Do not modify, changes will be lost.
-
-#set LOADER_HEADER "\"JsonMaterialLoader" + GAME + ".h\""
-#include LOADER_HEADER
-
-#ifdef HAS_WATER
-#include "Base64.h"
-#endif
-
-#set COMMON_HEADER "\"Game/" + GAME + "/Common" + GAME + ".h\""
-#include COMMON_HEADER
-#set JSON_HEADER "\"Game/" + GAME + "/Material/JsonMaterial" + GAME + ".h\""
-#include JSON_HEADER
+#include "Game/T6/CommonT6.h"
+#include "Game/T6/Material/JsonMaterialT6.h"
 #include "Utils/Logging/Log.h"
 
 #include <format>
@@ -45,7 +9,7 @@
 #include <nlohmann/json.hpp>
 
 using namespace nlohmann;
-using namespace GAME;
+using namespace T6;
 
 namespace
 {
@@ -77,15 +41,6 @@ namespace
                     return false;
                 }
             
-#ifndef FEATURE_T6 // T6 did not have this check in version 1, so to stay backwards compatible, let it stay that way
-                std::string game;
-                jRoot.at("_game").get_to(game);
-                if (game != GAME_LOWER)
-                {
-                    con::error("Tried to load material \"{}\" but \"_game\" did not find expected type value {}", material.info.name, GAME_LOWER);
-                    return false;
-                }
-#endif
 
                 const auto jMaterial = jRoot.get<JsonMaterial>();
                 return CreateMaterialFromJson(jMaterial, material);
@@ -104,11 +59,7 @@ namespace
             con::error("Cannot load material \"{}\": {}", material.info.name, message);
         }
 
-#if defined(FEATURE_IW3) || defined(FEATURE_IW4) || defined(FEATURE_IW5)
-        static bool CreateGameFlagsFromJson(const JsonMaterial& jMaterial, unsigned char& gameFlags)
-#elif defined(FEATURE_T5) || defined(FEATURE_T6)
         static bool CreateGameFlagsFromJson(const JsonMaterial& jMaterial, unsigned& gameFlags)
-#endif
         {
             for (const auto gameFlag : jMaterial.gameFlags)
                 gameFlags |= gameFlag;
@@ -125,51 +76,6 @@ namespace
             samplerState.clampW = jSamplerState.clampW;
         }
 
-#ifdef HAS_WATER
-        bool CreateWaterFromJson(const JsonWater& jWater, water_t& water, const Material& material) const
-        {
-            water.writable.floatTime = jWater.floatTime;
-            water.M = jWater.m;
-            water.N = jWater.n;
-            water.Lx = jWater.lx;
-            water.Lz = jWater.lz;
-            water.gravity = jWater.gravity;
-            water.windvel = jWater.windvel;
-            water.winddir[0] = jWater.winddir[0];
-            water.winddir[1] = jWater.winddir[1];
-            water.amplitude = jWater.amplitude;
-            water.codeConstant[0] = jWater.codeConstant[0];
-            water.codeConstant[1] = jWater.codeConstant[1];
-            water.codeConstant[2] = jWater.codeConstant[2];
-            water.codeConstant[3] = jWater.codeConstant[3];
-
-            const auto expectedH0Size = water.M * water.N * sizeof(complex_s);
-            if (expectedH0Size > 0)
-            {
-                water.H0 = m_memory.Alloc<complex_s>(water.M * water.N);
-                const auto h0Size = base64::DecodeBase64(jWater.h0.data(), jWater.h0.size(), water.H0, expectedH0Size);
-                if (h0Size != expectedH0Size)
-                {
-                    PrintError(material, std::format("Water h0 size {} does not match expected {}", h0Size, expectedH0Size));
-                    return false;
-                }
-            }
-
-            const auto expectedWTermSize = water.M * water.N * sizeof(float);
-            if (expectedWTermSize > 0)
-            {
-                water.wTerm = m_memory.Alloc<float>(water.M * water.N);
-                auto wTermSize = base64::DecodeBase64(jWater.wTerm.data(), jWater.wTerm.size(), water.wTerm, expectedWTermSize);
-                if (wTermSize != expectedWTermSize)
-                {
-                    PrintError(material, std::format("Water wTerm size {} does not match expected {}", wTermSize, expectedWTermSize));
-                    return false;
-                }
-            }
-
-            return true;
-        }
-#endif
 
         bool CreateTextureDefFromJson(const JsonTexture& jTexture, MaterialTextureDef& textureDef, const Material& material) const
         {
@@ -207,9 +113,7 @@ namespace
             CreateSamplerStateFromJson(jTexture.samplerState, textureDef.samplerState);
 
             textureDef.semantic = jTexture.semantic;
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             textureDef.isMatureContent = jTexture.isMatureContent;
-#endif
 
             auto* imageAsset = m_context.LoadDependency<AssetImage>(jTexture.image);
             if (!imageAsset)
@@ -219,39 +123,7 @@ namespace
             }
             m_registration.AddDependency(imageAsset);
 
-#ifdef HAS_WATER
-            if (jTexture.water)
-            {
-                if (jTexture.semantic != TS_WATER_MAP)
-                {
-                    PrintError(material, "Only textureDefs with semantic waterMap can define water params");
-                    return false;
-                }
-            }
-            else
-            {
-                if (jTexture.semantic == TS_WATER_MAP)
-                {
-                    PrintError(material, "TextureDefs with semantic waterMap must define water params");
-                    return false;
-                }
-            }
-
-            if (jTexture.water)
-            {
-                auto* water = m_memory.Alloc<water_t>();
-                water->image = imageAsset->Asset();
-
-                if (!CreateWaterFromJson(*jTexture.water, *water, material))
-                    return false;
-
-                textureDef.u.water = water;
-            }
-            else
-                textureDef.u.image = imageAsset->Asset();
-#else
             textureDef.image = imageAsset->Asset();
-#endif
 
             return true;
         }
@@ -314,19 +186,6 @@ namespace
                 structured.alphaTestDisabled = 0;
                 structured.alphaTest = GFXS_ALPHA_TEST_GT_0;
             }
-#if defined(FEATURE_IW3) || defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            else if (jStateBitsTableEntry.alphaTest == JsonAlphaTest::LT128)
-            {
-                structured.alphaTestDisabled = 0;
-                structured.alphaTest = GFXS_ALPHA_TEST_LT_128;
-            }
-#elif defined(FEATURE_T5)
-            else if (jStateBitsTableEntry.alphaTest == JsonAlphaTest::GE255)
-            {
-                structured.alphaTestDisabled = 0;
-                structured.alphaTest = GFXS_ALPHA_TEST_GE_255;
-            }
-#endif
             else if (jStateBitsTableEntry.alphaTest == JsonAlphaTest::GE128)
             {
                 structured.alphaTestDisabled = 0;
@@ -355,9 +214,6 @@ namespace
             structured.blendOpAlpha = jStateBitsTableEntry.blendOpAlpha;
             structured.colorWriteRgb = jStateBitsTableEntry.colorWriteRgb;
             structured.colorWriteAlpha = jStateBitsTableEntry.colorWriteAlpha;
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            structured.gammaWrite = jStateBitsTableEntry.gammaWrite;
-#endif
             structured.polymodeLine = jStateBitsTableEntry.polymodeLine;
             structured.depthWrite = jStateBitsTableEntry.depthWrite;
 
@@ -419,13 +275,9 @@ namespace
             }
 
             material.info.surfaceTypeBits = jMaterial.surfaceTypeBits;
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             material.info.layeredSurfaceTypes = jMaterial.layeredSurfaceTypes;
-#endif
-#if defined(FEATURE_T6)
             material.info.surfaceFlags = jMaterial.surfaceFlags;
             material.info.contents = jMaterial.contents;
-#endif
 
             if (jMaterial.stateBitsEntry.size() != std::extent_v<decltype(Material::stateBitsEntry)>)
             {
@@ -498,7 +350,6 @@ namespace
                 material.stateBitsTable = nullptr;
             }
 
-#ifdef FEATURE_T6
             if (jMaterial.thermalMaterial)
             {
                 auto* thermalMaterial = m_context.LoadDependency<AssetMaterial>(jMaterial.thermalMaterial.value());
@@ -514,7 +365,6 @@ namespace
             {
                 material.thermalMaterial = nullptr;
             }
-#endif
 
             return true;
         }
@@ -526,7 +376,7 @@ namespace
     };
 } // namespace
 
-namespace GAME
+namespace T6
 {
     bool LoadMaterialAsJson(
         std::istream& stream, Material& material, MemoryManager& memory, AssetCreationContext& context, AssetRegistration<AssetMaterial>& registration)
@@ -535,4 +385,4 @@ namespace GAME
 
         return loader.Load(material);
     }
-} // namespace GAME
+} // namespace T6

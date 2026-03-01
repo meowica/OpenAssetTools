@@ -1,36 +1,7 @@
-#options GAME (IW3, IW4, IW5, T5, T6)
+#include "XModelDumperT6.h"
 
-#filename "Game/" + GAME + "/XModel/XModelDumper" + GAME + ".cpp"
-
-#set DUMPER_HEADER "\"XModelDumper" + GAME + ".h\""
-#set COMMON_HEADER "\"Game/" + GAME + "/Common" + GAME + ".h\""
-#set JSON_HEADER "\"Game/" + GAME + "/XModel/JsonXModel" + GAME + ".h\""
-
-#if GAME == "IW3"
-#define FEATURE_IW3
-#define GAME_LOWER "iw3"
-#elif GAME == "IW4"
-#define FEATURE_IW4
-#define GAME_LOWER "iw4"
-#elif GAME == "IW5"
-#define FEATURE_IW5
-#define GAME_LOWER "iw5"
-#elif GAME == "T5"
-#define FEATURE_T5
-#define GAME_LOWER "t5"
-#elif GAME == "T6"
-#define FEATURE_T6
-#define GAME_LOWER "t6"
-#endif
-
-// This file was templated.
-// See XModelDumper.cpp.template.
-// Do not modify, changes will be lost.
-
-#include DUMPER_HEADER
-
-#include COMMON_HEADER
-#include JSON_HEADER
+#include "Game/T6/CommonT6.h"
+#include "Game/T6/XModel/JsonXModelT6.h"
 
 #include "ObjWriting.h"
 #include "Utils/DistinctMapper.h"
@@ -46,9 +17,8 @@
 #include <cassert>
 #include <format>
 
-using namespace GAME;
+using namespace T6;
 
-#set CLASS_NAME "Dumper" + GAME
 
 namespace
 {
@@ -59,11 +29,7 @@ namespace
 
     GfxImage* GetImageFromTextureDef(const MaterialTextureDef& textureDef)
     {
-#ifdef FEATURE_T6
         return textureDef.image;
-#else
-        return textureDef.u.image;
-#endif
     }
 
     GfxImage* GetMaterialColorMap(const Material* material)
@@ -74,13 +40,8 @@ namespace
         {
             MaterialTextureDef* def = &material->textureTable[textureIndex];
 
-#if defined(FEATURE_IW3) || defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            if (def->semantic == TS_COLOR_MAP)
-                potentialTextureDefs.push_back(def);
-#else
             if (def->semantic == TS_COLOR_MAP || def->semantic >= TS_COLOR0_MAP && def->semantic <= TS_COLOR15_MAP)
                 potentialTextureDefs.push_back(def);
-#endif
         }
 
         if (potentialTextureDefs.empty())
@@ -163,19 +124,11 @@ namespace
 
     bool GetSurfaces(const XModel* model, const unsigned lod, XSurface*& surfs, unsigned& surfCount)
     {
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-        if (!model->lodInfo[lod].modelSurfs || !model->lodInfo[lod].modelSurfs->surfs)
-            return false;
-
-        surfs = model->lodInfo[lod].modelSurfs->surfs;
-        surfCount = model->lodInfo[lod].modelSurfs->numsurfs;
-#else
         if (!model->surfs)
             return false;
 
         surfs = &model->surfs[model->lodInfo[lod].surfIndex];
         surfCount = model->lodInfo[lod].numsurfs;
-#endif
 
         return true;
     }
@@ -691,7 +644,7 @@ namespace
             jRoot["$schema"] = "http://openassettools.dev/schema/xmodel.v1.json";
             jRoot["_type"] = "xmodel";
             jRoot["_version"] = 2;
-            jRoot["_game"] = GAME_LOWER;
+            jRoot["_game"] = "t6";
 
             m_stream << std::setw(4) << jRoot << "\n";
         }
@@ -727,28 +680,12 @@ namespace
 
         static bool IsAnimated(const XModel& xmodel)
         {
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            for (auto i = 0u; i < xmodel.numLods; i++)
-            {
-                const auto& lod = xmodel.lodInfo[i];
-                if (lod.modelSurfs == nullptr || lod.modelSurfs->surfs == nullptr)
-                    continue;
-
-                for (auto j = 0u; j < lod.modelSurfs->numsurfs; j++)
-                {
-                    const auto& surf = xmodel.lodInfo[i].modelSurfs->surfs[j];
-                    if (surf.vertInfo.vertsBlend)
-                        return true;
-                }
-            }
-#else
             for (auto i = 0u; i < xmodel.numsurfs; i++)
             {
                 const auto& surf = xmodel.surfs[i];
                 if (surf.vertInfo.vertsBlend)
                     return true;
             }
-#endif
 
             return false;
         }
@@ -776,13 +713,8 @@ namespace
             for (auto i = 0u; i < xmodel.numBones; i++)
             {
                 const auto& boneInfo = xmodel.boneInfo[i];
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-                if (boneInfo.bounds.midPoint.x != 0 || boneInfo.bounds.midPoint.y != 0 || boneInfo.bounds.midPoint.z != 0)
-                    return true;
-#else
                 if (boneInfo.offset.x != 0 || boneInfo.offset.y != 0 || boneInfo.offset.z != 0)
                     return true;
-#endif
             }
 
             return false;
@@ -818,24 +750,16 @@ namespace
             if (xmodel.physPreset && xmodel.physPreset->name)
                 jXModel.physPreset = AssetName(xmodel.physPreset->name);
 
-#if defined(FEATURE_IW4) || defined(FEATURE_IW5)
-            if (xmodel.physCollmap && xmodel.physCollmap->name)
-                jXModel.physCollmap = AssetName(xmodel.physCollmap->name);
-#endif
 
-#if defined(FEATURE_T5) || defined(FEATURE_T6)
             if (xmodel.physConstraints && xmodel.physConstraints->name)
                 jXModel.physConstraints = AssetName(xmodel.physConstraints->name);
-#endif
 
             jXModel.flags = xmodel.flags;
 
-#ifdef FEATURE_T6
             jXModel.lightingOriginOffset.x = xmodel.lightingOriginOffset.x;
             jXModel.lightingOriginOffset.y = xmodel.lightingOriginOffset.y;
             jXModel.lightingOriginOffset.z = xmodel.lightingOriginOffset.z;
             jXModel.lightingOriginRange = xmodel.lightingOriginRange;
-#endif
         }
 
         std::ostream& m_stream;
@@ -854,7 +778,7 @@ namespace
 
 namespace xmodel
 {
-    void CLASS_NAME::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetXModel::Type>& asset)
+    void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetXModel::Type>& asset)
     {
         DumpXModelJson(context, asset);
         DumpXModelSurfs(context, asset);
