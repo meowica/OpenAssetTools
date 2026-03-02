@@ -25,44 +25,6 @@ namespace fs = std::filesystem;
 
 namespace
 {
-    enum class RawColor
-    {
-        Default,
-        Yellow,
-        Red
-    };
-
-    bool globalUseColor = true;
-
-    void raw(const std::string& text)
-    {
-        std::cout << text << '\n';
-    }
-
-    void raw_colored(const std::string& text, RawColor color)
-    {
-        if (!globalUseColor || color == RawColor::Default)
-        {
-            std::cout << text << '\n';
-            return;
-        }
-
-        const char* code = "";
-        switch (color)
-        {
-        case RawColor::Yellow:
-            code = "\x1B[33m";
-            break;
-        case RawColor::Red:
-            code = "\x1B[31m";
-            break;
-        default:
-            break;
-        }
-
-        std::cout << code << text << "\x1B[0m\n";
-    }
-
     class LinkerSearchPathContext
     {
     public:
@@ -237,8 +199,8 @@ namespace
     private:
         void ShowLinkerSummary(bool success) const
         {
-            const int warningCount = con::warning_count();
-            const int errorCount = con::error_count();
+            const int warningCount = con::get_warning_count();
+            const int errorCount = con::get_error_count();
 
             con::info("\n=====================================");
             con::info("Linker Summary:");
@@ -261,7 +223,7 @@ namespace
                 con::info("\nWarnings:");
 
                 for (const auto& msg : con::warnings())
-                    raw_colored(std::format("  {}", msg), RawColor::Yellow);
+                    con::info_colored(con::Colour::Yellow, std::format("  {}", msg));
             }
 
             if (errorCount > 0)
@@ -269,7 +231,7 @@ namespace
                 con::info("\nErrors:");
 
                 for (const auto& msg : con::errors())
-                    raw_colored(std::format("  {}", msg), RawColor::Red);
+                    con::info_colored(con::Colour::Red, std::format("  {}", msg));
             }
 
             const auto& args = m_args.m_raw_arguments;

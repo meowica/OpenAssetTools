@@ -128,12 +128,40 @@ namespace con
             std::cerr << std::format("ERROR: {}\n", str);
     }
 
-    std::uint32_t warning_count()
+    void info_colored(Colour colour, const std::string& str)
+    {
+        if (!globalUseColor)
+        {
+            std::cout << std::format("{}\n", str);
+            return;
+        }
+
+        int code = 0;
+
+        switch (colour)
+        {
+        case Colour::Yellow:
+            code = 33;
+            break;
+
+        case Colour::Red:
+            code = 31;
+            break;
+
+        default:
+            std::cout << std::format("{}\n", str);
+            break;
+        }
+
+        std::cout << std::format("\x1B[{}m{}\x1B[0m\n", code, str);
+    }
+
+    std::uint32_t get_warning_count()
     {
         return static_cast<std::uint32_t>(g_warnings.size());
     }
 
-    std::uint32_t error_count()
+    std::uint32_t get_error_count()
     {
         return static_cast<std::uint32_t>(g_errors.size());
     }
@@ -146,17 +174,5 @@ namespace con
     const std::vector<std::string>& errors()
     {
         return g_errors;
-    }
-
-    void clear_summary()
-    {
-        g_warnings.clear();
-        g_errors.clear();
-    }
-
-    void flush()
-    {
-        std::cout.flush();
-        std::cerr.flush();
     }
 } // namespace con
