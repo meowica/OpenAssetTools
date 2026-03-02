@@ -1458,7 +1458,6 @@ namespace T6
         int vertAlign;
     };
 
-    // This is data from IW4, could be different for T6, to be investigated
     enum WindowDefStaticFlag : unsigned int
     {
         WINDOW_FLAG_DECORATION = 0x100000,
@@ -1474,7 +1473,6 @@ namespace T6
         WINDOW_FLAG_TEXT_ONLY_FOCUS = 0x80000000,
     };
 
-    // This is data from IW4, could be different for T6, to be investigated
     enum WindowDefDynamicFlag : unsigned int
     {
         WINDOW_FLAG_HOVERED = 0x1,

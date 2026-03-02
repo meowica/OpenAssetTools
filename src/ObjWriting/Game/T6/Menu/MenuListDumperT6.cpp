@@ -1,12 +1,11 @@
-#include "MenuListDumperT6.h"
-
-#include "MenuWriterT6.h"
+#include "Game/T6/Menu/MenuDumperT6.h"
 #include "Menu/AbstractMenuWriter.h"
+#include "MenuListDumperT6.h"
+#include "MenuWriterT6.h"
 #include "ObjWriting.h"
 
 #include <cassert>
 #include <filesystem>
-#include <format>
 #include <set>
 #include <sstream>
 
@@ -46,7 +45,6 @@ namespace
 
         std::ostringstream ss;
         ss << menuListParentPath << menuAssetName << ".menu";
-
         return ss.str();
     }
 } // namespace
@@ -60,6 +58,7 @@ namespace menu
 
         const std::string menuListName(menuList->name);
         const fs::path p(menuListName);
+
         std::string parentPath;
         if (p.has_parent_path())
             parentPath = p.parent_path().string() + "/";
@@ -67,7 +66,6 @@ namespace menu
         for (auto i = 0; i < menuList->menuCount; i++)
         {
             auto* menu = menuList->menus[i];
-
             if (menu == nullptr)
                 continue;
 
@@ -104,9 +102,7 @@ namespace menu
         auto menuWriter = CreateMenuWriterT6(*assetFile);
 
         menuWriter->Start();
-
         DumpMenus(*menuWriter, zoneState, menuList);
-
         menuWriter->End();
     }
 
