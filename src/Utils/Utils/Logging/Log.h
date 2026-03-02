@@ -15,6 +15,13 @@ namespace con
         ERROR
     };
 
+    enum class Colour
+    {
+        Default,
+        Yellow,
+        Red
+    };
+
     extern LogLevel _globalLogLevel;
 
     void init();
@@ -26,14 +33,13 @@ namespace con
     void _warn_internal(const std::string& str);
     void _error_internal(const std::string& str);
 
-    std::uint32_t warning_count();
-    std::uint32_t error_count();
+    void info_colored(Colour colour, const std::string& text);
+
+    std::uint32_t get_warning_count();
+    std::uint32_t get_error_count();
 
     const std::vector<std::string>& warnings();
     const std::vector<std::string>& errors();
-
-    void clear_summary();
-    void flush();
 
     inline void debug(const std::string& str)
     {
