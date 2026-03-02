@@ -1,14 +1,10 @@
 #include "MenuDumperT6.h"
-
 #include "MenuListDumperT6.h"
 #include "MenuWriterT6.h"
 #include "ObjWriting.h"
 
 #include <filesystem>
-#include <format>
 #include <string>
-
-namespace fs = std::filesystem;
 
 using namespace T6;
 
@@ -17,10 +13,8 @@ namespace
     std::string GetPathForMenu(menu::MenuDumpingZoneState* zoneState, const XAssetInfo<menuDef_t>& asset)
     {
         const auto menuDumpingState = zoneState->m_menu_dumping_state_map.find(asset.Asset());
-
         if (menuDumpingState == zoneState->m_menu_dumping_state_map.end())
             return "ui_mp/" + std::string(asset.Asset()->window.name) + ".menu";
-
         return menuDumpingState->second.m_path;
     }
 } // namespace
@@ -32,7 +26,7 @@ namespace menu
         const auto* menu = asset.Asset();
         auto* zoneState = context.GetZoneAssetDumperState<MenuDumpingZoneState>();
 
-        if (ObjWriting::ShouldHandleAssetType(ASSET_TYPE_MENULIST))
+        if (!ObjWriting::ShouldHandleAssetType(ASSET_TYPE_MENULIST))
         {
             // Make sure menu paths based on menu lists are created
             auto menuListAssets = context.m_zone.m_pools.PoolAssets<AssetMenuList>();

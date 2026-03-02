@@ -212,11 +212,11 @@ namespace
                 return;
             }
 
-            const char* warningText = (warningCount == 1) ? "warning" : "warnings";
-            const char* errorText = (errorCount == 1) ? "error" : "errors";
-            const char* verb = (warningCount == 1) ? "was" : "were";
+            const char* warningText = warningCount == 1 ? "warning" : "warnings";
+            const char* errorText   = errorCount == 1   ? "error"   : "errors";
+            const char* wasOrWere   = warningCount == 1 ? "was"     : "were";
 
-            con::info(std::format("\nThere {} {} {} and {} {}.", verb, warningCount, warningText, errorCount, errorText));
+            con::info(std::format("\nThere {} {} {} and {} {}.", wasOrWere, warningCount, warningText, errorCount, errorText));
 
             if (warningCount > 0)
             {

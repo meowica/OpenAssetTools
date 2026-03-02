@@ -14,6 +14,5 @@ int main(const int argc, const char** argv)
         return 0;
 
     const auto unlinker = Unlinker::Create(std::move(args));
-
     return unlinker->Start() ? 0 : 1;
 }
