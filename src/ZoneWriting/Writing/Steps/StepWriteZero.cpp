@@ -10,7 +10,7 @@ StepWriteZero::StepWriteZero(const size_t count)
 void StepWriteZero::PerformStep(ZoneWriter* zoneWriter, IWritingStream* stream)
 {
     constexpr uint64_t num = 0;
-    size_t toWrite;
+    size_t toWrite = 0;
 
     for (auto i = 0uz; i < m_count; i += toWrite)
     {

@@ -27,9 +27,7 @@ public:
         const int ret = deflateInit(&m_stream, Z_DEFAULT_COMPRESSION);
 
         if (ret != Z_OK)
-        {
             throw std::runtime_error("Initializing deflate failed");
-        }
     }
 
     ~Impl()

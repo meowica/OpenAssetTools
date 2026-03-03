@@ -9,8 +9,10 @@
 class StepWriteZoneContentToMemory final : public IWritingStep
 {
 public:
-    StepWriteZoneContentToMemory(
-        std::unique_ptr<IContentWritingEntryPoint> entryPoint, const Zone& zone, unsigned pointerBitCount, unsigned offsetBlockBitCount, block_t insertBlock);
+    StepWriteZoneContentToMemory(std::unique_ptr<IContentWritingEntryPoint> entryPoint,
+                                 const Zone& zone, unsigned pointerBitCount,
+                                 unsigned offsetBlockBitCount,
+                                 block_t insertBlock);
 
     void PerformStep(ZoneWriter* zoneWriter, IWritingStream* stream) override;
     [[nodiscard]] InMemoryZoneData* GetData() const;

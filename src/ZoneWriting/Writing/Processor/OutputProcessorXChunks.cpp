@@ -31,7 +31,11 @@ void OutputProcessorXChunks::WriteChunk()
     {
         for (const auto& processor : m_chunk_processors)
         {
-            m_input_size = processor->Process(m_current_stream, m_input_buffer, m_input_size, m_output_buffer, m_chunk_size);
+            m_input_size = processor->Process(m_current_stream,
+                                              m_input_buffer,
+                                              m_input_size,
+                                              m_output_buffer,
+                                              m_chunk_size);
             auto* swap = m_input_buffer;
             m_input_buffer = m_output_buffer;
             m_output_buffer = swap;
@@ -56,7 +60,9 @@ void OutputProcessorXChunks::WriteChunk()
     m_input_size = 0;
 }
 
-OutputProcessorXChunks::OutputProcessorXChunks(const int numStreams, const size_t xChunkSize, const size_t xChunkWriteSize)
+OutputProcessorXChunks::OutputProcessorXChunks(const int numStreams,
+                                               const size_t xChunkSize,
+                                               const size_t xChunkWriteSize)
     : m_stream_count(numStreams),
       m_chunk_size(xChunkSize),
       m_chunk_write_size(xChunkWriteSize),
@@ -79,7 +85,10 @@ OutputProcessorXChunks::OutputProcessorXChunks(const int numStreams, const size_
     m_output_buffer = m_buffers[1].get();
 }
 
-OutputProcessorXChunks::OutputProcessorXChunks(const int numStreams, const size_t xChunkSize, const size_t xChunkWriteSize, const size_t vanillaBufferSize)
+OutputProcessorXChunks::OutputProcessorXChunks(const int numStreams,
+                                               const size_t xChunkSize,
+                                               const size_t xChunkWriteSize,
+                                               const size_t vanillaBufferSize)
     : OutputProcessorXChunks(numStreams, xChunkSize, xChunkWriteSize)
 {
     m_vanilla_buffer_size = vanillaBufferSize;
