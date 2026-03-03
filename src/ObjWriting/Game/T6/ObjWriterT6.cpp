@@ -1,5 +1,12 @@
 #include "ObjWriterT6.h"
 
+#include "Bsp/ClipMapDumperT6.h"
+#include "Bsp/ComWorldDumperT6.h"
+#include "Bsp/GameWorldMpDumperT6.h"
+#include "Bsp/GameWorldSpDumperT6.h"
+#include "Bsp/GfxWorldDumperT6.h"
+#include "Bsp/MapEntsDumperT6.h"
+#include "Bsp/AddonMapEntsDumperT6.h"
 #include "Font/FontDumperT6.h"
 #include "FontIcon/FontIconDumperT6.h"
 #include "Game/T6/Material/MaterialJsonDumperT6.h"
@@ -9,10 +16,6 @@
 #include "Localize/LocalizeDumperT6.h"
 #include "Maps/AddonMapEntsDumperT6.h"
 #include "LightDef/LightDefDumperT6.h"
-#include "Maps/AddonMapEntsDumperT6.h"
-#include "Maps/GameWorldMpDumperT6.h"
-#include "Maps/GameWorldSpDumperT6.h"
-#include "Maps/MapEntsDumperT6.h"
 #include "Menu/MenuListDumperT6.h"
 #include "Menu/MenuDumperT6.h"
 #include "Menu/MenuWriterT6.h"
@@ -55,12 +58,13 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     RegisterAssetDumper(std::make_unique<image::DumperT6>());
     RegisterAssetDumper(std::make_unique<sound::SndBankDumperT6>());
     // REGISTER_DUMPER(AssetDumperSndPatch, m_sound_patch)
-    // REGISTER_DUMPER(AssetDumperClipMap, m_clip_map)
-    // REGISTER_DUMPER(AssetDumperComWorld, m_com_world)
+    //* RegisterAssetDumper(std::make_unique<clip_map::DumperT6>()); // ASSET_TYPE_CLIPMAP
+    RegisterAssetDumper(std::make_unique<clip_map::DumperT6>()); // // ASSET_TYPE_CLIPMAP_PBS
+    RegisterAssetDumper(std::make_unique<com_world::DumperT6>());
     RegisterAssetDumper(std::make_unique<game_world_sp::DumperT6>());
     RegisterAssetDumper(std::make_unique<game_world_mp::DumperT6>());
     RegisterAssetDumper(std::make_unique<map_ents::DumperT6>());
-    // REGISTER_DUMPER(AssetDumperGfxWorld, m_gfx_world)
+    RegisterAssetDumper(std::make_unique<gfx_world::DumperT6>());
     RegisterAssetDumper(light_def::CreateDumperT6());
     RegisterAssetDumper(font::CreateDumperT6());
     RegisterAssetDumper(font_icon::CreateDumperT6());
