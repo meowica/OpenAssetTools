@@ -36,7 +36,8 @@ ZoneDefinitionParserValue ZoneDefinitionParserValue::Field(const TokenPos pos, s
     return pv;
 }
 
-ZoneDefinitionParserValue::ZoneDefinitionParserValue(const TokenPos pos, const ZoneDefinitionParserValueType type)
+ZoneDefinitionParserValue::ZoneDefinitionParserValue(const TokenPos pos,
+                                                     const ZoneDefinitionParserValueType type)
     : m_pos(pos),
       m_type(type),
       m_hash(0),

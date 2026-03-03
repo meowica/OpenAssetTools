@@ -19,7 +19,8 @@ SequenceZoneDefinitionEntry::SequenceZoneDefinitionEntry()
     });
 }
 
-void SequenceZoneDefinitionEntry::ProcessMatch(ZoneDefinitionParserState* state, SequenceResult<ZoneDefinitionParserValue>& result) const
+void SequenceZoneDefinitionEntry::ProcessMatch(ZoneDefinitionParserState* state,
+                                               SequenceResult<ZoneDefinitionParserValue>& result) const
 {
     const auto& typeNameToken = result.NextCapture(CAPTURE_TYPE_NAME);
 
@@ -29,6 +30,7 @@ void SequenceZoneDefinitionEntry::ProcessMatch(ZoneDefinitionParserState* state,
 
     const auto& assetNameToken = result.NextCapture(CAPTURE_ASSET_NAME);
     std::string assetName;
+
     if (assetNameToken.m_type == ZoneDefinitionParserValueType::STRING)
         assetName = assetNameToken.StringValue();
     else

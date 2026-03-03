@@ -8,7 +8,8 @@ class ZoneDefinitionMatcherCharacter final : public AbstractMatcher<ZoneDefiniti
     char m_char;
 
 protected:
-    MatcherResult<ZoneDefinitionParserValue> CanMatch(ILexer<ZoneDefinitionParserValue>* lexer, unsigned tokenOffset) override;
+    MatcherResult<ZoneDefinitionParserValue> CanMatch(ILexer<ZoneDefinitionParserValue>* lexer,
+                                                      unsigned tokenOffset) override;
 
 public:
     explicit ZoneDefinitionMatcherCharacter(char c);

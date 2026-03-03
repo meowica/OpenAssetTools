@@ -13,7 +13,9 @@ public:
     bool m_is_reference;
 
     AssetListEntry();
-    AssetListEntry(asset_type_t type, std::string name, bool isReference);
+    AssetListEntry(asset_type_t type,
+                   std::string name,
+                   bool isReference);
 };
 
 class AssetList

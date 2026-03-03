@@ -3,6 +3,7 @@
 #include <cassert>
 #include <sstream>
 #include <stdexcept>
+#include <format>
 
 ZoneScriptStrings::ZoneScriptStrings()
     : m_null_entry_pos(0)
@@ -135,11 +136,7 @@ bool ZoneScriptStrings::Empty() const
 const char* ZoneScriptStrings::CValue(const size_t index) const
 {
     if (index > m_scr_strings.size())
-    {
-        std::ostringstream str;
-        str << "Script string index '" << index << "' is not inside range of zone script strings (count: " << m_scr_strings.size() << ")";
-        throw std::runtime_error(str.str());
-    }
+        throw std::runtime_error(std::format("Script string index '{}' is not inside range of zone script strings (count: {})", index, m_scr_strings.size()));
 
     if (m_null_entry_pos == static_cast<int>(index))
         return nullptr;
@@ -155,11 +152,7 @@ const std::string& ZoneScriptStrings::Value(const size_t index) const
 const std::string& ZoneScriptStrings::Value(const size_t index, bool& isNull) const
 {
     if (index > m_scr_strings.size())
-    {
-        std::ostringstream str;
-        str << "Script string index '" << index << "' is not inside range of zone script strings (count: " << m_scr_strings.size() << ")";
-        throw std::runtime_error(str.str());
-    }
+        throw std::runtime_error(std::format("Script string index '{}' is not inside range of zone script strings (count: {})", index, m_scr_strings.size()));
 
     isNull = m_null_entry_pos == static_cast<int>(index);
     return m_scr_strings[index];
@@ -168,11 +161,7 @@ const std::string& ZoneScriptStrings::Value(const size_t index, bool& isNull) co
 const std::string& ZoneScriptStrings::operator[](const size_t index) const
 {
     if (index > m_scr_strings.size())
-    {
-        std::ostringstream str;
-        str << "Script string index '" << index << "' is not inside range of zone script strings (count: " << m_scr_strings.size() << ")";
-        throw std::runtime_error(str.str());
-    }
+        throw std::runtime_error(std::format("Script string index '{}' is not inside range of zone script strings (count: {})", index, m_scr_strings.size()));
 
     return m_scr_strings[index];
 }

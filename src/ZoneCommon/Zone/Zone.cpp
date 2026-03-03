@@ -2,7 +2,10 @@
 
 #include "ZoneRegistry.h"
 
-Zone::Zone(std::string name, const zone_priority_t priority, const GameId gameId, const GamePlatform platform)
+Zone::Zone(std::string name,
+           const zone_priority_t priority,
+           const GameId gameId,
+           const GamePlatform platform)
     : m_name(std::move(name)),
       m_priority(priority),
       m_language(GameLanguage::LANGUAGE_NONE),
@@ -17,9 +20,7 @@ Zone::Zone(std::string name, const zone_priority_t priority, const GameId gameId
 Zone::~Zone()
 {
     if (m_registered)
-    {
         ZoneRegistry::GetRegistryForGame(m_game_id)->RemoveZone(this);
-    }
 }
 
 void Zone::Register()

@@ -10,7 +10,8 @@ class SequenceZoneDefinitionEntry final : public ZoneDefinitionParser::sequence_
     static constexpr auto CAPTURE_ASSET_NAME = 2;
 
 protected:
-    void ProcessMatch(ZoneDefinitionParserState* state, SequenceResult<ZoneDefinitionParserValue>& result) const override;
+    void ProcessMatch(ZoneDefinitionParserState* state,
+                      SequenceResult<ZoneDefinitionParserValue>& result) const override;
 
 public:
     SequenceZoneDefinitionEntry();

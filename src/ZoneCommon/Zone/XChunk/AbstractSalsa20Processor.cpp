@@ -3,7 +3,10 @@
 #include <cassert>
 #include <cstring>
 
-AbstractSalsa20Processor::AbstractSalsa20Processor(const unsigned streamCount, const std::string& zoneName, const uint8_t* salsa20Key, const size_t keySize)
+AbstractSalsa20Processor::AbstractSalsa20Processor(const unsigned streamCount,
+                                                   const std::string& zoneName,
+                                                   const uint8_t* salsa20Key,
+                                                   const size_t keySize)
     : m_stream_count(streamCount),
       m_stream_contexts(streamCount),
       m_block_hashes(BLOCK_HASHES_COUNT * streamCount * SHA1_HASH_SIZE),
@@ -12,7 +15,9 @@ AbstractSalsa20Processor::AbstractSalsa20Processor(const unsigned streamCount, c
     InitStreams(zoneName, salsa20Key, keySize);
 }
 
-void AbstractSalsa20Processor::InitStreams(const std::string& zoneName, const uint8_t* salsa20Key, const size_t keySize)
+void AbstractSalsa20Processor::InitStreams(const std::string& zoneName,
+                                           const uint8_t* salsa20Key,
+                                           const size_t keySize)
 {
     // Original buffer must have been 32 bytes because the zoneName can at most be 31 characters be long before being cut off
     const auto zoneNameLength = std::min(zoneName.length(), 31uz);

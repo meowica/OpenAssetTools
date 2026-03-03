@@ -2,7 +2,9 @@
 
 #include <algorithm>
 
-ZoneDefinitionParserState::ZoneDefinitionParserState(std::string targetName, ISearchPath& searchPath, IParserLineStream& underlyingStream)
+ZoneDefinitionParserState::ZoneDefinitionParserState(std::string targetName,
+                                                     ISearchPath& searchPath,
+                                                     IParserLineStream& underlyingStream)
     : m_search_path(searchPath),
       m_underlying_stream(underlyingStream),
       m_definition(std::make_unique<ZoneDefinition>())
@@ -20,7 +22,8 @@ void ZoneDefinitionParserState::SetGame(const GameId game)
 
 namespace
 {
-    void AddCurrentObjContainerToDefinitionIfNecessary(ZoneDefinition& zoneDefinition, std::optional<ZoneDefinitionObjContainer>& maybeObjContainer)
+    void AddCurrentObjContainerToDefinitionIfNecessary(ZoneDefinition& zoneDefinition,
+                                                       std::optional<ZoneDefinitionObjContainer>& maybeObjContainer)
     {
         if (!maybeObjContainer)
             return;
@@ -30,7 +33,9 @@ namespace
         maybeObjContainer = std::nullopt;
     }
 
-    ZoneDefinitionObjContainer DefineNewObjContainer(const ZoneDefinition& zoneDefinition, std::string name, const ZoneDefinitionObjContainerType type)
+    ZoneDefinitionObjContainer DefineNewObjContainer(const ZoneDefinition& zoneDefinition,
+                                                     std::string name,
+                                                     const ZoneDefinitionObjContainerType type)
     {
         return ZoneDefinitionObjContainer(std::move(name), type, static_cast<unsigned>(zoneDefinition.m_assets.size()));
     }

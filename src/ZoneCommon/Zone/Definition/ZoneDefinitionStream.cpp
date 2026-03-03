@@ -11,7 +11,10 @@
 #include <chrono>
 #include <format>
 
-ZoneDefinitionInputStream::ZoneDefinitionInputStream(std::istream& stream, std::string targetName, std::string fileName, ISearchPath& searchPath)
+ZoneDefinitionInputStream::ZoneDefinitionInputStream(std::istream& stream,
+                                                     std::string targetName,
+                                                     std::string fileName,
+                                                     ISearchPath& searchPath)
     : SearchPathMultiInputStream(searchPath),
       m_target_name(std::move(targetName)),
       m_file_name(std::move(fileName)),
@@ -48,12 +51,18 @@ std::unique_ptr<ZoneDefinition> ZoneDefinitionInputStream::ReadDefinition()
     con::info("\nReading zone definition file: {}", m_file_name);
 
     const auto lexer = std::make_unique<ZoneDefinitionLexer>(m_stream);
-    const auto parser = std::make_unique<ZoneDefinitionParser>(lexer.get(), m_target_name, m_search_path, *m_stream, m_previously_set_game);
+    const auto parser = std::make_unique<ZoneDefinitionParser>(lexer.get(),
+                                                               m_target_name,
+                                                               m_search_path,
+                                                               *m_stream,
+                                                               m_previously_set_game);
 
     const auto start = std::chrono::steady_clock::now();
+
     std::unique_ptr<ZoneDefinition> definition;
     if (parser->Parse())
         definition = parser->GetParsedValue();
+
     const auto end = std::chrono::steady_clock::now();
 
     con::info("Processing zone definition took {} ms\n", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
@@ -108,13 +117,9 @@ void ZoneDefinitionOutputStream::WriteEntry(const std::string& entryKey, const s
         m_stream << '"';
     }
     else if (entryValue.empty())
-    {
         m_stream << R"("")";
-    }
     else
-    {
         m_stream << entryValue;
-    }
 
     m_stream << "\n";
 }

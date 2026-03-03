@@ -40,7 +40,9 @@ namespace
 
         COUNT
     };
-    constexpr const char* ProjectType_Names[]{
+
+    constexpr const char* ProjectType_Names[]
+    {
         "none",
         "fastfile",
         "ipak",
@@ -76,7 +78,9 @@ SequenceZoneDefinitionMetaData::SequenceZoneDefinitionMetaData()
 
 namespace
 {
-    void ProcessMetaDataGame(ZoneDefinitionParserState* state, const ZoneDefinitionParserValue& valueToken, const std::string& value)
+    void ProcessMetaDataGame(ZoneDefinitionParserState* state,
+                             const ZoneDefinitionParserValue& valueToken,
+                             const std::string& value)
     {
         const auto game = GetGameByName(value);
         if (!game)
@@ -84,12 +88,16 @@ namespace
 
         const auto previousGame = state->m_definition->m_game;
         if (previousGame != GameId::COUNT && previousGame != *game)
-            throw ParsingException(valueToken.GetPos(), std::format("Game was previously defined as: {}", GameId_Names[static_cast<unsigned>(previousGame)]));
+            throw ParsingException(valueToken.GetPos(),
+                                   std::format("Game was previously defined as: {}",
+                                   GameId_Names[static_cast<unsigned>(previousGame)]));
 
         state->SetGame(*game);
     }
 
-    void ProcessMetaDataType(ZoneDefinitionParserState* state, const ZoneDefinitionParserValue& keyToken, const ZoneDefinitionParserValue& valueToken)
+    void ProcessMetaDataType(ZoneDefinitionParserState* state,
+                             const ZoneDefinitionParserValue& keyToken,
+                             const ZoneDefinitionParserValue& valueToken)
     {
         const auto projectType = GetProjectTypeByName(valueToken.FieldValue());
         if (!projectType)
@@ -104,13 +112,9 @@ namespace
             state->StartIPak(state->m_definition->m_name);
         }
         else if (*projectType == ProjectType::FASTFILE)
-        {
             deprecationSuggestedAction = "A fastfile will always be built when appropriate assets have been added.";
-        }
         else
-        {
             deprecationSuggestedAction = "It now has no effect.";
-        }
 
         const auto keyPos = keyToken.GetPos();
         con::warn("Deprecated: {} L{}: Zone definition \">type,{}\" is deprecated and should be removed. {}",
@@ -121,7 +125,8 @@ namespace
     }
 } // namespace
 
-void SequenceZoneDefinitionMetaData::ProcessMatch(ZoneDefinitionParserState* state, SequenceResult<ZoneDefinitionParserValue>& result) const
+void SequenceZoneDefinitionMetaData::ProcessMatch(ZoneDefinitionParserState* state,
+                                                  SequenceResult<ZoneDefinitionParserValue>& result) const
 {
     const auto& keyToken = result.NextCapture(CAPTURE_KEY);
     auto key = keyToken.FieldValue();
@@ -131,21 +136,13 @@ void SequenceZoneDefinitionMetaData::ProcessMatch(ZoneDefinitionParserState* sta
     utils::MakeStringLowerCase(key);
 
     if (key == METADATA_GAME)
-    {
         ProcessMetaDataGame(state, valueToken, value);
-    }
     else if (key == METADATA_GDT)
-    {
         state->m_definition->m_gdts.emplace_back(value);
-    }
     else if (key == METADATA_NAME)
-    {
         state->m_definition->m_name = value;
-    }
     else if (key == METADATA_TYPE)
-    {
         ProcessMetaDataType(state, keyToken, valueToken);
-    }
     else if (key == METADATA_IPAK)
     {
         if (!value.empty())
@@ -161,7 +158,5 @@ void SequenceZoneDefinitionMetaData::ProcessMatch(ZoneDefinitionParserState* sta
             throw ParsingException(valueToken.GetPos(), "IWD must have a name");
     }
     else
-    {
         state->m_definition->m_properties.AddProperty(key, value);
-    }
 }

@@ -1,6 +1,8 @@
 #include "XBlock.h"
 
-XBlock::XBlock(std::string name, const unsigned index, const XBlockType type)
+XBlock::XBlock(std::string name,
+              const unsigned index,
+              const XBlockType type)
     : m_name(std::move(name)),
       m_index(index),
       m_type(type),

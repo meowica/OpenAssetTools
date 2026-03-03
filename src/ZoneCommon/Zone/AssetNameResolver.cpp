@@ -13,6 +13,7 @@ AssetNameResolver::AssetNameResolver(const GameId gameId)
     {
         auto maybeAssetTypeName = game->GetAssetTypeName(assetType);
         assert(maybeAssetTypeName);
+
         if (!maybeAssetTypeName)
             continue;
 

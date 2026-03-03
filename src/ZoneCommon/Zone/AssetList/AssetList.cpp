@@ -6,7 +6,9 @@ AssetListEntry::AssetListEntry()
 {
 }
 
-AssetListEntry::AssetListEntry(const asset_type_t type, std::string name, const bool isReference)
+AssetListEntry::AssetListEntry(const asset_type_t type,
+                               std::string name,
+                               const bool isReference)
     : m_type(type),
       m_name(std::move(name)),
       m_is_reference(isReference)

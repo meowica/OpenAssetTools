@@ -15,6 +15,7 @@ std::string ZoneDefinitionLexer::ReadField()
     const auto startPos = m_current_line_offset - 1;
     const auto lineSize = currentLine.m_line.size();
     auto lastNonSpaceOffset = m_current_line_offset;
+
     while (m_current_line_offset < lineSize)
     {
         const auto c = currentLine.m_line[m_current_line_offset];

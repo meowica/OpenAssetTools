@@ -14,7 +14,8 @@ SequenceZoneDefinitionAssetList::SequenceZoneDefinitionAssetList()
     });
 }
 
-void SequenceZoneDefinitionAssetList::ProcessMatch(ZoneDefinitionParserState* state, SequenceResult<ZoneDefinitionParserValue>& result) const
+void SequenceZoneDefinitionAssetList::ProcessMatch(ZoneDefinitionParserState* state,
+                                                   SequenceResult<ZoneDefinitionParserValue>& result) const
 {
     if (state->m_definition->m_game == GameId::COUNT)
     {
@@ -31,5 +32,7 @@ void SequenceZoneDefinitionAssetList::ProcessMatch(ZoneDefinitionParserState* st
         throw ParsingException(assetListNameToken.GetPos(), "Failed to read asset list");
 
     for (auto& assetListEntry : maybeAssetList->m_entries)
-        state->m_definition->m_assets.emplace_back(assetListEntry.m_type, std::move(assetListEntry.m_name), assetListEntry.m_is_reference);
+        state->m_definition->m_assets.emplace_back(assetListEntry.m_type,
+                                                   std::move(assetListEntry.m_name),
+                                                   assetListEntry.m_is_reference);
 }

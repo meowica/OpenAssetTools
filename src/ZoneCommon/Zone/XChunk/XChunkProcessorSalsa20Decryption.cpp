@@ -15,8 +15,11 @@ XChunkProcessorSalsa20Decryption::XChunkProcessorSalsa20Decryption(const unsigne
 {
 }
 
-size_t XChunkProcessorSalsa20Decryption::Process(
-    const unsigned streamNumber, const uint8_t* input, const size_t inputLength, uint8_t* output, const size_t outputBufferSize)
+size_t XChunkProcessorSalsa20Decryption::Process(const unsigned streamNumber,
+                                                 const uint8_t* input,
+                                                 const size_t inputLength,
+                                                 uint8_t* output,
+                                                 const size_t outputBufferSize)
 {
     assert(streamNumber < m_stream_count);
     assert(input != nullptr);
@@ -42,9 +45,7 @@ size_t XChunkProcessorSalsa20Decryption::Process(
 
     // XOR the upcoming hash block with the hash of the XChunk utilizing the previous hash block
     for (unsigned int hashOffset = 0; hashOffset < sizeof(blockSha1Hash); hashOffset++)
-    {
         nextHashBlock[hashOffset] ^= blockSha1Hash[hashOffset];
-    }
 
     return inputLength;
 }
