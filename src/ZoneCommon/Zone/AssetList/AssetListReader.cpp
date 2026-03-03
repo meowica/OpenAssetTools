@@ -70,7 +70,8 @@ AssetListReader::AssetListReader(ISearchPath& searchPath, const GameId game)
 {
 }
 
-std::optional<AssetList> AssetListReader::ReadAssetList(const std::string& zoneName, const bool logMissing) const
+std::optional<AssetList> AssetListReader::ReadAssetList(const std::string& zoneName,
+                                                        const bool logMissing) const
 {
     const auto assetListFileName = std::format("assetlist/{}.csv", zoneName);
     const auto assetListStream = m_search_path.Open(assetListFileName);
@@ -83,9 +84,7 @@ std::optional<AssetList> AssetListReader::ReadAssetList(const std::string& zoneN
 
         bool failure;
         while (stream.NextEntry(entry, &failure))
-        {
             assetList.m_entries.emplace_back(std::move(entry));
-        }
 
         if (!failure)
             return assetList;

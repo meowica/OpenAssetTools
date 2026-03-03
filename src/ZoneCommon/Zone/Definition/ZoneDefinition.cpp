@@ -1,11 +1,16 @@
 #include "ZoneDefinition.h"
 
-ZoneDefinitionObjContainer::ZoneDefinitionObjContainer(std::string name, const ZoneDefinitionObjContainerType type, const unsigned start)
+ZoneDefinitionObjContainer::ZoneDefinitionObjContainer(std::string name,
+                                                       const ZoneDefinitionObjContainerType type,
+                                                       const unsigned start)
     : ZoneDefinitionObjContainer(std::move(name), type, start, 0u)
 {
 }
 
-ZoneDefinitionObjContainer::ZoneDefinitionObjContainer(std::string name, const ZoneDefinitionObjContainerType type, const unsigned start, const unsigned end)
+ZoneDefinitionObjContainer::ZoneDefinitionObjContainer(std::string name,
+                                                       const ZoneDefinitionObjContainerType type,
+                                                       const unsigned start,
+                                                       const unsigned end)
     : m_name(std::move(name)),
       m_type(type),
       m_asset_start(start),
@@ -13,7 +18,9 @@ ZoneDefinitionObjContainer::ZoneDefinitionObjContainer(std::string name, const Z
 {
 }
 
-ZoneDefinitionAsset::ZoneDefinitionAsset(const asset_type_t type, std::string name, const bool isReference)
+ZoneDefinitionAsset::ZoneDefinitionAsset(const asset_type_t type,
+                                         std::string name,
+                                         const bool isReference)
     : m_asset_type(type),
       m_asset_name(std::move(name)),
       m_is_reference(isReference)

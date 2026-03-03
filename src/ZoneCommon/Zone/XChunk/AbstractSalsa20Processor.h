@@ -31,8 +31,13 @@ protected:
     static constexpr auto SHA1_HASH_SIZE = 20u;
     static constexpr auto SALSA20_IV_SIZE = 8u;
 
-    AbstractSalsa20Processor(unsigned streamCount, const std::string& zoneName, const uint8_t* salsa20Key, size_t keySize);
-    void InitStreams(const std::string& zoneName, const uint8_t* salsa20Key, size_t keySize);
+    AbstractSalsa20Processor(unsigned streamCount,
+                             const std::string& zoneName,
+                             const uint8_t* salsa20Key,
+                             size_t keySize);
+    void InitStreams(const std::string& zoneName,
+                     const uint8_t* salsa20Key,
+                     size_t keySize);
 
     [[nodiscard]] uint8_t* GetHashBlock(unsigned streamNumber);
 

@@ -13,7 +13,8 @@ SequenceZoneDefinitionIgnore::SequenceZoneDefinitionIgnore()
     });
 }
 
-void SequenceZoneDefinitionIgnore::ProcessMatch(ZoneDefinitionParserState* state, SequenceResult<ZoneDefinitionParserValue>& result) const
+void SequenceZoneDefinitionIgnore::ProcessMatch(ZoneDefinitionParserState* state,
+                                                SequenceResult<ZoneDefinitionParserValue>& result) const
 {
     state->m_definition->m_ignores.emplace_back(result.NextCapture(CAPTURE_IGNORE_NAME).FieldValue());
 }

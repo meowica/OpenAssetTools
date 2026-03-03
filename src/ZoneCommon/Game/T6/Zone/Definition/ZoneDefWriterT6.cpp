@@ -22,7 +22,8 @@ namespace
         }
     };
 
-    const KeyValuePairKnownKey KEY_VALUE_PAIR_KNOWN_KEYS[]{
+    const KeyValuePairKnownKey KEY_VALUE_PAIR_KNOWN_KEYS[]
+    {
         KeyValuePairKnownKey("ipak_read"),
         KeyValuePairKnownKey("ipak_write"),
         KeyValuePairKnownKey("initial_xmodels"),

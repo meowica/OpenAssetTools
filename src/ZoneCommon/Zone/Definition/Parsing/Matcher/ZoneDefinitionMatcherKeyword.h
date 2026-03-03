@@ -11,7 +11,8 @@ class ZoneDefinitionMatcherKeyword final : public AbstractMatcher<ZoneDefinition
     std::string m_value;
 
 protected:
-    MatcherResult<ZoneDefinitionParserValue> CanMatch(ILexer<ZoneDefinitionParserValue>* lexer, unsigned tokenOffset) override;
+    MatcherResult<ZoneDefinitionParserValue> CanMatch(ILexer<ZoneDefinitionParserValue>* lexer,
+                                                      unsigned tokenOffset) override;
 
 public:
     explicit ZoneDefinitionMatcherKeyword(std::string value);

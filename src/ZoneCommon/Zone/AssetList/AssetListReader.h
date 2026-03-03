@@ -12,7 +12,8 @@ class AssetListReader
 public:
     AssetListReader(ISearchPath& searchPath, GameId game);
 
-    std::optional<AssetList> ReadAssetList(const std::string& zoneName, bool logMissing = true) const;
+    std::optional<AssetList> ReadAssetList(const std::string& zoneName,
+                                           bool logMissing = true) const;
 
 private:
     ISearchPath& m_search_path;

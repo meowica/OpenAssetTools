@@ -8,7 +8,8 @@ class SequenceZoneDefinitionMetaData final : public ZoneDefinitionParser::sequen
     static constexpr auto CAPTURE_VALUE = 2;
 
 protected:
-    void ProcessMatch(ZoneDefinitionParserState* state, SequenceResult<ZoneDefinitionParserValue>& result) const override;
+    void ProcessMatch(ZoneDefinitionParserState* state,
+                      SequenceResult<ZoneDefinitionParserValue>& result) const override;
 
 public:
     SequenceZoneDefinitionMetaData();

@@ -42,8 +42,11 @@ XChunkProcessorLzxDecompress::~XChunkProcessorLzxDecompress()
         lzx_teardown(static_cast<lzx_state*>(lzxState));
 }
 
-size_t XChunkProcessorLzxDecompress::Process(
-    const unsigned streamNumber, const uint8_t* input, const size_t inputLength, uint8_t* output, const size_t outputBufferSize)
+size_t XChunkProcessorLzxDecompress::Process(const unsigned streamNumber,
+                                             const uint8_t* input,
+                                             const size_t inputLength,
+                                             uint8_t* output,
+                                             const size_t outputBufferSize)
 {
     auto* state = static_cast<lzx_state*>(m_lzx_states[streamNumber]);
 

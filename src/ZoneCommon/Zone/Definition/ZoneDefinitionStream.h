@@ -13,7 +13,10 @@
 class ZoneDefinitionInputStream : public SearchPathMultiInputStream
 {
 public:
-    ZoneDefinitionInputStream(std::istream& stream, std::string targetName, std::string fileName, ISearchPath& searchPath);
+    ZoneDefinitionInputStream(std::istream& stream,
+                              std::string targetName,
+                              std::string fileName,
+                              ISearchPath& searchPath);
 
     void SetPreviouslySetGame(GameId game);
     std::unique_ptr<ZoneDefinition> ReadDefinition();

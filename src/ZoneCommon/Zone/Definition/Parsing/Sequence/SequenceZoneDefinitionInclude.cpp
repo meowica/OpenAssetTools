@@ -15,16 +15,17 @@ SequenceZoneDefinitionInclude::SequenceZoneDefinitionInclude()
     });
 }
 
-void SequenceZoneDefinitionInclude::ProcessMatch(ZoneDefinitionParserState* state, SequenceResult<ZoneDefinitionParserValue>& result) const
+void SequenceZoneDefinitionInclude::ProcessMatch(ZoneDefinitionParserState* state,
+                                                 SequenceResult<ZoneDefinitionParserValue>& result) const
 {
     const auto& inclusionNameToken = result.NextCapture(CAPTURE_INCLUDE_NAME);
     const auto inclusionName = inclusionNameToken.FieldValue();
+
     const auto existingInclusion = state->m_inclusions.find(inclusionName);
     if (existingInclusion != state->m_inclusions.end())
         throw ParsingException(inclusionNameToken.GetPos(), "Zone definition has already been included");
 
     const auto zoneDefinitionFileNameToInclude = std::format("{}.zone", inclusionName);
-
     if (!state->m_underlying_stream.IncludeFile(zoneDefinitionFileNameToInclude))
         throw ParsingException(inclusionNameToken.GetPos(), "Could not find zone definition with this filename");
 
