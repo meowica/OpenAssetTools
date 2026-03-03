@@ -1,7 +1,7 @@
 #include "MapEntsDumperT6.h"
 
 #include "Dumping/MapFile/MapFileDumper.h"
-#include "Maps/MapEntsCommon.h"
+#include "Bsp/BSPCommon.h"
 
 #include <format>
 
@@ -12,7 +12,7 @@ namespace map_ents
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetMapEnts::Type>& asset)
     {
         const auto* mapEnts = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(map_ents::GetFileNameForAssetName(asset.m_name));
+        const auto assetFile = context.OpenAssetFile(bsp_common::map_ents::GetFileNameForAssetName(asset.m_name));
 
         if (!assetFile)
             return;
