@@ -1,8 +1,8 @@
-#include "MapEntsCommon.h"
+#include "GameWorldCommon.h"
 
 #include <format>
 
-namespace map_ents
+namespace game_world
 {
     std::string GetFileNameForAssetName(const std::string& assetName)
     {
@@ -12,6 +12,6 @@ namespace map_ents
         if (name.ends_with(suffix))
             name.erase(name.size() - suffix.size());
 
-        return std::format("{}.mapents", name);
+        return std::format("{}.paths", name);
     }
-} // namespace map_ents
+} // namespace game_world

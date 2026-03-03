@@ -11,6 +11,8 @@
 #include "Maps/AddonMapEntsDumperT6.h"
 #include "LightDef/LightDefDumperT6.h"
 #include "Maps/AddonMapEntsDumperT6.h"
+#include "Maps/GameWorldMpDumperT6.h"
+#include "Maps/GameWorldSpDumperT6.h"
 #include "Maps/MapEntsDumperT6.h"
 #include "Menu/MenuListDumperT6.h"
 #include "Menu/MenuDumperT6.h"
@@ -55,8 +57,8 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     // REGISTER_DUMPER(AssetDumperSndPatch, m_sound_patch)
     // REGISTER_DUMPER(AssetDumperClipMap, m_clip_map)
     // REGISTER_DUMPER(AssetDumperComWorld, m_com_world)
-    // REGISTER_DUMPER(AssetDumperGameWorldSp, m_game_world_sp)
-    // REGISTER_DUMPER(AssetDumperGameWorldMp, m_game_world_mp)
+    RegisterAssetDumper(std::make_unique<game_world_sp::DumperT6>());
+    RegisterAssetDumper(std::make_unique<game_world_mp::DumperT6>());
     RegisterAssetDumper(std::make_unique<map_ents::DumperT6>());
     // REGISTER_DUMPER(AssetDumperGfxWorld, m_gfx_world)
     RegisterAssetDumper(light_def::CreateDumperT6());
