@@ -19,7 +19,6 @@
 
 using namespace T6;
 
-
 namespace
 {
     std::string GetFileNameForLod(const std::string& modelName, const unsigned lod, const std::string& extension)

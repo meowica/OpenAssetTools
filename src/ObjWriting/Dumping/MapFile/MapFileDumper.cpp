@@ -3,7 +3,9 @@
 #include <cassert>
 #include <iomanip>
 
-MapFileDumper::Vec3::Vec3(const float x, const float y, const float z)
+MapFileDumper::Vec3::Vec3(const float x,
+                          const float y,
+                          const float z)
     : v{}
 {
     m_x = x;
@@ -16,14 +18,21 @@ MapFileDumper::Vec3::Vec3(float v[3])
 {
 }
 
-MapFileDumper::PhysicsBox::PhysicsBox(const Vec3 middlePoint, const Vec3 halfSize, const Vec3 orientationX, const Vec3 orientationY, const Vec3 orientationZ)
+MapFileDumper::PhysicsBox::PhysicsBox(const Vec3 middlePoint,
+                                      const Vec3 halfSize,
+                                      const Vec3 orientationX,
+                                      const Vec3 orientationY,
+                                      const Vec3 orientationZ)
     : m_middle_point(middlePoint),
       m_half_size(halfSize),
       m_orientation{orientationX, orientationY, orientationZ}
 {
 }
 
-MapFileDumper::PhysicsCylinder::PhysicsCylinder(const Vec3 middlePoint, const float radius, const float height, const Vec3 orientation)
+MapFileDumper::PhysicsCylinder::PhysicsCylinder(const Vec3 middlePoint,
+                                                const float radius,
+                                                const float height,
+                                                const Vec3 orientation)
     : m_middle_point(middlePoint),
       m_radius(radius),
       m_height(height),
@@ -42,7 +51,7 @@ MapFileDumper::MapFileDumper(std::ostream& stream)
 void MapFileDumper::Init() const
 {
     m_stream << "iwmap 4\n";
-    m_stream << "\"000_Global\" flags active\n";
+    m_stream << "\"000_Global\" flags  active\n";
     m_stream << "\"The Map\" flags\n";
 }
 
@@ -115,7 +124,6 @@ void MapFileDumper::WriteKeyValue(const std::string& key, const std::string& val
 {
     assert(m_flags.m_in_brush || m_flags.m_in_entity);
 
-    Indent();
     m_stream << "\"" << key << "\" \"" << value << "\"\n";
 }
 

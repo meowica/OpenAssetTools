@@ -1,5 +1,6 @@
 #include "GameWorldMpDumperT6.h"
 
+#include "Dumping/MapFile/MapFileDumper.h"
 #include "Bsp/BSPCommon.h"
 
 #include <format>
@@ -10,15 +11,18 @@ namespace game_world_mp
 {
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetGameWorldMp::Type>& asset)
     {
-        const auto* gameWorldMp = asset.Asset();
+        const auto* gameWorld = asset.Asset();
         const auto assetFile = context.OpenAssetFile(bsp_common::game_world::GetFileNameForAssetName(asset.m_name));
 
         if (!assetFile)
             return;
 
+        MapFileDumper mapFileDumper(*assetFile);
+        mapFileDumper.Init();
+
         auto& stream = *assetFile;
 
-        auto& path = gameWorldMp->path;
+        auto& path = gameWorld->path;
 
         for (unsigned int i = 0; i < path.nodeCount; ++i)
         {
@@ -26,10 +30,12 @@ namespace game_world_mp
             const auto& origin = node.constant.vOrigin;
             const auto* classname = bsp_common::game_world::GetNodeType(node.constant.type);
 
-            stream << "{\n";
-            stream << "\"origin\" \"" << origin.x << " " << origin.y << " " << origin.z << "\"\n";
-            stream << "\"classname\" \"" << classname << "\"\n";
-            stream << "}\n";
+            mapFileDumper.BeginEntity();
+
+            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", origin.x, origin.y, origin.z));
+            mapFileDumper.WriteKeyValue("classname", classname);
+
+            mapFileDumper.EndEntity();
         }
     }
 } // namespace game_world_mp

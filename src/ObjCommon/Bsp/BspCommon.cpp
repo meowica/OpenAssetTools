@@ -113,7 +113,7 @@ namespace bsp_common
             if (name.ends_with(suffix))
                 name.erase(name.size() - suffix.size());
 
-            return std::format("{}.paths", name);
+            return std::format("{}_paths.map", name);
         }
     } // game_world
 
