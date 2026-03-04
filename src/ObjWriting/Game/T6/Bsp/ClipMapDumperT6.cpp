@@ -1,34 +1,47 @@
 #include "ClipMapDumperT6.h"
 
+#include "Dumping/MapFile/MapFileDumper.h"
 #include "Bsp/BSPCommon.h"
 
 #include <format>
 
 using namespace T6;
 
-namespace clip_map
+namespace
 {
-    void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetClipMapPvs::Type>& asset)
+    void DumpStaticModels(AssetDumpingContext& context, const XAssetInfo<AssetClipMapPvs::Type>& asset)
     {
-        const auto* clipMap = asset.Asset();
+        const auto* cm = asset.Asset();
         const auto assetFile = context.OpenAssetFile(bsp_common::clip_map::GetFileNameForStaticModels(asset.m_name));
 
         if (!assetFile)
             return;
 
+        MapFileDumper mapFileDumper(*assetFile);
+        mapFileDumper.Init();
+
         auto& stream = *assetFile;
 
-        for (unsigned int i = 0; i < clipMap->numStaticModels; ++i)
+        for (unsigned int i = 0; i < cm->numStaticModels; ++i)
         {
-            const auto& model = clipMap->staticModelList[i];
+            const auto& smodel = cm->staticModelList[i];
+            const auto& origin = smodel.origin;
 
-            const auto& org = model.origin;
+            mapFileDumper.BeginEntity();
 
-            stream << "{\n";
-            stream << "\"model\" \"" << model.xmodel->name << "\"\n";
-            stream << "\"origin\" \"" << org.x << " " << org.y << " " << org.z << "\"\n";
-            stream << "\"classname\" \"misc_model\"\n";
-            stream << "}\n";
+            mapFileDumper.WriteKeyValue("model", smodel.xmodel->name);
+            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", origin.x, origin.y, origin.z));
+            mapFileDumper.WriteKeyValue("classname", "misc_model");
+
+            mapFileDumper.EndEntity();
         }
+    }
+} // namespace
+
+namespace clip_map
+{
+    void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetClipMapPvs::Type>& asset)
+    {
+        DumpStaticModels(context, asset);
     }
 } // namespace clip_map
