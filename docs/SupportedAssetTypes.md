@@ -7,8 +7,6 @@ The following section specify which assets are supported to be dumped to disk (u
 - ✅ = Supported
 - ⁉️ = Partial support
 
-## T6 (Call of Duty: Black Ops II)
-
 | Asset Type             | Dumping Support | Loading Support | Notes                                                                                                                                                          |
 | ---------------------- | --------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | PhysPreset             | ✅              | ✅              |                                                                                                                                                                |
