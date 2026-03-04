@@ -14,7 +14,6 @@
 #include "Image/ImageDumperT6.h"
 #include "Leaderboard/LeaderboardJsonDumperT6.h"
 #include "Localize/LocalizeDumperT6.h"
-#include "Maps/AddonMapEntsDumperT6.h"
 #include "LightDef/LightDefDumperT6.h"
 #include "Menu/MenuListDumperT6.h"
 #include "Menu/MenuDumperT6.h"
