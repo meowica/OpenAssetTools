@@ -59,7 +59,7 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     RegisterAssetDumper(std::make_unique<sound::SndBankDumperT6>());
     // REGISTER_DUMPER(AssetDumperSndPatch, m_sound_patch)
     //* RegisterAssetDumper(std::make_unique<clip_map::DumperT6>()); // ASSET_TYPE_CLIPMAP
-    RegisterAssetDumper(std::make_unique<clip_map::DumperT6>()); // // ASSET_TYPE_CLIPMAP_PBS
+    RegisterAssetDumper(std::make_unique<clip_map::DumperT6>()); // // ASSET_TYPE_CLIPMAP_PVS
     RegisterAssetDumper(std::make_unique<com_world::DumperT6>());
     RegisterAssetDumper(std::make_unique<game_world_sp::DumperT6>());
     RegisterAssetDumper(std::make_unique<game_world_mp::DumperT6>());
