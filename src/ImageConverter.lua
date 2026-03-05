@@ -33,7 +33,8 @@ function ImageConverter:project()
 		
 		files {
 			path.join(folder, "ImageConverter/**.h"), 
-			path.join(folder, "ImageConverter/**.cpp") 
+			path.join(folder, "ImageConverter/**.cpp"), 
+			path.join(folder, "ImageConverter/**.rc") 
 		}
 		
 		self:include(includes)
