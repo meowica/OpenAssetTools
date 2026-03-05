@@ -20,7 +20,7 @@ namespace
         "image",
         "sound",
         "sound_patch",
-        "col_map_sp", // is this correct?
+        "col_map_sp",
         "col_map_mp",
         "com_map",
         "game_map_sp",

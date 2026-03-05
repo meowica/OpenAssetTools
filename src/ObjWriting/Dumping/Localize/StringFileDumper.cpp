@@ -45,9 +45,7 @@ void StringFileDumper::WriteReference(const std::string& reference) const
     if (reference.find_first_not_of(utils::LETTERS_AL_NUM_UNDERSCORE) != std::string::npos)
     {
         m_stream << "REFERENCE           \"";
-
         utils::EscapeStringForQuotationMarks(m_stream, reference);
-
         m_stream << "\"\n";
     }
     else

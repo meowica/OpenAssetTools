@@ -10,7 +10,8 @@ namespace T6
 
     CommonAssetType CommonAssetTypeMapper::GameToCommonAssetType(const asset_type_t gameAssetType) const
     {
-        static CommonAssetType lookupTable[static_cast<unsigned>(ASSET_TYPE_COUNT)]{
+        static CommonAssetType lookupTable[static_cast<unsigned>(ASSET_TYPE_COUNT)]
+        {
             CommonAssetType::XMODEL_PIECES,        // ASSET_TYPE_XMODELPIECES
             CommonAssetType::PHYS_PRESET,          // ASSET_TYPE_PHYSPRESET
             CommonAssetType::PHYS_CONSTRAINTS,     // ASSET_TYPE_PHYSCONSTRAINTS

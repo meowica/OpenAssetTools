@@ -32,12 +32,6 @@ protected:
     std::unordered_map<unsigned, std::string> m_texture_def_names_from_shaders;
 };
 
-class AbstractMaterialConstantZoneStateDx9 : public AbstractMaterialConstantZoneState
-{
-protected:
-    void ExtractNamesFromShader(const void* shader, size_t shaderSize) override;
-};
-
 class AbstractMaterialConstantZoneStateDx11 : public AbstractMaterialConstantZoneState
 {
 protected:

@@ -34,7 +34,6 @@ namespace menu
         void StartScope(const std::string& scopeName);
         void StartMenuDefScope();
         void StartItemDefScope();
-        void StartFunctionDefScope();
         void EndScope();
 
         static std::vector<std::string> CreateScriptTokenList(const char* script);

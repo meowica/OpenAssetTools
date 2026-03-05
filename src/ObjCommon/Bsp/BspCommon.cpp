@@ -144,4 +144,18 @@ namespace bsp_common
             return std::format("{}_reflection_probes.map", name);
         }
     } // namespace map_ents
+
+    namespace addon_map_ents
+    {
+        std::string GetFileNameForAssetName(const std::string& assetName)
+        {
+            std::string name = assetName;
+            std::string suffix = ".d3dbsp";
+
+            if (name.ends_with(suffix))
+                name.erase(name.size() - suffix.size());
+
+            return std::format("{}", name);
+        }
+    } // namespace addon_map_ents
 } // namespace bsp_common

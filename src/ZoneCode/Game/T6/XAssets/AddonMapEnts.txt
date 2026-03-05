@@ -9,8 +9,8 @@ set reusable info;
 set count cmodels numSubModels;
 set count models numSubModels;
 
-// cmodel_t2
-set reusable cmodel_t2::info;
+// cmodel_t
+set reusable cmodel_t::info;
 
 // MapTriggers: See MapEnts
 // ClipInfo: See clipMap_t
