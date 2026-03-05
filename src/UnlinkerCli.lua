@@ -34,7 +34,8 @@ function UnlinkerCli:project()
 		
 		files {
 			path.join(folder, "UnlinkerCli/**.h"), 
-			path.join(folder, "UnlinkerCli/**.cpp") 
+			path.join(folder, "UnlinkerCli/**.cpp"), 
+			path.join(folder, "UnlinkerCli/**.rc") 
 		}
 		
 		self:include(includes)

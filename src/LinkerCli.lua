@@ -34,7 +34,8 @@ function LinkerCli:project()
 		
 		files {
 			path.join(folder, "LinkerCli/**.h"), 
-			path.join(folder, "LinkerCli/**.cpp") 
+			path.join(folder, "LinkerCli/**.cpp"), 
+			path.join(folder, "LinkerCli/**.rc") 
 		}
 		
 		self:include(includes)
