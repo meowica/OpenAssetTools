@@ -2,7 +2,6 @@
 
 #include "Dumping/AbstractTextDumper.h"
 #include "Shader/D3D11ShaderAnalyser.h"
-#include "Shader/D3D9ShaderAnalyser.h"
 #include "Techset/TechsetCommon.h"
 #include "Utils/Logging/Log.h"
 
@@ -136,10 +135,10 @@ namespace
                 if (!shaderInfo)
                     return;
 
-                versionMajor = shaderInfo->m_version_major;
-                versionMinor = shaderInfo->m_version_minor;
+            versionMajor = shaderInfo->m_version_major;
+            versionMinor = shaderInfo->m_version_minor;
 
-                DumpShaderHeader(shader, shaderType, versionMajor, versionMinor);
+            DumpShaderHeader(shader, shaderType, versionMajor, versionMinor);
 
                 for (const auto& arg : pass.m_args)
                 {

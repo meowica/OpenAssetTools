@@ -2,7 +2,6 @@
 
 #include "ObjWriting.h"
 #include "Shader/D3D11ShaderAnalyser.h"
-#include "Shader/D3D9ShaderAnalyser.h"
 #include "Utils/Logging/Log.h"
 
 #include <chrono>
@@ -96,32 +95,6 @@ bool AbstractMaterialConstantZoneState::AddTextureDefName(const std::string& tex
 
     m_texture_def_names_from_shaders.emplace(hash, textureDefName);
     return true;
-}
-
-void AbstractMaterialConstantZoneStateDx9::ExtractNamesFromShader(const void* shader, const size_t shaderSize)
-{
-    const auto shaderInfo = d3d9::ShaderAnalyser::GetShaderInfo(shader, shaderSize);
-    if (!shaderInfo)
-        return;
-
-    for (const auto& constant : shaderInfo->m_constants)
-    {
-        if (constant.m_register_set == d3d9::RegisterSet::SAMPLER)
-        {
-            if (AddTextureDefName(constant.m_name))
-            {
-                const auto samplerPos = constant.m_name.rfind(SAMPLER_STR);
-                if (samplerPos != std::string::npos)
-                {
-                    auto nameWithoutSamplerStr = constant.m_name;
-                    nameWithoutSamplerStr.erase(samplerPos, std::char_traits<char>::length(SAMPLER_STR));
-                    AddTextureDefName(nameWithoutSamplerStr);
-                }
-            }
-        }
-        else
-            AddConstantName(constant.m_name);
-    }
 }
 
 void AbstractMaterialConstantZoneStateDx11::ExtractNamesFromShader(const void* shader, const size_t shaderSize)

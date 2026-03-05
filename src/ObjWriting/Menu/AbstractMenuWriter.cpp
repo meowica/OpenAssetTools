@@ -51,11 +51,6 @@ namespace menu
         StartScope("itemDef");
     }
 
-    void AbstractBaseWriter::StartFunctionDefScope()
-    {
-        StartScope("functionDef");
-    }
-
     void AbstractBaseWriter::EndScope()
     {
         DecIndent();

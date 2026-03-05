@@ -34,8 +34,7 @@ enum class GameWordSize : std::uint8_t
 enum class GamePlatform : std::uint8_t
 {
     PC,
-    XBOX,
-    PS3
+    XBOX
 };
 
 static constexpr const char* GameId_Names[]

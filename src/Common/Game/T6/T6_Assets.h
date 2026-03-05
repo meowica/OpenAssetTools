@@ -2542,15 +2542,6 @@ namespace T6
         MemoryBlockData data;
     };
 
-    struct cmodel_t2
-    {
-        vec3_t mins;
-        vec3_t maxs;
-        float radius;
-        ClipInfo* info;
-        cLeaf_s leaf;
-    };
-
     struct AddonMapEnts
     {
         const char* name;
@@ -2559,7 +2550,7 @@ namespace T6
         MapTriggers trigger;
         ClipInfo* info;
         unsigned int numSubModels;
-        cmodel_t2* cmodels;
+        cmodel_t* cmodels;
         GfxBrushModel* models;
     };
 
