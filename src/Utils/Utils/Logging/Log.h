@@ -16,13 +16,6 @@ namespace con
         ERROR
     };
 
-    enum class Colour
-    {
-        Default,
-        Yellow,
-        Red
-    };
-
     extern LogLevel _globalLogLevel;
     extern std::atomic_size_t _warningCount;
     extern std::atomic_size_t _errorCount;
@@ -37,30 +30,17 @@ namespace con
 
     void _debug_internal(const std::string& str);
     void _info_internal(const std::string& str);
+    void _debug_info_internal(const std::string& str);
     void _warn_internal(const std::string& str);
+    void _debug_warn_internal(const std::string& str);
     void _error_internal(const std::string& str);
-
-    void info_colored(Colour colour, const std::string& text);
+    void _debug_error_internal(const std::string& str);
 
     std::uint32_t get_warning_count();
     std::uint32_t get_error_count();
 
     const std::vector<std::string>& warnings();
     const std::vector<std::string>& errors();
-
-    inline void debug(const std::string& str)
-    {
-        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
-            return;
-        _debug_internal(str);
-    }
-
-    template<class Arg0, class... OtherArgs> void debug(std::format_string<Arg0, OtherArgs...> fmt, Arg0&& arg0, OtherArgs&&... otherArgs)
-    {
-        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
-            return;
-        _debug_internal(std::vformat(fmt.get(), std::make_format_args(arg0, otherArgs...)));
-    }
 
     inline void info(const std::string& str)
     {
@@ -74,6 +54,20 @@ namespace con
         if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::INFO))
             return;
         _info_internal(std::vformat(fmt.get(), std::make_format_args(arg0, otherArgs...)));
+    }
+
+    inline void debug_info(const std::string& str)
+    {
+        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
+            return;
+        _debug_info_internal(str);
+    }
+
+    template<class Arg0, class... OtherArgs> void debug_info(std::format_string<Arg0, OtherArgs...> fmt, Arg0&& arg0, OtherArgs&&... otherArgs)
+    {
+        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
+            return;
+        _debug_info_internal(std::vformat(fmt.get(), std::make_format_args(arg0, otherArgs...)));
     }
 
     inline void warn(const std::string& str)
@@ -92,6 +86,20 @@ namespace con
         _warn_internal(std::vformat(fmt.get(), std::make_format_args(arg0, otherArgs...)));
     }
 
+    inline void debug_warn(const std::string& str)
+    {
+        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
+            return;
+        _debug_warn_internal(str);
+    }
+
+    template<class Arg0, class... OtherArgs> void debug_warn(std::format_string<Arg0, OtherArgs...> fmt, Arg0&& arg0, OtherArgs&&... otherArgs)
+    {
+        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
+            return;
+        _debug_warn_internal(std::vformat(fmt.get(), std::make_format_args(arg0, otherArgs...)));
+    }
+
     inline void error(const std::string& str)
     {
         ++_errorCount;
@@ -102,5 +110,19 @@ namespace con
     {
         ++_errorCount;
         _error_internal(std::vformat(fmt.get(), std::make_format_args(arg0, otherArgs...)));
+    }
+
+    inline void debug_error(const std::string& str)
+    {
+        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
+            return;
+        _debug_error_internal(str);
+    }
+
+    template<class Arg0, class... OtherArgs> void debug_error(std::format_string<Arg0, OtherArgs...> fmt, Arg0&& arg0, OtherArgs&&... otherArgs)
+    {
+        if (static_cast<unsigned>(_globalLogLevel) > static_cast<unsigned>(LogLevel::DEBUG))
+            return;
+        _debug_error_internal(std::vformat(fmt.get(), std::make_format_args(arg0, otherArgs...)));
     }
 } // namespace con

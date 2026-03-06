@@ -175,4 +175,56 @@ namespace con
     {
         return g_errors;
     }
+
+    void _info_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cout << std::format("\x1B[37m{}\x1B[0m\n", str);
+        else
+            std::cout << std::format("{}\n", str);
+    }
+
+    void _debug_info_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cout << std::format("\x1B[90m{}\x1B[0m\n", str);
+        else
+            std::cout << std::format("{}\n", str);
+    }
+
+    void _warn_internal(const std::string& str)
+    {
+        g_warnings.emplace_back(str);
+
+        if (globalUseColor)
+            std::cout << std::format("\x1B[33mWARN: {}\x1B[0m\n", str);
+        else
+            std::cout << std::format("WARN: {}\n", str);
+    }
+
+    void _debug_warn_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cout << std::format("\x1B[33m{}\x1B[0m\n", str);
+        else
+            std::cout << std::format("{}\n", str);
+    }
+
+    void _error_internal(const std::string& str)
+    {
+        g_errors.emplace_back(str);
+
+        if (globalUseColor)
+            std::cerr << std::format("\x1B[31mERROR: {}\x1B[0m\n", str);
+        else
+            std::cerr << std::format("ERROR: {}\n", str);
+    }
+
+    void _debug_error_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cerr << std::format("\x1B[31m{}\x1B[0m\n", str);
+        else
+            std::cerr << std::format("{}\n", str);
+    }
 } // namespace con

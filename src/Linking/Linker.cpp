@@ -166,8 +166,8 @@ namespace
 
             if (!LoadZones())
             {
-                if (m_args.m_show_summary || m_args.m_verbose_mode)
-                    ShowLinkerSummary(false);
+                if (m_args.m_show_summary && m_args.m_verbose_mode)
+                    ShowLinkerSummary();
                 return false;
             }
 
@@ -191,39 +191,50 @@ namespace
 
             UnloadZones();
 
-            Summarize(result);
-
+            if (m_args.m_show_summary && m_args.m_verbose_mode)
+                ShowLinkerSummary();
             return result;
         }
 
     private:
-        void ShowLinkerSummary(bool success) const
+        void ShowLinkerSummary() const
         {
-            const int warningCount = con::get_warning_count();
-            const int errorCount = con::get_error_count();
+            const auto warningCount = con::get_warning_count();
+            const auto errorCount = con::get_error_count();
 
-            con::info("\n=====================================");
-            con::info("Linker Summary:");
+            con::debug_info("\n=====================================");
+            con::debug_info("Linker Summary:");
 
             if (warningCount == 0 && errorCount == 0)
             {
-                con::info("\nThere were no errors or warnings.");
-                con::info("=====================================");
+                con::debug_info("\nThere were no errors or warnings.");
+                con::debug_info("=====================================");
                 return;
             }
 
-            const char* warningText = warningCount == 1 ? "warning" : "warnings";
-            const char* errorText   = errorCount == 1   ? "error"   : "errors";
-            const char* wasOrWere   = warningCount == 1 ? "was"     : "were";
-
-            con::info(std::format("\nThere {} {} {} and {} {}.", wasOrWere, warningCount, warningText, errorCount, errorText));
+            if (warningCount > 0 && errorCount > 0)
+            {
+                const char* warningText = warningCount == 1 ? "warning" : "warnings";
+                const char* errorText = errorCount == 1 ? "error" : "errors";
+                con::debug_info(std::format("\nThere were {} {} and {} {}.", warningCount, warningText, errorCount, errorText));
+            }
+            else if (warningCount > 0)
+            {
+                const char* warningText = warningCount == 1 ? "warning" : "warnings";
+                con::debug_info(std::format("\nThere {} {} {}.", warningCount == 1 ? "was" : "were", warningCount, warningText));
+            }
+            else if (errorCount > 0)
+            {
+                const char* errorText = errorCount == 1 ? "error" : "errors";
+                con::debug_info(std::format("\nThere {} {} {}.", errorCount == 1 ? "was" : "were", errorCount, errorText));
+            }
 
             if (warningCount > 0)
             {
                 con::info("\nWarnings:");
 
                 for (const auto& msg : con::warnings())
-                    con::info_colored(con::Colour::Yellow, std::format("  {}", msg));
+                    con::debug_warn(std::format("  {}", msg));
             }
 
             if (errorCount > 0)
@@ -231,14 +242,14 @@ namespace
                 con::info("\nErrors:");
 
                 for (const auto& msg : con::errors())
-                    con::info_colored(con::Colour::Red, std::format("  {}", msg));
+                    con::debug_error(std::format("  {}", msg));
             }
 
             const auto& args = m_args.m_raw_arguments;
 
             if (args.size() > 1)
             {
-                con::info("\nArguments passed to linker:");
+                con::debug_info("\nArguments passed to linker:");
 
                 for (size_t i = 1; i < args.size(); ++i)
                 {
@@ -246,17 +257,17 @@ namespace
 
                     if ((arg.starts_with("-") || arg.starts_with("--")) && i + 1 < args.size() && !args[i + 1].starts_with("-"))
                     {
-                        con::info(std::format("  {} {}", arg, args[i + 1]));
+                        con::debug_info(std::format("  {} {}", arg, args[i + 1]));
                         ++i;
                     }
                     else
-                        con::info(std::format("  {}", arg));
+                        con::debug_info(std::format("  {}", arg));
                 }
             }
             else
-                con::info("No arguments were passed to linker.\n");
+                con::debug_info("No arguments were passed to linker.\n");
 
-            con::info("\n=====================================\n");
+            con::debug_info("\n=====================================\n");
         }
 
         std::unique_ptr<ZoneDefinition> ReadZoneDefinition(LinkerPathManager& paths, const std::string& targetName, bool logMissing = true) const
@@ -476,7 +487,7 @@ namespace
 
                 auto zone = std::move(*maybeZone);
 
-                con::debug("Loaded zone \"{}\"", zone->m_name);
+                con::debug_info("Loaded zone \"{}\"", zone->m_name);
 
                 m_loaded_zones.emplace_back(std::move(zone));
             }
@@ -493,7 +504,7 @@ namespace
 
                 loadedZone.reset();
 
-                con::debug("Unloaded zone \"{}\"", zoneName);
+                con::debug_info("Unloaded zone \"{}\"", zoneName);
             }
             m_loaded_zones.clear();
         }

@@ -63,7 +63,7 @@ namespace
 
                             zipCloseFileInZip(zipFile);
 
-                            con::debug("Added {} to iwd {}", normalizedPath, iwdName);
+                            con::debug_info("Added {} to iwd {}", normalizedPath, iwdName);
                         });
     }
 } // namespace
@@ -135,7 +135,7 @@ void IwdToCreate::Build(ISearchPath& searchPath, IOutputPath& outPath)
         zipCloseFileInZip(zipFile);
 
         const auto fileName = fs::path(filePath).filename().string();
-        con::debug("Added \"{}\" to iwd", fileName);
+        con::debug_info("Added \"{}\" to iwd", fileName);
     }
 
     AddCustomUserInclusions(searchPath, zipFile, m_name);

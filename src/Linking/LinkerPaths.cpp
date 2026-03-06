@@ -247,7 +247,7 @@ namespace
 
             existingSearchPaths.emplace(path);
 
-            con::debug("Adding {} search path: {}", m_type_name, path);
+            con::debug_info("Adding {} search path: {}", m_type_name, path);
 
             if (!fs::is_directory(path))
             {

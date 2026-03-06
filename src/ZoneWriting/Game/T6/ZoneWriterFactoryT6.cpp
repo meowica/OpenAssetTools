@@ -100,7 +100,7 @@ std::unique_ptr<ZoneWriter> ZoneWriterFactory::CreateWriter(const Zone& zone) co
 {
     auto writer = std::make_unique<ZoneWriter>();
 
-    // TODO Support signed fastfiles
+    // TODO: Support signed fast files
     bool isSecure = false;
     bool isEncrypted = true;
 

@@ -74,7 +74,7 @@ void HeaderFileReader::SetupPostProcessors()
 
 bool HeaderFileReader::ReadHeaderFile(IDataRepository* repository)
 {
-    con::debug("Reading header file: {}", m_filename);
+    con::debug_info("Reading header file: {}", m_filename);
 
     if (!OpenBaseStream())
         return false;
@@ -90,7 +90,7 @@ bool HeaderFileReader::ReadHeaderFile(IDataRepository* repository)
         result = parser->SaveToRepository(repository);
     const auto end = std::chrono::steady_clock::now();
 
-    con::debug("Processing header took {}ms", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+    con::debug_info("Processing header took {}ms", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 
     if (!result)
         return false;

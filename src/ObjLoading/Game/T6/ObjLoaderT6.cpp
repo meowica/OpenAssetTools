@@ -70,12 +70,12 @@ namespace T6
 
     SoundBank* ObjLoader::LoadSoundBankForZone(ISearchPath& searchPath, const std::string& soundBankFileName, Zone& zone)
     {
-        con::debug("Trying to load sound bank '{}' for zone '{}'", soundBankFileName, zone.m_name);
+        con::debug_info("Trying to load sound bank '{}' for zone '{}'", soundBankFileName, zone.m_name);
 
         auto* existingSoundBank = SoundBank::Repository.GetContainerByName(soundBankFileName);
         if (existingSoundBank != nullptr)
         {
-            con::debug("Referencing loaded sound bank '{}'.", soundBankFileName);
+            con::debug_info("Referencing loaded sound bank '{}'.", soundBankFileName);
 
             SoundBank::Repository.AddContainerReference(existingSoundBank, &zone);
             return existingSoundBank;
@@ -95,7 +95,7 @@ namespace T6
 
             SoundBank::Repository.AddContainer(std::move(sndBank), &zone);
 
-            con::debug("Found and loaded sound bank '{}'", soundBankFileName);
+            con::debug_info("Found and loaded sound bank '{}'", soundBankFileName);
 
             return sndBankPtr;
         }
@@ -168,12 +168,12 @@ namespace T6
 
     void ObjLoader::LoadIPakForZone(ISearchPath& searchPath, const std::string& ipakName, Zone& zone)
     {
-        con::debug("Trying to load ipak '{}' for zone '{}'", ipakName, zone.m_name);
+        con::debug_info("Trying to load ipak '{}' for zone '{}'", ipakName, zone.m_name);
 
         auto* existingIPak = IIPak::Repository.GetContainerByName(ipakName);
         if (existingIPak != nullptr)
         {
-            con::debug("Referencing loaded ipak '{}'.", ipakName);
+            con::debug_info("Referencing loaded ipak '{}'.", ipakName);
 
             IIPak::Repository.AddContainerReference(existingIPak, &zone);
             return;
@@ -190,7 +190,7 @@ namespace T6
             {
                 IIPak::Repository.AddContainer(std::move(ipak), &zone);
 
-                con::debug("Found and loaded ipak '{}'.", ipakFilename);
+                con::debug_info("Found and loaded ipak '{}'.", ipakFilename);
             }
             else
             {
@@ -211,7 +211,7 @@ namespace T6
 
     void ObjLoader::LoadCommonIPaks(ISearchPath& searchPath, Zone& zone)
     {
-        con::debug("Loading common ipaks for zone \"{}\"", zone.m_name);
+        con::debug_info("Loading common ipaks for zone \"{}\"", zone.m_name);
 
         LoadIPakForZone(searchPath, "base", zone);
         const auto& languagePrefixes = IGame::GetGameById(GameId::T6)->GetLanguagePrefixes();
@@ -220,20 +220,20 @@ namespace T6
 
         if (IsMpZone(zone))
         {
-            con::debug("Loading multiplayer ipaks for zone \"{}\"", zone.m_name);
+            con::debug_info("Loading multiplayer ipaks for zone \"{}\"", zone.m_name);
 
             LoadIPakForZone(searchPath, "mp", zone);
             LoadIPakForZone(searchPath, "so", zone);
         }
         else if (IsZmZone(zone))
         {
-            con::debug("Loading zombie ipak for zone \"{}\"", zone.m_name);
+            con::debug_info("Loading zombie ipak for zone \"{}\"", zone.m_name);
 
             LoadIPakForZone(searchPath, "zm", zone);
         }
         else
         {
-            con::debug("Loading singleplayer ipak for zone \"{}\"", zone.m_name);
+            con::debug_info("Loading singleplayer ipak for zone \"{}\"", zone.m_name);
 
             LoadIPakForZone(searchPath, "sp", zone);
         }

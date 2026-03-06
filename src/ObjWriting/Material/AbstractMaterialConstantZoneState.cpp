@@ -25,7 +25,7 @@ void AbstractMaterialConstantZoneState::EnsureInitialized()
     if (m_initialized)
         return;
 
-    con::debug("Building material constant name lookup...");
+    con::debug_info("Building material constant name lookup...");
 
     const auto begin = std::chrono::high_resolution_clock::now();
 
@@ -36,7 +36,7 @@ void AbstractMaterialConstantZoneState::EnsureInitialized()
     const auto end = std::chrono::high_resolution_clock::now();
 
     const auto durationInMs = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
-    con::debug("Built material constant name lookup in {}ms: {} constant names; {} texture def names",
+    con::debug_info("Built material constant name lookup in {}ms: {} constant names; {} texture def names",
                durationInMs.count(),
                m_constant_names_from_shaders.size(),
                m_texture_def_names_from_shaders.size());
