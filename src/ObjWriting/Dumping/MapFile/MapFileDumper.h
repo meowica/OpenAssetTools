@@ -22,25 +22,6 @@ public:
         explicit Vec3(float v[3]);
     };
 
-    struct PhysicsBox
-    {
-        Vec3 m_middle_point;
-        Vec3 m_half_size;
-        Vec3 m_orientation[3];
-
-        PhysicsBox(Vec3 middlePoint, Vec3 halfSize, Vec3 orientationX, Vec3 orientationY, Vec3 orientationZ);
-    };
-
-    struct PhysicsCylinder
-    {
-        Vec3 m_middle_point;
-        float m_radius;
-        float m_height;
-        Vec3 m_orientation;
-
-        PhysicsCylinder(Vec3 middlePoint, float radius, float height, Vec3 orientation);
-    };
-
 private:
     struct
     {
@@ -64,6 +45,4 @@ public:
     void EndBrush();
 
     void WriteKeyValue(const std::string& key, const std::string& value) const;
-    void WritePhysicsBox(PhysicsBox box);
-    void WritePhysicsCylinder(PhysicsCylinder cylinder);
 };
