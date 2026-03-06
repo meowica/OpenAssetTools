@@ -13,7 +13,6 @@ namespace
     constexpr auto METADATA_GAME = "game";
     constexpr auto METADATA_GDT = "gdt";
     constexpr auto METADATA_NAME = "name";
-    constexpr auto METADATA_TYPE = "type";
 
     constexpr auto METADATA_IPAK = "ipak";
     constexpr auto METADATA_IWD = "iwd";
@@ -94,35 +93,6 @@ namespace
 
         state->SetGame(*game);
     }
-
-    void ProcessMetaDataType(ZoneDefinitionParserState* state,
-                             const ZoneDefinitionParserValue& keyToken,
-                             const ZoneDefinitionParserValue& valueToken)
-    {
-        const auto projectType = GetProjectTypeByName(valueToken.FieldValue());
-        if (!projectType)
-            throw ParsingException(valueToken.GetPos(), "Unknown project type name");
-
-        // TODO: Remove deprecated type
-
-        std::string deprecationSuggestedAction;
-        if (*projectType == ProjectType::IPAK)
-        {
-            deprecationSuggestedAction = "Use \">ipak,name_of_ipak\" instead.";
-            state->StartIPak(state->m_definition->m_name);
-        }
-        else if (*projectType == ProjectType::FASTFILE)
-            deprecationSuggestedAction = "A fastfile will always be built when appropriate assets have been added.";
-        else
-            deprecationSuggestedAction = "It now has no effect.";
-
-        const auto keyPos = keyToken.GetPos();
-        con::warn("Deprecated: {} L{}: Zone definition \">type,{}\" is deprecated and should be removed. {}",
-                  keyPos.m_filename.get(),
-                  keyPos.m_line,
-                  keyToken.FieldValue(),
-                  deprecationSuggestedAction);
-    }
 } // namespace
 
 void SequenceZoneDefinitionMetaData::ProcessMatch(ZoneDefinitionParserState* state,
@@ -141,8 +111,6 @@ void SequenceZoneDefinitionMetaData::ProcessMatch(ZoneDefinitionParserState* sta
         state->m_definition->m_gdts.emplace_back(value);
     else if (key == METADATA_NAME)
         state->m_definition->m_name = value;
-    else if (key == METADATA_TYPE)
-        ProcessMetaDataType(state, keyToken, valueToken);
     else if (key == METADATA_IPAK)
     {
         if (!value.empty())
