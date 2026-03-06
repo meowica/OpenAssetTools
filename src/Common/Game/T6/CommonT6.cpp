@@ -5,6 +5,10 @@
 #include <algorithm>
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846f
+#endif
+
 using namespace T6;
 
 PackedTexCoords Common::Vec2PackTexCoords(const float (&in)[2])
@@ -59,4 +63,38 @@ float Common::HertzToCents(const float hertz)
 float Common::CentsToHertz(const float cents)
 {
     return std::pow(2.0f, cents / 1200.0f);
+}
+
+float Common::RadToDeg(const float radians)
+{
+    return radians * (180.0f / M_PI);
+}
+
+void Common::ToEulerAngles(const vec4_t* matrix, vec3_t* out)
+{
+    const float a = asinf(-matrix[0].v[2]);
+    const float ca = cosf(a);
+
+    if (fabsf(ca) > 0.005f)
+    {
+        out->x = atan2f(matrix[1].v[2] / ca, matrix[2].v[2] / ca);
+        out->y = a;
+        out->z = atan2f(matrix[0].v[1] / ca, matrix[0].v[0] / ca);
+    }
+    else
+    {
+        out->x = atan2f(-matrix[2].v[1], matrix[1].v[1]); // ca ~= 0, don't divide
+        out->y = a;
+        out->z = 0.0f;
+    }
+}
+
+void Common::ToEulerAnglesDeg(const vec4_t* matrix, vec3_t* out)
+{
+    vec3_t euler_rad;
+    ToEulerAngles(matrix, &euler_rad);
+
+    out->x = RadToDeg(euler_rad.x);
+    out->y = RadToDeg(euler_rad.y);
+    out->z = RadToDeg(euler_rad.z);
 }

@@ -8,7 +8,7 @@ namespace bsp_common
 {
     namespace clip_map
     {
-        std::string GetFileNameForStaticModels(const std::string& assetName);
+        std::string GetFileNameForDynModels(const std::string& assetName);
     }
 
     namespace com_world
@@ -31,6 +31,7 @@ namespace bsp_common
 
     namespace gfx_world
     {
+        std::string GetFileNameForStaticModels(const std::string& assetName);
         std::string GetFileNameForReflectionProbes(const std::string& assetName);
     }
 

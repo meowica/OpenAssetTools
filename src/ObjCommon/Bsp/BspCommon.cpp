@@ -8,7 +8,7 @@ namespace bsp_common
 {
     namespace clip_map
     {
-        std::string GetFileNameForStaticModels(const std::string& assetName)
+        std::string GetFileNameForDynModels(const std::string& assetName)
         {
             std::string name = assetName;
             std::string suffix = ".d3dbsp";
@@ -16,7 +16,7 @@ namespace bsp_common
             if (name.ends_with(suffix))
                 name.erase(name.size() - suffix.size());
 
-            return std::format("{}_smodels.map", name);
+            return std::format("{}_dyn_models.map", name);
         }
     } // namespace map_ents
 
@@ -153,6 +153,17 @@ namespace bsp_common
                 name.erase(name.size() - suffix.size());
 
             return std::format("{}_reflection_probes.map", name);
+        }
+
+        std::string GetFileNameForStaticModels(const std::string& assetName)
+        {
+            std::string name = assetName;
+            std::string suffix = ".d3dbsp";
+
+            if (name.ends_with(suffix))
+                name.erase(name.size() - suffix.size());
+
+            return std::format("{}_static_models.map", name);
         }
     } // namespace map_ents
 
