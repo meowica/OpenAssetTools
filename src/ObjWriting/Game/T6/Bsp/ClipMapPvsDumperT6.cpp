@@ -1,4 +1,4 @@
-#include "ClipMapDumperT6.h"
+#include "ClipMapPvsDumperT6.h"
 
 #include "Dumping/MapFile/MapFileDumper.h"
 #include "Bsp/BSPCommon.h"
@@ -9,7 +9,7 @@ using namespace T6;
 
 namespace
 {
-    void DumpStaticModels(AssetDumpingContext& context, const XAssetInfo<AssetClipMap::Type>& asset)
+    void DumpStaticModels(AssetDumpingContext& context, const XAssetInfo<AssetClipMapPvs::Type>& asset)
     {
         const auto* cm = asset.Asset();
         const auto assetFile = context.OpenAssetFile(bsp_common::clip_map::GetFileNameForStaticModels(asset.m_name));
@@ -38,10 +38,10 @@ namespace
     }
 } // namespace
 
-namespace clip_map
+namespace clip_map_pvs
 {
-    void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetClipMap::Type>& asset)
+    void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetClipMapPvs::Type>& asset)
     {
         DumpStaticModels(context, asset);
     }
-} // namespace clip_map
+} // namespace clip_map_pvs

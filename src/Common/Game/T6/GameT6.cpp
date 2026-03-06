@@ -8,7 +8,8 @@ using namespace T6;
 
 namespace
 {
-    constexpr const char* ASSET_TYPE_NAMES[]{
+    constexpr const char* ASSET_TYPE_NAMES[]
+    {
         "xmodelpieces",
         "physpreset",
         "physconstraints",
@@ -20,7 +21,7 @@ namespace
         "image",
         "sound",
         "sound_patch",
-        "col_map_sp",
+        "col_map_sp", // unused by stock levels
         "col_map_mp",
         "com_map",
         "game_map_sp",
