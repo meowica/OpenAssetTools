@@ -55,8 +55,6 @@ namespace techset
         virtual result::Expected<NoResult, std::string> FinalizePass(techset::CommonTechnique& technique, CommonPass& pass) = 0;
 
         static std::unique_ptr<CommonShaderArgCreator>
-            CreateDx9(ITechniqueShaderLoader& shaderLoader, AssetCreationContext& context, CommonCodeSourceInfos& commonCodeSourceInfos);
-        static std::unique_ptr<CommonShaderArgCreator>
             CreateDx11(ITechniqueShaderLoader& shaderLoader, AssetCreationContext& context, CommonCodeSourceInfos& commonCodeSourceInfos);
     };
 } // namespace techset
