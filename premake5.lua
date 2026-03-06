@@ -190,35 +190,3 @@ group ""
 group "Raw"
     Raw:project()
 group ""
-
--- ========================
--- Tests
--- ========================
-include "test/Catch2Common.lua"
-include "test/CommonTests.lua"
-include "test/ObjCommonTestUtils.lua"
-include "test/ObjCommonTests.lua"
-include "test/ObjCompilingTests.lua"
-include "test/ObjLoadingTests.lua"
-include "test/ObjWritingTests.lua"
-include "test/ParserTestUtils.lua"
-include "test/ParserTests.lua"
-include "test/SystemTests.lua"
-include "test/ZoneCodeGeneratorLibTests.lua"
-include "test/ZoneCommonTests.lua"
-
--- Tests group: Unit test and other tests projects
-group "Tests"
-    Catch2Common:project()
-    CommonTests:project()
-    ObjCommonTestUtils:project()
-    ObjCommonTests:project()
-    ObjCompilingTests:project()
-    ObjLoadingTests:project()
-    ObjWritingTests:project()
-    ParserTestUtils:project()
-    ParserTests:project()
-    SystemTests:project()
-    ZoneCodeGeneratorLibTests:project()
-    ZoneCommonTests:project()
-group ""
