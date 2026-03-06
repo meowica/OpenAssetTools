@@ -7,53 +7,53 @@ The following section specify which assets are supported to be dumped to disk (u
 - ✅ = Supported
 - ⁉️ = Partial support
 
-| Asset Type             | Dumping Support | Loading Support | Notes                                                                                                                                                          |
-| ---------------------- | --------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PhysPreset             | ✅              | ✅              |                                                                                                                                                                |
-| PhysConstraints        | ✅              | ✅              |                                                                                                                                                                |
-| DestructibleDef        | ❌              | ❌              |                                                                                                                                                                |
-| XAnimParts             | ❌              | ❌              |                                                                                                                                                                |
-| XModel                 | ✅              | ✅              | Model data can be exported to `XMODEL_EXPORT/XMODEL_BIN`, `OBJ`, `GLB/GLTF`.                                                                                   |
-| Material               | ✅              | ✅              | Dumping/Loading is currently possible for materials in their compiled form. There is currently no material pipeline.                                           |
-| MaterialTechniqueSet   | ✅              | ✅              | Only dumps compiled shaders.                                                                                                                                   |
-| GfxImage               | ✅              | ✅              | A few special image encodings are not yet supported.                                                                                                           |
-| SndBank                | ✅              | ✅              | The current implementation is subject to change.                                                                                                               |
-| SndPatch               | ❌              | ❌              |                                                                                                                                                                |
-| clipMap_t              | ⁉️              | ❌              |                                                                                                                                                                |
-| ComWorld               | ✅              | ❌              | Only dumps basic light info.                                                                                                                                                                |
-| GameWorldSp            | ✅              | ❌              | Only supports basic path node dumping.                                                                                                                                                               |
-| GameWorldMp            | ✅              | ❌              | See above.                                                                                                                                                                |
-| MapEnts                | ✅              | ✅              |                                                                                                                                                                |
-| GfxWorld               | ⁉️              | ❌              |                                                                                                                                                                |
-| GfxLightDef            | ✅              | ✅              | The current loader only supports .json file type.                                                                                                                                                              |
-| Font_s                 | ✅              | ❌              |                                                                                                                                                                |
-| FontIcon               | ✅              | ✅              |                                                                                                                                                                |
-| MenuList               | ✅              | ✅              |                                                                                                                                                                |
-| menuDef_t              | ⁉️              | ❌              | The current dumper is a WIP.                                                                                                                                                                |
-| LocalizeEntry          | ✅              | ✅              |                                                                                                                                                                |
-| WeaponVariantDef       | ✅              | ✅              |                                                                                                                                                                |
-| WeaponAttachment       | ✅              | ✅              |                                                                                                                                                                |
-| WeaponAttachmentUnique | ✅              | ✅              |                                                                                                                                                                |
-| WeaponCamo             | ✅              | ✅              |                                                                                                                                                                |
-| SndDriverGlobals       | ✅              | ❌              |                                                                                                                                                                |
-| FxEffectDef            | ❌              | ❌              |                                                                                                                                                                |
-| FxImpactTable          | ❌              | ❌              |                                                                                                                                                                |
-| RawFile                | ✅              | ✅              |                                                                                                                                                                |
-| StringTable            | ✅              | ✅              |                                                                                                                                                                |
-| LeaderboardDef         | ✅              | ✅              |                                                                                                                                                                |
-| XGlobals               | ❌              | ❌              |                                                                                                                                                                |
-| ddlRoot_t              | ❌              | ❌              |                                                                                                                                                                |
-| Glasses                | ❌              | ❌              |                                                                                                                                                                |
-| EmblemSet              | ❌              | ❌              |                                                                                                                                                                |
-| ScriptParseTree        | ⁉️              | ⁉️              | Can only be dumped/loaded as binary. Editing is possible with [GSC-Tool](https://github.com/xensik/gsc-tool). Plutonium supports loading source files however. |
-| KeyValuePairs          | ✅              | ✅              | Is dumped/loaded as part of the `.zone` file.                                                                                                                  |
-| VehicleDef             | ✅              | ✅              |                                                                                                                                                                |
-| MemoryBlock            | ❌              | ❌              |                                                                                                                                                                |
-| AddonMapEnts           | ✅              | ✅              |                                                                                                                                                                |
-| TracerDef              | ✅              | ✅              |                                                                                                                                                                |
-| SkinnedVertsDef        | ✅              | ❌              |                                                                                                                                                                |
-| Qdb                    | ⁉️              | ⁉️              | Dumping/Loading is implemented as rawfiles. Their use is currently unknown.                                                                                    |
-| Slug                   | ⁉️              | ⁉️              | Dumping/Loading is implemented as rawfiles. Their use is currently unknown.                                                                                    |
-| FootstepTableDef       | ❌              | ❌              |                                                                                                                                                                |
-| FootstepFXTableDef     | ❌              | ❌              |                                                                                                                                                                |
-| ZBarrierDef            | ✅              | ✅              |                                                                                                                                                                |
+| Asset Type             | Dumping Support | Loading Support | Notes                                                                                       |
+|------------------------|-----------------|-----------------|---------------------------------------------------------------------------------------------|
+| PhysPreset             | ✅              | ✅              |                                                                                             |
+| PhysConstraints        | ✅              | ✅              |                                                                                             |
+| DestructibleDef        | ❌              | ❌              |                                                                                             |
+| XAnimParts             | ❌              | ❌              |                                                                                             |
+| XModel                 | ✅              | ✅              | Model data can be exported to `XMODEL_EXPORT/XMODEL_BIN`, `OBJ`, `GLB/GLTF`.               |
+| Material               | ✅              | ✅              | Dumping/Loading currently works for compiled materials. No material pipeline yet.          |
+| MaterialTechniqueSet   | ✅              | ✅              | Only dumps compiled shaders.                                                                |
+| GfxImage               | ✅              | ✅              | Some special image encodings are not yet supported.                                         |
+| SndBank                | ✅              | ✅              | The current implementation is subject to change.                                            |
+| SndPatch               | ❌              | ❌              |                                                                                             |
+| clipMap_t              | ⁉️              | ❌              |                                                                                             |
+| ComWorld               | ✅              | ❌              | Only dumps basic light info.                                                                |
+| GameWorldSp            | ✅              | ❌              | Only supports basic path node dumping.                                                      |
+| GameWorldMp            | ✅              | ❌              | Same limitations as `GameWorldSp`.                                                          |
+| MapEnts                | ✅              | ✅              |                                                                                             |
+| GfxWorld               | ⁉️              | ❌              |                                                                                             |
+| GfxLightDef            | ✅              | ✅              | Loader currently only supports `.json`.                                                     |
+| Font_s                 | ✅              | ❌              |                                                                                             |
+| FontIcon               | ✅              | ✅              |                                                                                             |
+| MenuList               | ✅              | ✅              |                                                                                             |
+| menuDef_t              | ⁉️              | ❌              | Dumper is a work in progress.                                                               |
+| LocalizeEntry          | ✅              | ✅              |                                                                                             |
+| WeaponVariantDef       | ✅              | ✅              |                                                                                             |
+| WeaponAttachment       | ✅              | ✅              |                                                                                             |
+| WeaponAttachmentUnique | ✅              | ✅              |                                                                                             |
+| WeaponCamo             | ✅              | ✅              |                                                                                             |
+| SndDriverGlobals       | ✅              | ❌              |                                                                                             |
+| FxEffectDef            | ❌              | ❌              |                                                                                             |
+| FxImpactTable          | ❌              | ❌              |                                                                                             |
+| RawFile                | ✅              | ✅              |                                                                                             |
+| StringTable            | ✅              | ✅              |                                                                                             |
+| LeaderboardDef         | ✅              | ✅              |                                                                                             |
+| XGlobals               | ❌              | ❌              |                                                                                             |
+| ddlRoot_t              | ❌              | ❌              |                                                                                             |
+| Glasses                | ❌              | ❌              |                                                                                             |
+| EmblemSet              | ❌              | ❌              |                                                                                             |
+| ScriptParseTree        | ⁉️              | ⁉️              | Binary only. Editing possible with GSC-Tool. Plutonium supports loading source files.      |
+| KeyValuePairs          | ✅              | ✅              | Dumped/loaded as part of the `.zone` file.                                                  |
+| VehicleDef             | ✅              | ✅              |                                                                                             |
+| MemoryBlock            | ❌              | ❌              |                                                                                             |
+| AddonMapEnts           | ✅              | ✅              |                                                                                             |
+| TracerDef              | ✅              | ✅              |                                                                                             |
+| SkinnedVertsDef        | ✅              | ❌              |                                                                                             |
+| Qdb                    | ⁉️              | ⁉️              | Dumped/loaded as rawfiles. Usage currently unknown.                                         |
+| Slug                   | ⁉️              | ⁉️              | Dumped/loaded as rawfiles. Usage currently unknown.                                         |
+| FootstepTableDef       | ❌              | ❌              |                                                                                             |
+| FootstepFXTableDef     | ❌              | ❌              |                                                                                             |
+| ZBarrierDef            | ✅              | ✅              |                                                                                             |
