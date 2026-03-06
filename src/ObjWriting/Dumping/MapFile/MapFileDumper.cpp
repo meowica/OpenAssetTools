@@ -18,28 +18,6 @@ MapFileDumper::Vec3::Vec3(float v[3])
 {
 }
 
-MapFileDumper::PhysicsBox::PhysicsBox(const Vec3 middlePoint,
-                                      const Vec3 halfSize,
-                                      const Vec3 orientationX,
-                                      const Vec3 orientationY,
-                                      const Vec3 orientationZ)
-    : m_middle_point(middlePoint),
-      m_half_size(halfSize),
-      m_orientation{orientationX, orientationY, orientationZ}
-{
-}
-
-MapFileDumper::PhysicsCylinder::PhysicsCylinder(const Vec3 middlePoint,
-                                                const float radius,
-                                                const float height,
-                                                const Vec3 orientation)
-    : m_middle_point(middlePoint),
-      m_radius(radius),
-      m_height(height),
-      m_orientation(orientation)
-{
-}
-
 MapFileDumper::MapFileDumper(std::ostream& stream)
     : AbstractTextDumper(stream),
       m_flags{},
@@ -125,41 +103,4 @@ void MapFileDumper::WriteKeyValue(const std::string& key, const std::string& val
     assert(m_flags.m_in_brush || m_flags.m_in_entity);
 
     m_stream << "\"" << key << "\" \"" << value << "\"\n";
-}
-
-void MapFileDumper::WritePhysicsBox(const PhysicsBox box)
-{
-    Indent();
-    m_stream << "physics_box\n";
-    Indent();
-    m_stream << "{\n";
-    IncIndent();
-
-    Indent();
-    m_stream << std::fixed << std::setprecision(6) << box.m_orientation[0].m_x << " " << box.m_orientation[0].m_y << " " << box.m_orientation[0].m_z << " "
-             << box.m_orientation[1].m_x << " " << box.m_orientation[1].m_y << " " << box.m_orientation[1].m_z << " " << box.m_orientation[2].m_x << " "
-             << box.m_orientation[2].m_y << " " << box.m_orientation[2].m_z << " " << box.m_middle_point.m_x << " " << box.m_middle_point.m_y << " "
-             << box.m_middle_point.m_z << " " << box.m_half_size.m_x << " " << box.m_half_size.m_y << " " << box.m_half_size.m_z << "\n";
-
-    DecIndent();
-    Indent();
-    m_stream << "}\n";
-}
-
-void MapFileDumper::WritePhysicsCylinder(PhysicsCylinder cylinder)
-{
-    Indent();
-    m_stream << "physics_cylinder\n";
-    Indent();
-    m_stream << "{\n";
-    IncIndent();
-
-    Indent();
-    m_stream << std::fixed << std::setprecision(6) << cylinder.m_orientation.m_x << " " << cylinder.m_orientation.m_y << " " << cylinder.m_orientation.m_z
-             << " " << cylinder.m_middle_point.m_x << " " << cylinder.m_middle_point.m_y << " " << cylinder.m_middle_point.m_z << " " << cylinder.m_height
-             << " " << cylinder.m_radius << "\n";
-
-    DecIndent();
-    Indent();
-    m_stream << "}\n";
 }
