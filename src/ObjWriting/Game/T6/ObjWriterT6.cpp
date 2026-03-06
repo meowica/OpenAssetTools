@@ -27,7 +27,6 @@
 #include "RawFile/RawFileDumperT6.h"
 #include "Script/ScriptDumperT6.h"
 #include "Slug/SlugDumperT6.h"
-#include "SkinnedVerts/SkinnedVertsDumperT6.h"
 #include "Sound/SndBankDumperT6.h"
 #include "Sound/SndDriverGlobalsDumperT6.h"
 #include "StringTable/StringTableDumperT6.h"
@@ -92,7 +91,7 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     // REGISTER_DUMPER(AssetDumperMemoryBlock, m_memory_block)
     RegisterAssetDumper(std::make_unique<addon_map_ents::DumperT6>());
     RegisterAssetDumper(std::make_unique<tracer::DumperT6>());
-    RegisterAssetDumper(std::make_unique<skinned_verts::DumperT6>());
+    // RegisterAssetDumper(std::make_unique<skinned_verts::DumperT6>());
     RegisterAssetDumper(std::make_unique<qdb::DumperT6>());
     RegisterAssetDumper(std::make_unique<slug::DumperT6>());
     // REGISTER_DUMPER(AssetDumperFootstepTableDef, m_footstep_table)
