@@ -1,7 +1,6 @@
 #include "CommonShaderArgCreator.h"
 
 #include "Shader/D3D11ShaderAnalyser.h"
-#include "Shader/D3D9ShaderAnalyser.h"
 #include "Utils/Djb2.h"
 
 #include <algorithm>
@@ -277,70 +276,6 @@ namespace
         std::vector<techset::CommonShaderArg> m_args;
         uint64_t m_tech_flags;
         unsigned m_sampler_flags;
-    };
-
-    class CommonShaderArgCreatorDx9 final : public BaseCommonShaderArgCreator
-    {
-    public:
-        explicit CommonShaderArgCreatorDx9(techset::ITechniqueShaderLoader& shaderLoader, techset::CommonCodeSourceInfos& commonCodeSourceInfos)
-            : BaseCommonShaderArgCreator(shaderLoader, commonCodeSourceInfos)
-        {
-        }
-
-        result::Expected<NoResult, std::string> EnterShader(const techset::CommonTechniqueShaderType shaderType, const std::string& name) override
-        {
-            auto result = BaseCommonShaderArgCreator::EnterShader(shaderType, name);
-            if (!result)
-                return std::move(result);
-
-            m_shader_info = d3d9::ShaderAnalyser::GetShaderInfo(m_bin.m_shader_bin, m_bin.m_shader_bin_size);
-            if (!m_shader_info)
-                return result::Unexpected(std::format("Failed to analyse dx9 shader {}", name));
-
-            return NoResult{};
-        }
-
-        result::Expected<NoResult, std::string> LeaveShader() override
-        {
-            auto result = BaseCommonShaderArgCreator::LeaveShader();
-            m_shader_info = nullptr;
-
-            return std::move(result);
-        }
-
-    protected:
-        [[nodiscard]] size_t CompareArgumentDestinations(const techset::CommonShaderArg& arg0, const techset::CommonShaderArg& arg1) const override
-        {
-            return arg0.m_destination.dx9.m_destination_register < arg1.m_destination.dx9.m_destination_register;
-        }
-
-        [[nodiscard]] bool FindDestinationForConstant(techset::CommonShaderArgDestination& commonDestination,
-                                                      bool& isTransposed,
-                                                      std::string& errorMessage,
-                                                      const techset::CommonShaderArgCreatorDestination& input) override
-        {
-            assert(m_shader_info);
-            // TODO
-            return false;
-        }
-
-        [[nodiscard]] bool FindDestinationForSampler(techset::CommonShaderArgDestination& commonDestination,
-                                                     std::string& errorMessage,
-                                                     const techset::CommonShaderArgCreatorDestination& input) override
-        {
-            assert(m_shader_info);
-            // TODO
-            return false;
-        }
-
-        result::Expected<NoResult, std::string> AutoCreateMissingArgs() override
-        {
-            // TODO
-            return NoResult{};
-        }
-
-    private:
-        std::unique_ptr<d3d9::ShaderInfo> m_shader_info;
     };
 
     class CommonShaderArgCreatorDx11 final : public BaseCommonShaderArgCreator
@@ -684,12 +619,6 @@ namespace techset
         : m_argument_name(std::move(argumentName)),
           m_argument_index(argumentIndex)
     {
-    }
-
-    std::unique_ptr<CommonShaderArgCreator>
-        CommonShaderArgCreator::CreateDx9(ITechniqueShaderLoader& shaderLoader, AssetCreationContext& context, CommonCodeSourceInfos& commonCodeSourceInfos)
-    {
-        return std::make_unique<CommonShaderArgCreatorDx9>(shaderLoader, commonCodeSourceInfos);
     }
 
     std::unique_ptr<CommonShaderArgCreator>

@@ -109,42 +109,21 @@ namespace
             }
 
             unsigned versionMajor, versionMinor;
-            if (dxVersion == DxVersion::DX9)
-            {
-                const auto shaderInfo = d3d9::ShaderAnalyser::GetShaderInfo(shader.m_bin->m_shader_bin, shader.m_bin->m_shader_bin_size);
-                assert(shaderInfo);
-                if (!shaderInfo)
-                    return;
-
-                versionMajor = shaderInfo->m_version_major;
-                versionMinor = shaderInfo->m_version_minor;
-
-                DumpShaderHeader(shader, shaderType, versionMajor, versionMinor);
-
-                for (const auto& arg : pass.m_args)
-                {
-                    if (arg.m_type.m_shader_type == shaderType)
-                        DumpShaderArgDx9(technique, arg, *shaderInfo);
-                }
-            }
-            else
-            {
-                assert(dxVersion == DxVersion::DX11);
-                const auto shaderInfo = d3d11::ShaderAnalyser::GetShaderInfo(shader.m_bin->m_shader_bin, shader.m_bin->m_shader_bin_size);
-                assert(shaderInfo);
-                if (!shaderInfo)
-                    return;
+            assert(dxVersion == DxVersion::DX11);
+            const auto shaderInfo = d3d11::ShaderAnalyser::GetShaderInfo(shader.m_bin->m_shader_bin, shader.m_bin->m_shader_bin_size);
+            assert(shaderInfo);
+            if (!shaderInfo)
+                return;
 
             versionMajor = shaderInfo->m_version_major;
             versionMinor = shaderInfo->m_version_minor;
 
             DumpShaderHeader(shader, shaderType, versionMajor, versionMinor);
 
-                for (const auto& arg : pass.m_args)
-                {
-                    if (arg.m_type.m_shader_type == shaderType)
-                        DumpShaderArgDx11(technique, arg, *shaderInfo);
-                }
+            for (const auto& arg : pass.m_args)
+            {
+                if (arg.m_type.m_shader_type == shaderType)
+                    DumpShaderArgDx11(technique, arg, *shaderInfo);
             }
 
             DecIndent();
@@ -162,45 +141,6 @@ namespace
             Indent();
             m_stream << "{\n";
             IncIndent();
-        }
-
-        void DumpShaderArgDx9(const CommonTechnique& technique, const CommonShaderArg& arg, const d3d9::ShaderInfo& shaderInfo) const
-        {
-            const auto expectedRegisterSet =
-                arg.m_type.m_value_type == CommonShaderValueType::CODE_SAMPLER || arg.m_type.m_value_type == CommonShaderValueType::MATERIAL_SAMPLER
-                    ? d3d9::RegisterSet::SAMPLER
-                    : d3d9::RegisterSet::FLOAT_4;
-            const auto destinationRegister = arg.m_destination.dx9.m_destination_register;
-            const auto targetShaderArg = std::ranges::find_if(shaderInfo.m_constants,
-                                                              [destinationRegister, expectedRegisterSet](const d3d9::ShaderConstant& constant)
-                                                              {
-                                                                  return constant.m_register_set == expectedRegisterSet
-                                                                         && constant.m_register_index <= destinationRegister
-                                                                         && constant.m_register_index + constant.m_register_count > destinationRegister;
-                                                              });
-
-            assert(targetShaderArg != shaderInfo.m_constants.end());
-            if (targetShaderArg == shaderInfo.m_constants.end())
-            {
-                Indent();
-                m_stream << std::format("// Unrecognized arg dest: {} type: {}\n", destinationRegister, static_cast<unsigned>(arg.m_type.m_value_type));
-                con::error("Technique {}: Could not find arg (type: {}; dest: {}) in shader",
-                           technique.m_name,
-                           destinationRegister,
-                           static_cast<unsigned>(arg.m_type.m_value_type));
-                return;
-            }
-
-            std::string codeDestAccessor;
-            if (targetShaderArg->m_type_elements > 1)
-            {
-                codeDestAccessor = std::format("{}[{}]", targetShaderArg->m_name, destinationRegister - targetShaderArg->m_register_index);
-            }
-            else
-                codeDestAccessor = targetShaderArg->m_name;
-
-            const auto isTransposed = targetShaderArg->m_class == d3d9::ParameterClass::MATRIX_COLUMNS;
-            DumpShaderArg(technique, arg, codeDestAccessor, isTransposed);
         }
 
         void DumpShaderArgDx11(const CommonTechnique& technique, const CommonShaderArg& arg, const d3d11::ShaderInfo& shaderInfo) const
