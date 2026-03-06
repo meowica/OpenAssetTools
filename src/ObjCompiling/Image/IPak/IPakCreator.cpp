@@ -20,7 +20,6 @@ namespace
 
     class IPakWriter
     {
-        static constexpr char BRANDING[] = "Created with OpenAssetTools " GIT_VERSION;
         static constexpr auto SECTION_COUNT = 3; // Index + Data + Branding
 
         inline static const auto PAD_DATA = std::string(256, '\xA7');
@@ -53,7 +52,6 @@ namespace
 
             WriteDataSection();
             WriteIndexSection();
-            WriteBrandingSection();
             WriteFileEnding();
 
             WriteHeaderData();
@@ -119,17 +117,9 @@ namespace
                 .itemCount = static_cast<uint32_t>(m_index_entries.size()),
             };
 
-            const IPakSection brandingSection{
-                .type = ipak_consts::IPAK_BRANDING_SECTION,
-                .offset = static_cast<uint32_t>(m_branding_section_offset),
-                .size = std::extent_v<decltype(BRANDING)>,
-                .itemCount = 1,
-            };
-
             Write(&header, sizeof(header));
             Write(&dataSection, sizeof(dataSection));
             Write(&indexSection, sizeof(indexSection));
-            Write(&brandingSection, sizeof(brandingSection));
         }
 
         static std::string ImageFileName(const std::string& imageName)
@@ -335,14 +325,6 @@ namespace
 
             for (const auto& indexEntry : m_index_entries)
                 Write(&indexEntry, sizeof(indexEntry));
-        }
-
-        void WriteBrandingSection()
-        {
-            AlignToChunk();
-            m_branding_section_offset = m_current_offset;
-
-            Write(BRANDING, std::extent_v<decltype(BRANDING)>);
         }
 
         void WriteFileEnding()
