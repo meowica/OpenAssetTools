@@ -30,7 +30,6 @@ public:
 
         ImageOutputFormat_e ImageOutputFormat = ImageOutputFormat_e::DDS;
         ModelOutputFormat_e ModelOutputFormat = ModelOutputFormat_e::GLB;
-        bool MenuLegacyMode = false;
 
     } Configuration;
 

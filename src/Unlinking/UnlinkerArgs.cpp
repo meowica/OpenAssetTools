@@ -119,15 +119,10 @@ const CommandLineOption* const OPTION_INCLUDE_ASSETS =
     .Reusable()
     .Build();
 
-const CommandLineOption* const OPTION_LEGACY_MENUS =
-    CommandLineOption::Builder::Create()
-    .WithLongName("legacy-menus")
-    .WithDescription("Dumps menus with a compatibility mode to work with applications not compatible with the newer dumping mode.")
-    .Build();
-
 // clang-format on
 
-const CommandLineOption* const COMMAND_LINE_OPTIONS[]{
+const CommandLineOption* const COMMAND_LINE_OPTIONS[]
+{
     OPTION_HELP,
     OPTION_VERSION,
     OPTION_VERBOSE,
@@ -143,7 +138,6 @@ const CommandLineOption* const COMMAND_LINE_OPTIONS[]{
     OPTION_GDT,
     OPTION_EXCLUDE_ASSETS,
     OPTION_INCLUDE_ASSETS,
-    OPTION_LEGACY_MENUS,
 };
 
 UnlinkerArgs::UnlinkerArgs()
@@ -380,10 +374,6 @@ bool UnlinkerArgs::ParseArgs(const int argc, const char** argv, bool& shouldCont
         for (const auto& include : m_argument_parser.GetParametersForOption(OPTION_INCLUDE_ASSETS))
             ParseCommaSeparatedAssetTypeString(include);
     }
-
-    // --legacy-menus
-    if (m_argument_parser.IsOptionSpecified(OPTION_LEGACY_MENUS))
-        ObjWriting::Configuration.MenuLegacyMode = true;
 
     return true;
 }

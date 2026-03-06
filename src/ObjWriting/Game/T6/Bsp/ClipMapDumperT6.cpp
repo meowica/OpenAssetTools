@@ -9,10 +9,10 @@ using namespace T6;
 
 namespace
 {
-    void DumpStaticModels(AssetDumpingContext& context, const XAssetInfo<AssetClipMap::Type>& asset)
+    void DumpDynModels(AssetDumpingContext& context, const XAssetInfo<AssetClipMapPvs::Type>& asset)
     {
         const auto* cm = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(bsp_common::clip_map::GetFileNameForStaticModels(asset.m_name));
+        const auto assetFile = context.OpenAssetFile(bsp_common::clip_map::GetFileNameForDynModels(asset.m_name));
 
         if (!assetFile)
             return;
@@ -22,18 +22,21 @@ namespace
 
         auto& stream = *assetFile;
 
-        for (unsigned int i = 0; i < cm->numStaticModels; ++i)
+        if (cm->dynEntDefList[0] && cm->dynEntCount[0])
         {
-            const auto& smodel = cm->staticModelList[i];
-            const auto& origin = smodel.origin;
+            for (auto i = 0; i < cm->dynEntCount[0]; i++)
+            {
+                if (auto next = &cm->dynEntDefList[0][i]; next)
+                {
+                    mapFileDumper.BeginEntity();
 
-            mapFileDumper.BeginEntity();
+                    mapFileDumper.WriteKeyValue("model", "void" /*next->xModel->name*/);
+                    mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", next->pose.origin.x, next->pose.origin.y, next->pose.origin.z));
+                    mapFileDumper.WriteKeyValue("classname", "dyn_model");
 
-            mapFileDumper.WriteKeyValue("model", smodel.xmodel->name);
-            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", origin.x, origin.y, origin.z));
-            mapFileDumper.WriteKeyValue("classname", "misc_model");
-
-            mapFileDumper.EndEntity();
+                    mapFileDumper.EndEntity();
+                }
+            }
         }
     }
 } // namespace
@@ -42,6 +45,6 @@ namespace clip_map
 {
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetClipMap::Type>& asset)
     {
-        DumpStaticModels(context, asset);
+        DumpDynModels(context, asset);
     }
 } // namespace clip_map
