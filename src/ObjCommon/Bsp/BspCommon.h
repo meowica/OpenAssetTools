@@ -25,7 +25,8 @@ namespace bsp_common
 
     namespace map_ents
     {
-        std::string GetFileNameForAssetName(const std::string& assetName);
+        std::string GetEntsAssetName(const std::string& assetName);
+        std::string GetTrigsAssetName(const std::string& assetName);
     }
 
     namespace gfx_world
@@ -37,4 +38,4 @@ namespace bsp_common
     {
         std::string GetFileNameForAssetName(const std::string& assetName);
     }
-} // namespace bsp_common
+}

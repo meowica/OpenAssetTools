@@ -119,7 +119,7 @@ namespace bsp_common
 
     namespace map_ents
     {
-        std::string GetFileNameForAssetName(const std::string& assetName)
+        std::string GetEntsAssetName(const std::string& assetName)
         {
             std::string name = assetName;
             std::string suffix = ".d3dbsp";
@@ -128,6 +128,17 @@ namespace bsp_common
                 name.erase(name.size() - suffix.size());
 
             return std::format("{}.mapents", name);
+        }
+
+        std::string GetTrigsAssetName(const std::string& assetName)
+        {
+            std::string name = assetName;
+            std::string suffix = ".d3dbsp";
+
+            if (name.ends_with(suffix))
+                name.erase(name.size() - suffix.size());
+
+            return std::format("{}.triggers", name);
         }
     } // namespace map_ents
 
