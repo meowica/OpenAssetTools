@@ -178,7 +178,7 @@ bool CodeGenerator::GenerateCode(const IDataRepository* repository)
     }
     const auto end = std::chrono::steady_clock::now();
     const auto timeInMs = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    con::debug("Generating code took {}ms", timeInMs);
+    con::debug_info("Generating code took {}ms", timeInMs);
 
     if (!m_args->m_build_log_file.empty())
     {

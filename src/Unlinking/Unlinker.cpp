@@ -224,7 +224,7 @@ namespace
 
                 auto zone = std::move(*maybeZone);
 
-                con::debug("Loaded zone \"{}\"", zone->m_name);
+                con::debug_info("Loaded zone \"{}\"", zone->m_name);
 
                 if (ShouldLoadObj())
                 {
@@ -255,7 +255,7 @@ namespace
 
                 loadedZone.reset();
 
-                con::debug("Unloaded zone \"{}\"", zoneName);
+                con::debug_info("Unloaded zone \"{}\"", zoneName);
             }
             m_loaded_zones.clear();
         }
@@ -286,7 +286,7 @@ namespace
 
                 auto zone = std::move(*maybeZone);
 
-                con::debug("Loaded zone \"{}\"", zone->m_name);
+                con::debug_info("Loaded zone \"{}\"", zone->m_name);
 
                 const auto* objLoader = IObjLoader::GetObjLoaderForGame(zone->m_game_id);
                 if (ShouldLoadObj())
@@ -301,7 +301,7 @@ namespace
                 // Copy zone name for using it after freeing the zone
                 std::string zoneName = zone->m_name;
                 zone.reset();
-                con::debug("Unloaded zone \"{}\"", zoneName);
+                con::debug_info("Unloaded zone \"{}\"", zoneName);
             }
 
             return true;

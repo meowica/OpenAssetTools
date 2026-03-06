@@ -18,7 +18,7 @@ bool PartClassificationState::Load(const char** hitLocNames, const size_t hitLoc
     if (m_loaded)
         return true;
 
-    con::debug("Loading part classification...");
+    con::debug_info("Loading part classification...");
 
     const auto file = searchPath.Open(PART_CLASSIFICATION_FILE);
     if (!file.IsOpen())

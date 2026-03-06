@@ -425,7 +425,7 @@ namespace
                 ss << " " << m_block_offsets[block->m_index];
             }
 
-            con::debug(ss.str());
+            con::debug_info(ss.str());
         }
 #endif
 

@@ -39,7 +39,7 @@ const CommandLineOption* const OPTION_VERBOSE =
 const CommandLineOption* const OPTION_SHOW_SUMMARY =
     CommandLineOption::Builder::Create()
     .WithLongName("show-summary")
-    .WithDescription("Show an output summary after linking the fast file.")
+    .WithDescription("Show an output summary after linking the fast file. Verbose mode must be enabled.")
     .Build();
 
 const CommandLineOption* const OPTION_NO_COLOR =

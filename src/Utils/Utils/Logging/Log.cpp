@@ -74,70 +74,6 @@ namespace con
         globalUseColor = value && CanUseColor();
     }
 
-    void _debug_internal(const std::string& str)
-    {
-        if (globalUseColor)
-            std::cout << std::format("\x1B[90m{}\x1B[0m\n", str);
-        else
-            std::cout << std::format("{}\n", str);
-    }
-
-    void _info_internal(const std::string& str)
-    {
-        if (globalUseColor)
-            std::cout << std::format("\x1B[37m{}\x1B[0m\n", str);
-        else
-            std::cout << std::format("{}\n", str);
-    }
-
-    void _warn_internal(const std::string& str)
-    {
-        g_warnings.emplace_back(str);
-
-        if (globalUseColor)
-            std::cout << std::format("\x1B[33m{}\x1B[0m\n", str);
-        else
-            std::cout << std::format("{}\n", str);
-    }
-
-    void _error_internal(const std::string& str)
-    {
-        g_errors.emplace_back(str);
-
-        if (globalUseColor)
-            std::cerr << std::format("\x1B[31m{}\x1B[0m\n", str);
-        else
-            std::cerr << std::format("{}\n", str);
-    }
-
-    void info_colored(Colour colour, const std::string& str)
-    {
-        if (!globalUseColor)
-        {
-            std::cout << std::format("{}\n", str);
-            return;
-        }
-
-        int code = 0;
-
-        switch (colour)
-        {
-        case Colour::Yellow:
-            code = 33;
-            break;
-
-        case Colour::Red:
-            code = 31;
-            break;
-
-        default:
-            std::cout << std::format("{}\n", str);
-            break;
-        }
-
-        std::cout << std::format("\x1B[{}m{}\x1B[0m\n", code, str);
-    }
-
     std::uint32_t get_warning_count()
     {
         return static_cast<std::uint32_t>(g_warnings.size());
@@ -156,5 +92,57 @@ namespace con
     const std::vector<std::string>& errors()
     {
         return g_errors;
+    }
+
+    void _info_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cout << std::format("\x1B[37m{}\x1B[0m\n", str);
+        else
+            std::cout << std::format("{}\n", str);
+    }
+
+    void _debug_info_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cout << std::format("\x1B[90m{}\x1B[0m\n", str);
+        else
+            std::cout << std::format("{}\n", str);
+    }
+
+    void _warn_internal(const std::string& str)
+    {
+        g_warnings.emplace_back(str);
+
+        if (globalUseColor)
+            std::cout << std::format("\x1B[33m{}\x1B[0m\n", str);
+        else
+            std::cout << std::format("{}\n", str);
+    }
+
+    void _debug_warn_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cout << std::format("\x1B[33m{}\x1B[0m\n", str);
+        else
+            std::cout << std::format("{}\n", str);
+    }
+
+    void _error_internal(const std::string& str)
+    {
+        g_errors.emplace_back(str);
+
+        if (globalUseColor)
+            std::cerr << std::format("\x1B[31m{}\x1B[0m\n", str);
+        else
+            std::cerr << std::format("{}\n", str);
+    }
+
+    void _debug_error_internal(const std::string& str)
+    {
+        if (globalUseColor)
+            std::cerr << std::format("\x1B[31m{}\x1B[0m\n", str);
+        else
+            std::cerr << std::format("{}\n", str);
     }
 } // namespace con

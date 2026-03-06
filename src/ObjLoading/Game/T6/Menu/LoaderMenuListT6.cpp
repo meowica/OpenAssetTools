@@ -89,7 +89,7 @@ namespace
             const auto alreadyLoadedMenuFile = conversionState.m_menus_by_filename.find(menuFilePath);
             if (alreadyLoadedMenuFile != conversionState.m_menus_by_filename.end())
             {
-                con::debug("Already loaded \"{}\", skipping", menuFilePath);
+                con::debug_info("Already loaded \"{}\", skipping", menuFilePath);
                 for (auto* menu : alreadyLoadedMenuFile->second)
                 {
                     menus.emplace_back(menu->Asset());
