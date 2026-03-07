@@ -27,7 +27,7 @@ bool UnlinkerPaths::LoadUserPaths(const UnlinkerArgs& args)
         m_user_paths.CommitSearchPath(std::make_unique<SearchPathFilesystem>(searchPathName));
         m_specified_user_paths.emplace(std::move(searchPathName));
 
-        std::filesystem::directory_iterator iterator(absolutePath);
+        fs::directory_iterator iterator(absolutePath);
         const auto end = fs::end(iterator);
         for (auto i = fs::begin(iterator); i != end; ++i)
         {
@@ -45,7 +45,14 @@ bool UnlinkerPaths::LoadUserPaths(const UnlinkerArgs& args)
         }
     }
 
-    con::info("{} Search Paths{}", m_specified_user_paths.size(), !m_specified_user_paths.empty() ? ":" : "");
+    if (m_specified_user_paths.empty())
+        con::info("No Search Paths");
+    else
+    {
+        const auto count = m_specified_user_paths.size();
+        con::info("{} Search Path{}:", count, count == 1 ? "" : "s");
+    }
+
     for (const auto& absoluteSearchPath : m_specified_user_paths)
         con::info("  \"{}\"", absoluteSearchPath);
 
@@ -65,7 +72,7 @@ std::unique_ptr<ISearchPath> UnlinkerPaths::GetSearchPathsForZone(const std::str
         m_last_zone_search_paths = SearchPaths();
         m_last_zone_search_paths.CommitSearchPath(std::make_unique<SearchPathFilesystem>(absoluteZoneDirectoryString));
 
-        std::filesystem::directory_iterator iterator(absoluteZoneDirectory);
+        fs::directory_iterator iterator(absoluteZoneDirectory);
         const auto end = fs::end(iterator);
         for (auto i = fs::begin(iterator); i != end; ++i)
         {
