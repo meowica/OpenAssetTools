@@ -251,7 +251,6 @@ namespace
 
             if (!fs::is_directory(path))
             {
-                // TODO: conver this into a debug_warn
                 con::warn("Couldn't add {} search path {}", m_type_name, path);
                 return false;
             }
