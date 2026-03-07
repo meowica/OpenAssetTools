@@ -301,7 +301,7 @@ namespace
         {
             {
                 AssetListReader assetListReader(paths.m_source_paths.GetSearchPaths(), game);
-                const auto maybeReadAssetList = assetListReader.ReadAssetList(zoneName, false);
+                auto maybeReadAssetList = assetListReader.ReadAssetList(zoneName, false);
                 if (maybeReadAssetList)
                 {
                     assetList.m_entries.reserve(assetList.m_entries.size() + maybeReadAssetList->m_entries.size());
