@@ -12,7 +12,7 @@ class PartClassificationState
     // TODO: Use MP part classifications when building an MP fastfile
     // How would we even detect such a thing..? search if zone name starts with mp_ or zm_?
     static constexpr auto PART_CLASSIFICATION_FILE = "partclassification.csv";
-    static constexpr auto PART_CLASSIFICATION_FILE_MP = "partclassification_mp.csv";
+    // static constexpr auto PART_CLASSIFICATION_FILE_MP = "partclassification_mp.csv";
 
     static constexpr auto HITLOC_NONE = 0u;
 

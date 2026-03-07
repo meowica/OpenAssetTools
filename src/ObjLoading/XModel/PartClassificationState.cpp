@@ -18,12 +18,12 @@ bool PartClassificationState::Load(const char** hitLocNames, const size_t hitLoc
     if (m_loaded)
         return true;
 
-    con::debug_info("Loading part classification...");
+    con::debug_info("Loading part classification file...");
 
     const auto file = searchPath.Open(PART_CLASSIFICATION_FILE);
     if (!file.IsOpen())
     {
-        con::error("Could not load part classification: Failed to open {}", PART_CLASSIFICATION_FILE);
+        con::error("Could not load part classification file: Failed to open {}", PART_CLASSIFICATION_FILE);
         return false;
     }
 
@@ -58,7 +58,7 @@ bool PartClassificationState::LoadRow(const char** hitLocStart, const char** hit
 
     if (row.size() != 2)
     {
-        con::error("Could not load part classification: Invalid row");
+        con::error("Could not load part classification file: Invalid row");
         return false;
     }
 
