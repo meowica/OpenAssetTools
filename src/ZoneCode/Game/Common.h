@@ -30,10 +30,6 @@ namespace std
 #define __int64 long long
 
 // DirectX types do not need to be processed.
-// DirectX 9 Types
-typedef void IDirect3DVertexDeclaration9;
-typedef void IDirect3DPixelShader9;
-typedef void IDirect3DVertexShader9;
 // DirectX 11 Types
 typedef void ID3D11BlendState;
 typedef void ID3D11DepthStencilState;
