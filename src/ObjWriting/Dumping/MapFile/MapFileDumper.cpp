@@ -29,11 +29,18 @@ MapFileDumper::MapFileDumper(std::ostream& stream)
 {
 }
 
-void MapFileDumper::Init() const
+void MapFileDumper::Init()
 {
     m_stream << "iwmap 4\n";
     m_stream << "\"000_Global\" flags  active\n";
     m_stream << "\"The Map\" flags\n";
+
+    m_stream << "// entity 0\n";
+    m_stream << "{\n";
+    m_stream << "\"classname\" \"worldspawn\"\n";
+    m_stream << "}\n";
+
+    m_entity_index = 1; // because of worldspawn
 }
 
 void MapFileDumper::BeginEntity()
