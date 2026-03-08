@@ -19,12 +19,12 @@ The following section specify which assets are supported to be dumped to disk (u
 | GfxImage               | ✅              | ✅              | Some special image encodings are not yet supported.                                         |
 | SndBank                | ✅              | ✅              | The current implementation is subject to change.                                            |
 | SndPatch               | ❌              | ❌              |                                                                                             |
-| clipMap_t              | ⁉️              | ❌              | Only dumps static model info.                                                               |
-| ComWorld               | ✅              | ❌              | Only dumps basic light info.                                                                |
-| GameWorldSp            | ✅              | ❌              | Only supports basic path node dumping.                                                      |
-| GameWorldMp            | ✅              | ❌              | Same limitations as `GameWorldSp`.                                                          |
+| clipMap_t              | ⁉️              | ❌              | Only dumps dynamic models.                                                                  |
+| ComWorld               | ✅              | ❌              |                                                                                             |
+| GameWorldSp            | ✅              | ❌              |                                                                                             |
+| GameWorldMp            | ✅              | ❌              |                                                                                             |
 | MapEnts                | ✅              | ✅              | Currently doesn't dump triggers.                                                            |
-| GfxWorld               | ⁉️              | ❌              | Only dumps reflection probe info.                                                           |
+| GfxWorld               | ⁉️              | ❌              | Only dumps reflection probes and static models.                                             |
 | GfxLightDef            | ✅              | ✅              | Loader currently only supports `.json`.                                                     |
 | Font_s                 | ✅              | ❌              |                                                                                             |
 | FontIcon               | ✅              | ✅              |                                                                                             |
