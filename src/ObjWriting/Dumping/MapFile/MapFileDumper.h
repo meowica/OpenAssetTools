@@ -1,8 +1,11 @@
 #pragma once
 
 #include "Dumping/AbstractTextDumper.h"
+#include "Dumping/AssetDumpingContext.h"
+#include "Dumping/IZoneAssetDumperState.h"
 
 #include <ostream>
+#include <unordered_map>
 
 class MapFileDumper : AbstractTextDumper
 {
@@ -44,4 +47,19 @@ public:
     void EndBrush();
 
     void WriteKeyValue(const std::string& key, const std::string& value) const;
+};
+
+class MapFileDumperState final : public IZoneAssetDumperState
+{
+public:
+    MapFileDumper* GetOrCreateDumper(AssetDumpingContext& context, const std::string& mapName);
+
+private:
+    struct MapFileEntry
+    {
+        std::unique_ptr<std::ostream> m_file;
+        std::unique_ptr<MapFileDumper> m_dumper;
+    };
+
+    std::unordered_map<std::string, MapFileEntry> m_dumpers;
 };

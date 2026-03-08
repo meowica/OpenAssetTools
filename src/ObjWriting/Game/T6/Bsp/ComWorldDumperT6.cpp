@@ -1,6 +1,6 @@
 #include "ComWorldDumperT6.h"
 
-#include "MapFileDumperState.h"
+#include "Dumping/MapFile/MapFileDumper.h"
 
 #include <format>
 
