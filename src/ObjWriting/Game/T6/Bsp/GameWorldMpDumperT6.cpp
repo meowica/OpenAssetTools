@@ -21,6 +21,12 @@ namespace
 
             mapFileDumper.BeginEntity();
             mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", pNodeConst.vOrigin.x, pNodeConst.vOrigin.y, pNodeConst.vOrigin.z));
+            if (pNodeConst.fAngle != 0.0f)
+                mapFileDumper.WriteKeyValue("angles", std::format("{:.1f} {:.1f} {:.1f}", 0.0f, pNodeConst.fAngle, 0.0f));
+            if (pNodeConst.spawnflags != 0)
+                mapFileDumper.WriteKeyValue("spawnflags", std::to_string(pNodeConst.spawnflags));
+            if (pNodeConst.fRadius > 0.0f)
+                mapFileDumper.WriteKeyValue("radius", std::format("{:.1f}", pNodeConst.fRadius));
             mapFileDumper.WriteKeyValue("classname", className);
             mapFileDumper.EndEntity();
         }

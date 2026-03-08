@@ -38,7 +38,7 @@ private:
 public:
     explicit MapFileDumper(std::ostream& stream);
 
-    void Init() const;
+    void Init();
 
     void BeginEntity();
     void EndEntity();
