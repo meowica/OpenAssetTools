@@ -1,7 +1,6 @@
 #include "GfxWorldDumperT6.h"
 
-#include "Dumping/MapFile/MapFileDumper.h"
-#include "Bsp/BSPCommon.h"
+#include "MapFileDumperState.h"
 
 #include <format>
 
@@ -9,53 +8,29 @@ using namespace T6;
 
 namespace
 {
-    void DumpReflectionProbes(AssetDumpingContext& context, const XAssetInfo<AssetGfxWorld::Type>& asset)
+    void DumpReflectionProbes(MapFileDumper& mapFileDumper, const GfxWorld* world)
     {
-        const auto* world = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(bsp_common::gfx_world::GetFileNameForReflectionProbes(asset.m_name));
+        const auto& worldDraw = world->draw;
 
-        if (!assetFile)
-            return;
-
-        MapFileDumper mapFileDumper(*assetFile);
-        mapFileDumper.Init();
-
-        auto& stream = *assetFile;
-
-        const auto& draw = world->draw;
-
-        for (unsigned int i = 0; i < draw.reflectionProbeCount; ++i)
+        for (auto i = 0u; i < worldDraw.reflectionProbeCount; ++i)
         {
-            const auto& probe = draw.reflectionProbes[i];
-            const auto& origin = probe.origin;
+            const auto& rProbe = worldDraw.reflectionProbes[i];
 
             mapFileDumper.BeginEntity();
-
-            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", origin.x, origin.y, origin.z));
-            mapFileDumper.WriteKeyValue("angles", "0.0 0.0 0.0");
+            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", rProbe.origin.x, rProbe.origin.y, rProbe.origin.z));
             mapFileDumper.WriteKeyValue("classname", "reflection_probe");
-
             mapFileDumper.EndEntity();
         }
     }
 
-    void DumpStaticModels(AssetDumpingContext& context, const XAssetInfo<AssetGfxWorld::Type>& asset)
+    void DumpStaticModels(MapFileDumper& mapFileDumper, const GfxWorld* world)
     {
-        const auto* world = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(bsp_common::gfx_world::GetFileNameForStaticModels(asset.m_name));
+        const auto& worldDpvs = world->dpvs;
 
-        if (!assetFile)
-            return;
-
-        MapFileDumper mapFileDumper(*assetFile);
-        mapFileDumper.Init();
-
-        auto& stream = *assetFile;
-
-        for (unsigned int i = 0; i < world->dpvs.smodelCount; ++i)
+        for (auto i = 0u; i < worldDpvs.smodelCount; ++i)
         {
-            const auto& smodel = world->dpvs.smodelDrawInsts[i];
-            const auto& placement = smodel.placement;
+            const auto& sModel = worldDpvs.smodelDrawInsts[i];
+            const auto& placement = sModel.placement;
 
             mapFileDumper.BeginEntity();
 
@@ -68,7 +43,7 @@ namespace
             vec3_t angles;
             Common::ToEulerAnglesDeg(matrix, &angles);
 
-            mapFileDumper.WriteKeyValue("model", smodel.model->name);
+            mapFileDumper.WriteKeyValue("model", sModel.model->name);
             mapFileDumper.WriteKeyValue("modelscale", std::format("{:.1f}", placement.scale));
             mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", placement.origin.x, placement.origin.y, placement.origin.z));
             mapFileDumper.WriteKeyValue("angles", std::format("{:.1f} {:.1f} {:.1f}", angles.x, angles.y, angles.z));
@@ -83,7 +58,11 @@ namespace gfx_world
 {
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetGfxWorld::Type>& asset)
     {
-        DumpReflectionProbes(context, asset);
-        DumpStaticModels(context, asset);
+        auto* mapDumper = context.GetZoneAssetDumperState<MapFileDumperState>()->GetOrCreateDumper(context, asset.m_name);
+        if (!mapDumper)
+            return;
+
+        DumpReflectionProbes(*mapDumper, asset.Asset());
+        DumpStaticModels(*mapDumper, asset.Asset());
     }
 } // namespace gfx_world
