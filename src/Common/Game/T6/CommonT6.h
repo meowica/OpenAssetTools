@@ -82,7 +82,7 @@ namespace T6
         static float HertzToCents(const float hertz);
         static float CentsToHertz(const float cents);
         static float RadToDeg(const float radians);
-        static void ToEulerAngles(const vec4_t* matrix, vec3_t* out);
+        static void ToEulerAnglesRad(const vec4_t* matrix, vec3_t* out);
         static void ToEulerAnglesDeg(const vec4_t* matrix, vec3_t* out);
     };
 } // namespace T6
