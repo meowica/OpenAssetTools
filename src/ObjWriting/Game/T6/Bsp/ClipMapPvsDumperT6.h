@@ -2,6 +2,7 @@
 
 #include "Dumping/AbstractAssetDumper.h"
 #include "Game/T6/T6.h"
+#include "Game/T6/CommonT6.h"
 
 namespace clip_map_pvs
 {
