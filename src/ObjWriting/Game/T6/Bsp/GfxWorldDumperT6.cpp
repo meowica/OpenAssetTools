@@ -55,30 +55,22 @@ namespace
         for (unsigned int i = 0; i < world->dpvs.smodelCount; ++i)
         {
             const auto& smodel = world->dpvs.smodelDrawInsts[i];
-            const auto& origin = smodel.placement.origin;
-            const auto& axis = smodel.placement.axis;
-            const auto& scale = smodel.placement.scale;
+            const auto& placement = smodel.placement;
 
             mapFileDumper.BeginEntity();
 
-            // Could probably be done better....
-            vec4_t matrix[3] = {};
-            matrix[0].v[0] = axis[0].x;
-            matrix[0].v[1] = axis[0].y;
-            matrix[0].v[2] = axis[0].z;
-            matrix[1].v[0] = axis[1].x;
-            matrix[1].v[1] = axis[1].y;
-            matrix[1].v[2] = axis[1].z;
-            matrix[2].v[0] = axis[2].x;
-            matrix[2].v[1] = axis[2].y;
-            matrix[2].v[2] = axis[2].z;
+            vec4_t matrix[3] = {
+                {placement.axis[0].x, placement.axis[0].y, placement.axis[0].z, 0.0f},
+                {placement.axis[1].x, placement.axis[1].y, placement.axis[1].z, 0.0f},
+                {placement.axis[2].x, placement.axis[2].y, placement.axis[2].z, 0.0f},
+            };
 
             vec3_t angles;
             Common::ToEulerAnglesDeg(matrix, &angles);
 
             mapFileDumper.WriteKeyValue("model", smodel.model->name);
-            mapFileDumper.WriteKeyValue("modelscale", std::format("{:.1f}", scale));
-            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", origin.x, origin.y, origin.z));
+            mapFileDumper.WriteKeyValue("modelscale", std::format("{:.1f}", placement.scale));
+            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", placement.origin.x, placement.origin.y, placement.origin.z));
             mapFileDumper.WriteKeyValue("angles", std::format("{:.1f} {:.1f} {:.1f}", angles.x, angles.y, angles.z));
             mapFileDumper.WriteKeyValue("classname", "misc_model");
 

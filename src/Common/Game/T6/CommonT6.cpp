@@ -70,20 +70,22 @@ float Common::RadToDeg(const float radians)
     return radians * (180.0f / M_PI);
 }
 
-void Common::ToEulerAngles(const vec4_t* matrix, vec3_t* out)
+void Common::ToEulerAnglesRad(const vec4_t* matrix, vec3_t* out)
 {
-    const float a = asinf(-matrix[0].v[2]);
-    const float ca = cosf(a);
+    constexpr float GIMBAL_LOCK_THRESHOLD = 0.005f;
 
-    if (fabsf(ca) > 0.005f)
+    const float a = asinf(-matrix[0].v[2]);
+    const float cosA = cosf(a);
+
+    if (fabsf(cosA) > GIMBAL_LOCK_THRESHOLD)
     {
-        out->x = atan2f(matrix[1].v[2] / ca, matrix[2].v[2] / ca);
+        out->x = atan2f(matrix[1].v[2] / cosA, matrix[2].v[2] / cosA);
         out->y = a;
-        out->z = atan2f(matrix[0].v[1] / ca, matrix[0].v[0] / ca);
+        out->z = atan2f(matrix[0].v[1] / cosA, matrix[0].v[0] / cosA);
     }
     else
     {
-        out->x = atan2f(-matrix[2].v[1], matrix[1].v[1]); // ca ~= 0, don't divide
+        out->x = atan2f(-matrix[2].v[1], matrix[1].v[1]);
         out->y = a;
         out->z = 0.0f;
     }
@@ -92,8 +94,7 @@ void Common::ToEulerAngles(const vec4_t* matrix, vec3_t* out)
 void Common::ToEulerAnglesDeg(const vec4_t* matrix, vec3_t* out)
 {
     vec3_t euler_rad;
-    ToEulerAngles(matrix, &euler_rad);
-
+    ToEulerAnglesRad(matrix, &euler_rad);
     out->x = RadToDeg(euler_rad.x);
     out->y = RadToDeg(euler_rad.y);
     out->z = RadToDeg(euler_rad.z);
