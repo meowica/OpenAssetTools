@@ -1,41 +1,40 @@
 #include "GameWorldSpDumperT6.h"
 
-#include "Dumping/MapFile/MapFileDumper.h"
+#include "MapFileDumperState.h"
 #include "Bsp/BSPCommon.h"
 
 #include <format>
 
 using namespace T6;
 
+namespace
+{
+    void DumpPathNodes(MapFileDumper& mapFileDumper, const GameWorldSp* world)
+    {
+        const auto& worldPath = world->path;
+
+        for (auto i = 0u; i < worldPath.nodeCount; ++i)
+        {
+            const auto& pNode = worldPath.nodes[i];
+            const auto& pNodeConst = pNode.constant;
+            const auto className = bsp_common::GetNodeType(pNodeConst.type);
+
+            mapFileDumper.BeginEntity();
+            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", pNodeConst.vOrigin.x, pNodeConst.vOrigin.y, pNodeConst.vOrigin.z));
+            mapFileDumper.WriteKeyValue("classname", className);
+            mapFileDumper.EndEntity();
+        }
+    }
+} // namespace
+
 namespace game_world_sp
 {
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetGameWorldSp::Type>& asset)
     {
-        const auto* gameWorld = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(bsp_common::game_world::GetFileNameForAssetName(asset.m_name));
-
-        if (!assetFile)
+        auto* mapDumper = context.GetZoneAssetDumperState<MapFileDumperState>()->GetOrCreateDumper(context, asset.m_name);
+        if (!mapDumper)
             return;
 
-        MapFileDumper mapFileDumper(*assetFile);
-        mapFileDumper.Init();
-
-        auto& stream = *assetFile;
-
-        auto& path = gameWorld->path;
-
-        for (unsigned int i = 0; i < path.nodeCount; ++i)
-        {
-            const auto& node = path.nodes[i];
-            const auto& origin = node.constant.vOrigin;
-            const auto* classname = bsp_common::game_world::GetNodeType(node.constant.type);
-
-            mapFileDumper.BeginEntity();
-
-            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", origin.x, origin.y, origin.z));
-            mapFileDumper.WriteKeyValue("classname", classname);
-
-            mapFileDumper.EndEntity();
-        }
+        DumpPathNodes(*mapDumper, asset.Asset());
     }
 } // namespace game_world_sp

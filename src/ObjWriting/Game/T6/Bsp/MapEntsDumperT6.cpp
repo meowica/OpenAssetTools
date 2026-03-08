@@ -12,7 +12,7 @@ namespace
     void DumpMapEnts(AssetDumpingContext& context, const XAssetInfo<AssetMapEnts::Type>& asset)
     {
         const auto* mapEnts = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(bsp_common::map_ents::GetEntsAssetName(asset.m_name));
+        const auto assetFile = context.OpenAssetFile(bsp_common::GetFileNameForMapEnts(asset.m_name));
 
         if (!assetFile)
             return;
@@ -27,7 +27,7 @@ namespace
     void DumpMapTrigs(AssetDumpingContext& context, const XAssetInfo<AssetMapEnts::Type>& asset)
     {
         const auto* mapEnts = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(bsp_common::map_ents::GetTrigsAssetName(asset.m_name));
+        const auto assetFile = context.OpenAssetFile(bsp_common::GetFileNameForMapTrigs(asset.m_name));
 
         if (!assetFile)
             return;

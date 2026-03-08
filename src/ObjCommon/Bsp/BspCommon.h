@@ -6,37 +6,10 @@
 
 namespace bsp_common
 {
-    namespace clip_map
-    {
-        std::string GetFileNameForDynModels(const std::string& assetName);
-    }
+    std::string GetNodeType(T6::nodeType type);
 
-    namespace com_world
-    {
-        std::string GetFileNameForPrimaryLights(const std::string& assetName);
-    }
-
-    namespace game_world
-    {
-        const char* GetNodeType(T6::nodeType type);
-
-        std::string GetFileNameForAssetName(const std::string& assetName);
-    }
-
-    namespace map_ents
-    {
-        std::string GetEntsAssetName(const std::string& assetName);
-        std::string GetTrigsAssetName(const std::string& assetName);
-    }
-
-    namespace gfx_world
-    {
-        std::string GetFileNameForStaticModels(const std::string& assetName);
-        std::string GetFileNameForReflectionProbes(const std::string& assetName);
-    }
-
-    namespace addon_map_ents
-    {
-        std::string GetFileNameForAssetName(const std::string& assetName);
-    }
+    std::string GetFileNameForMap(const std::string& assetName);
+    std::string GetFileNameForMapEnts(const std::string& assetName);
+    std::string GetFileNameForMapTrigs(const std::string& assetName);
+    std::string GetFileNameForAddonMapEnts(const std::string& assetName);
 }

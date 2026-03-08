@@ -1,36 +1,39 @@
 #include "ComWorldDumperT6.h"
 
-#include "Dumping/MapFile/MapFileDumper.h"
-#include "Bsp/BSPCommon.h"
+#include "MapFileDumperState.h"
 
 #include <format>
 
 using namespace T6;
 
+namespace
+{
+    void DumpPrimaryLights(MapFileDumper& mapFileDumper, const ComWorld* world)
+    {
+        for (auto i = 0u; i < world->primaryLightCount; ++i)
+        {
+            const auto& pLight = world->primaryLights[i];
+
+            mapFileDumper.BeginEntity();
+            mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", pLight.origin.x, pLight.origin.y, pLight.origin.z));
+            mapFileDumper.WriteKeyValue("def", pLight.defName ? pLight.defName : "unknown");
+            mapFileDumper.WriteKeyValue("radius", std::format("{:.1f}", pLight.radius));
+            mapFileDumper.WriteKeyValue("_color", std::format("{:.4f} {:.4f} {:.4f}", pLight.color.x, pLight.color.y, pLight.color.z));
+            mapFileDumper.WriteKeyValue("intensity", "1.0");
+            mapFileDumper.WriteKeyValue("classname", "light");
+            mapFileDumper.EndEntity();
+        }
+    }
+} // namespace
+
 namespace com_world
 {
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetComWorld::Type>& asset)
     {
-        const auto* comWorld = asset.Asset();
-        const auto assetFile = context.OpenAssetFile(bsp_common::com_world::GetFileNameForPrimaryLights(asset.m_name));
-
-        if (!assetFile)
+        auto* mapDumper = context.GetZoneAssetDumperState<MapFileDumperState>()->GetOrCreateDumper(context, asset.m_name);
+        if (!mapDumper)
             return;
 
-        auto& stream = *assetFile;
-
-        for (unsigned int i = 0; i < comWorld->primaryLightCount; ++i)
-        {
-            const auto& light = comWorld->primaryLights[i];
-
-            stream << "{\n";
-            stream << "\"origin\" \"" << light.origin.x << " " << light.origin.y << " " << light.origin.z << "\"\n";
-            stream << "\"def\" \"" << (light.defName ? light.defName : "unknown") << "\"\n";
-            stream << "\"radius\" \"" << light.radius << "\"\n";
-            stream << "\"_color\" \"" << light.color.x << " " << light.color.y << " " << light.color.z << "\"\n";
-            stream << "\"intensity\" \"" << 1.0f << "\"\n";
-            stream << "\"classname\" \"light\"\n";
-            stream << "}\n";
-        }
+        DumpPrimaryLights(*mapDumper, asset.Asset());
     }
 } // namespace com_world
