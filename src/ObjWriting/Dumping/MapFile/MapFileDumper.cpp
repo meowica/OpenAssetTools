@@ -1,5 +1,8 @@
 #include "MapFileDumper.h"
 
+#include "Dumping/AssetDumpingContext.h"
+#include "Bsp/BSPCommon.h"
+
 #include <cassert>
 #include <iomanip>
 
@@ -96,4 +99,24 @@ void MapFileDumper::WriteKeyValue(const std::string& key, const std::string& val
 {
     assert(m_flags.m_in_brush || m_flags.m_in_entity);
     m_stream << "\"" << key << "\" \"" << value << "\"\n";
+}
+
+MapFileDumper* MapFileDumperState::GetOrCreateDumper(AssetDumpingContext& context, const std::string& mapName)
+{
+    const auto it = m_dumpers.find(mapName);
+    if (it != m_dumpers.end())
+        return it->second.m_dumper.get();
+
+    MapFileEntry entry;
+    entry.m_file = context.OpenAssetFile(bsp_common::GetFileNameForMap(mapName));
+    if (!entry.m_file)
+        return nullptr;
+
+    entry.m_dumper = std::make_unique<MapFileDumper>(*entry.m_file);
+    entry.m_dumper->Init();
+
+    auto* dumperPtr = entry.m_dumper.get();
+    m_dumpers.emplace(mapName, std::move(entry));
+
+    return dumperPtr;
 }
