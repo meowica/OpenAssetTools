@@ -33,12 +33,6 @@ void MapFileDumper::Init() const
     m_stream << "\"The Map\" flags\n";
 }
 
-void MapFileDumper::WriteComment(const std::string& key) const
-{
-    Indent();
-    m_stream << "// " << key << "\n";
-}
-
 void MapFileDumper::BeginEntity()
 {
     assert(!m_flags.m_in_entity);
@@ -101,6 +95,5 @@ void MapFileDumper::EndBrush()
 void MapFileDumper::WriteKeyValue(const std::string& key, const std::string& value) const
 {
     assert(m_flags.m_in_brush || m_flags.m_in_entity);
-
     m_stream << "\"" << key << "\" \"" << value << "\"\n";
 }
