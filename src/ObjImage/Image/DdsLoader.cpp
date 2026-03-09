@@ -39,7 +39,8 @@ namespace
     private:
         [[nodiscard]] bool ReadMagic() const
         {
-            uint32_t magic;
+            uint32_t magic{};
+
             m_stream.read(reinterpret_cast<char*>(&magic), sizeof(magic));
             if (m_stream.gcount() != sizeof(magic))
             {
@@ -59,6 +60,7 @@ namespace
         [[nodiscard]] bool ReadDxt10Header()
         {
             DDS_HEADER_DXT10 headerDx10{};
+
             m_stream.read(reinterpret_cast<char*>(&headerDx10), sizeof(headerDx10));
             if (m_stream.gcount() != sizeof(headerDx10))
             {
@@ -67,19 +69,13 @@ namespace
             }
 
             if (headerDx10.resourceDimension == D3D10_RESOURCE_DIMENSION_TEXTURE3D)
-            {
                 m_texture_type = TextureType::T_3D;
-            }
             else if (headerDx10.resourceDimension == D3D10_RESOURCE_DIMENSION_TEXTURE2D)
             {
                 if (headerDx10.miscFlag & DDS_RESOURCE_MISC_TEXTURECUBE || headerDx10.arraySize == 6)
-                {
                     m_texture_type = TextureType::T_CUBE;
-                }
                 else
-                {
                     m_texture_type = TextureType::T_2D;
-                }
             }
             else
             {
@@ -182,7 +178,6 @@ namespace
             }
 
             con::error("Failed to find dds pixel format: R={:#x} G={:#x} B={:#x} A={:#x}", pf.dwRBitMask, pf.dwGBitMask, pf.dwBBitMask, pf.dwABitMask);
-
             return false;
         }
 
@@ -197,6 +192,7 @@ namespace
         [[nodiscard]] bool ReadHeader()
         {
             DDS_HEADER header{};
+
             m_stream.read(reinterpret_cast<char*>(&header), sizeof(header));
             if (m_stream.gcount() != sizeof(header))
             {

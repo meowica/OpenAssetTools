@@ -87,12 +87,15 @@ namespace
             case oat::DXGI_FORMAT_BC1_UNORM:
                 pf.dwFourCC = MakeFourCc('D', 'X', 'T', '1');
                 break;
+
             case oat::DXGI_FORMAT_BC2_UNORM:
                 pf.dwFourCC = MakeFourCc('D', 'X', 'T', '3');
                 break;
+
             case oat::DXGI_FORMAT_BC3_UNORM:
                 pf.dwFourCC = MakeFourCc('D', 'X', 'T', '5');
                 break;
+
             default:
                 m_use_dx10_extension = true;
                 pf.dwFourCC = MakeFourCc('D', 'X', '1', '0');
@@ -129,9 +132,11 @@ namespace
             case ImageFormatType::BLOCK_COMPRESSED:
                 PopulatePixelFormatBlockCompressed(pf, dynamic_cast<const ImageFormatBlockCompressed*>(format));
                 break;
+
             case ImageFormatType::UNSIGNED:
                 PopulatePixelFormatUnsigned(pf, dynamic_cast<const ImageFormatUnsigned*>(format));
                 break;
+
             default:
                 assert(false);
                 break;
@@ -174,8 +179,13 @@ namespace
 
             if (m_texture->GetTextureType() == TextureType::T_CUBE)
             {
-                header.dwCaps2 |= DDSCAPS2_CUBEMAP | DDSCAPS2_CUBEMAP_POSITIVEX | DDSCAPS2_CUBEMAP_NEGATIVEX | DDSCAPS2_CUBEMAP_POSITIVEY
-                                  | DDSCAPS2_CUBEMAP_NEGATIVEY | DDSCAPS2_CUBEMAP_POSITIVEZ | DDSCAPS2_CUBEMAP_NEGATIVEZ;
+                header.dwCaps2 |= DDSCAPS2_CUBEMAP |
+                                  DDSCAPS2_CUBEMAP_POSITIVEX |
+                                  DDSCAPS2_CUBEMAP_NEGATIVEX |
+                                  DDSCAPS2_CUBEMAP_POSITIVEY |
+                                  DDSCAPS2_CUBEMAP_NEGATIVEY |
+                                  DDSCAPS2_CUBEMAP_POSITIVEZ |
+                                  DDSCAPS2_CUBEMAP_NEGATIVEZ;
             }
 
             header.dwCaps3 = 0;
@@ -195,11 +205,13 @@ namespace
                 header.resourceDimension = D3D10_RESOURCE_DIMENSION_TEXTURE2D;
                 header.arraySize = 1;
                 break;
+
             case TextureType::T_CUBE:
                 header.resourceDimension = D3D10_RESOURCE_DIMENSION_TEXTURE2D;
                 header.arraySize = 6;
                 header.miscFlag |= DDS_RESOURCE_MISC_TEXTURECUBE;
                 break;
+
             case TextureType::T_3D:
                 header.resourceDimension = D3D10_RESOURCE_DIMENSION_TEXTURE3D;
                 header.arraySize = 1;

@@ -117,17 +117,11 @@ void IwiWriter::DumpImage(std::ostream& stream, const Texture* texture)
     }
 
     if (const auto* texture3D = dynamic_cast<const Texture3D*>(texture))
-    {
         FillHeader3D(header, *texture3D);
-    }
     else if (const auto* textureCube = dynamic_cast<const TextureCube*>(texture))
-    {
         FillHeaderCube(header, *textureCube);
-    }
     else if (const auto* texture2D = dynamic_cast<const Texture2D*>(texture))
-    {
         FillHeader2D(header, *texture2D);
-    }
     else
     {
         assert(false);

@@ -143,15 +143,11 @@ namespace image
     }
 
     const ImageFormatUnsigned ImageFormat::FORMAT_R8_G8_B8(ImageFormatId::R8_G8_B8, oat::D3DFMT_R8G8B8, oat::DXGI_FORMAT_UNKNOWN, 24, 0, 8, 8, 8, 16, 8, 0, 0);
-    const ImageFormatUnsigned
-        ImageFormat::FORMAT_B8_G8_R8_X8(ImageFormatId::B8_G8_R8_X8, oat::D3DFMT_X8R8G8B8, oat::DXGI_FORMAT_B8G8R8X8_UNORM, 32, 16, 8, 8, 8, 0, 8, 0, 0);
-    const ImageFormatUnsigned
-        ImageFormat::FORMAT_R8_G8_B8_A8(ImageFormatId::R8_G8_B8_A8, oat::D3DFMT_A8B8G8R8, oat::DXGI_FORMAT_R8G8B8A8_UNORM, 32, 0, 8, 8, 8, 16, 8, 24, 8);
-    const ImageFormatUnsigned
-        ImageFormat::FORMAT_B8_G8_R8_A8(ImageFormatId::B8_G8_R8_A8, oat::D3DFMT_A8R8G8B8, oat::DXGI_FORMAT_B8G8R8A8_UNORM, 32, 16, 8, 8, 8, 0, 8, 24, 8);
+    const ImageFormatUnsigned ImageFormat::FORMAT_B8_G8_R8_X8(ImageFormatId::B8_G8_R8_X8, oat::D3DFMT_X8R8G8B8, oat::DXGI_FORMAT_B8G8R8X8_UNORM, 32, 16, 8, 8, 8, 0, 8, 0, 0);
+    const ImageFormatUnsigned ImageFormat::FORMAT_R8_G8_B8_A8(ImageFormatId::R8_G8_B8_A8, oat::D3DFMT_A8B8G8R8, oat::DXGI_FORMAT_R8G8B8A8_UNORM, 32, 0, 8, 8, 8, 16, 8, 24, 8);
+    const ImageFormatUnsigned ImageFormat::FORMAT_B8_G8_R8_A8(ImageFormatId::B8_G8_R8_A8, oat::D3DFMT_A8R8G8B8, oat::DXGI_FORMAT_B8G8R8A8_UNORM, 32, 16, 8, 8, 8, 0, 8, 24, 8);
     const ImageFormatUnsigned ImageFormat::FORMAT_A8(ImageFormatId::A8, oat::D3DFMT_A8, oat::DXGI_FORMAT_A8_UNORM, 8, 0, 0, 0, 0, 0, 0, 0, 8);
-    const ImageFormatUnsigned ImageFormat::FORMAT_R16_G16_B16_A16_FLOAT(
-        ImageFormatId::R16_G16_B16_A16_FLOAT, oat::D3DFMT_A16B16G16R16F, oat::DXGI_FORMAT_R16G16B16A16_FLOAT, 128, 0, 0, 0, 0, 0, 0, 0, 8);
+    const ImageFormatUnsigned ImageFormat::FORMAT_R16_G16_B16_A16_FLOAT(ImageFormatId::R16_G16_B16_A16_FLOAT, oat::D3DFMT_A16B16G16R16F, oat::DXGI_FORMAT_R16G16B16A16_FLOAT, 128, 0, 0, 0, 0, 0, 0, 0, 8);
     const ImageFormatUnsigned ImageFormat::FORMAT_R8(ImageFormatId::R8, oat::D3DFMT_L8, oat::DXGI_FORMAT_R8_UNORM, 8, 0, 8, 0, 0, 0, 0, 0, 0);
     const ImageFormatUnsigned ImageFormat::FORMAT_R8_A8(ImageFormatId::R8_A8, oat::D3DFMT_A8L8, oat::DXGI_FORMAT_UNKNOWN, 16, 0, 8, 0, 0, 0, 0, 8, 8);
     const ImageFormatBlockCompressed ImageFormat::FORMAT_BC1(ImageFormatId::BC1, oat::D3DFMT_DXT1, oat::DXGI_FORMAT_BC1_UNORM, 4, 64);
@@ -160,7 +156,8 @@ namespace image
     const ImageFormatBlockCompressed ImageFormat::FORMAT_BC4(ImageFormatId::BC4, oat::D3DFMT_UNKNOWN, oat::DXGI_FORMAT_BC4_UNORM, 4, 64);
     const ImageFormatBlockCompressed ImageFormat::FORMAT_BC5(ImageFormatId::BC5, oat::D3DFMT_UNKNOWN, oat::DXGI_FORMAT_BC5_UNORM, 4, 128);
 
-    const ImageFormat* const ImageFormat::ALL_FORMATS[static_cast<unsigned>(ImageFormatId::MAX)]{
+    const ImageFormat* const ImageFormat::ALL_FORMATS[static_cast<unsigned>(ImageFormatId::MAX)]
+    {
         &FORMAT_R8_G8_B8,
         &FORMAT_B8_G8_R8_X8,
         &FORMAT_R8_G8_B8_A8,

@@ -53,9 +53,7 @@ namespace image
         const int mipLevelCount = m_has_mip_maps ? GetMipMapCount() : 1;
 
         for (int currentMipLevel = 0; currentMipLevel < mipLevelCount; currentMipLevel++)
-        {
             storageRequirement += GetSizeOfMipLevel(currentMipLevel) * GetFaceCount();
-        }
 
         if (storageRequirement > 0)
         {
@@ -183,9 +181,7 @@ namespace image
 
         size_t bufferOffset = 0;
         for (int previousMipLevel = 0; previousMipLevel < mipLevel; previousMipLevel++)
-        {
             bufferOffset += GetSizeOfMipLevel(previousMipLevel);
-        }
 
         return &m_data[bufferOffset];
     }
@@ -208,9 +204,7 @@ namespace image
 
         size_t bufferOffset = 0;
         for (int previousMipLevel = 0; previousMipLevel < mipLevel; previousMipLevel++)
-        {
             bufferOffset += GetSizeOfMipLevel(previousMipLevel);
-        }
 
         return &m_data[bufferOffset];
     }
@@ -276,9 +270,7 @@ namespace image
 
         size_t bufferOffset = 0;
         for (int previousMipLevel = 0; previousMipLevel < mipLevel; previousMipLevel++)
-        {
             bufferOffset += GetSizeOfMipLevel(previousMipLevel) * FACE_COUNT;
-        }
 
         return &m_data[bufferOffset + GetSizeOfMipLevel(mipLevel) * face];
     }
@@ -302,9 +294,7 @@ namespace image
 
         size_t bufferOffset = 0;
         for (int previousMipLevel = 0; previousMipLevel < mipLevel; previousMipLevel++)
-        {
             bufferOffset += GetSizeOfMipLevel(previousMipLevel) * FACE_COUNT;
-        }
 
         return &m_data[bufferOffset + GetSizeOfMipLevel(mipLevel) * face];
     }
@@ -412,9 +402,7 @@ namespace image
 
         size_t bufferOffset = 0;
         for (int previousMipLevel = 0; previousMipLevel < mipLevel; previousMipLevel++)
-        {
             bufferOffset += GetSizeOfMipLevel(previousMipLevel);
-        }
 
         return &m_data[bufferOffset];
     }
@@ -437,9 +425,7 @@ namespace image
 
         size_t bufferOffset = 0;
         for (int previousMipLevel = 0; previousMipLevel < mipLevel; previousMipLevel++)
-        {
             bufferOffset += GetSizeOfMipLevel(previousMipLevel);
-        }
 
         return &m_data[bufferOffset];
     }
