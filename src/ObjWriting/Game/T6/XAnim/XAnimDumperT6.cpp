@@ -34,6 +34,19 @@ namespace
             jRoot["delta"] = xanim->bDelta;
             jRoot["notifyCount"] = xanim->notifyCount;
 
+            if (xanim->notify && xanim->notifyCount > 0)
+            {
+                auto jNotifies = nlohmann::json::array();
+                for (auto i = 0; i < xanim->notifyCount; i++)
+                {
+                    nlohmann::json jNotify;
+                    jNotify["name"] = xanim->notify[i].name;
+                    jNotify["time"] = xanim->notify[i].time;
+                    jNotifies.emplace_back(std::move(jNotify));
+                }
+                jRoot["notifies"] = std::move(jNotifies);
+            }
+
             m_stream << std::setw(4) << jRoot << "\n";
         }
 
