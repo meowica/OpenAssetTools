@@ -31,8 +31,6 @@ void StringFileDumper::SetNotes(std::string notes)
 
 void StringFileDumper::WriteHeader()
 {
-    m_stream << "// Dumped from fastfile \"" << m_zone.m_name << "\".\n";
-    m_stream << "// In their original format the strings might have been separated in multiple files.\n";
     m_stream << "VERSION             \"1\"\n";
     m_stream << "CONFIG              \"" << m_config_file << "\"\n";
     m_stream << "FILENOTES           \"" << m_notes << "\"\n";
