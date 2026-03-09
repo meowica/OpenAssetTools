@@ -244,7 +244,9 @@ namespace
             if (debug)
             {
                 comment = std::format(
-                    "MaterialType: {}; PrecompiledIndex: {}", static_cast<unsigned>(pass.materialType), static_cast<unsigned>(pass.precompiledIndex));
+                    "MaterialType: {}; PrecompiledIndex: {}",
+                    static_cast<unsigned>(pass.materialType),
+                    static_cast<unsigned>(pass.precompiledIndex));
             }
 
             techset::CommonPass commonPass(pass.customSamplerFlags,
@@ -278,9 +280,13 @@ namespace
             if (technique && techniqueState->ShouldDumpTechnique(technique))
             {
                 const auto commonTechnique = ConvertToCommonTechnique(*technique, debug);
-
-                techset::DumpCommonTechnique(
-                    context, commonTechnique, techset::DxVersion::DX11, commonCodeSourceInfos, commonRoutingInfos, *materialConstantState, debug);
+                techset::DumpCommonTechnique(context,
+                                             commonTechnique,
+                                             techset::DxVersion::DX11,
+                                             commonCodeSourceInfos,
+                                             commonRoutingInfos,
+                                             *materialConstantState,
+                                             debug);
             }
         }
     }
@@ -299,10 +305,9 @@ namespace
         return techset::CommonTechset(techset.name, std::move(techniqueNames));
     }
 
-    void DumpTechset(const AssetDumpingContext& context, const MaterialTechniqueSet& techset)
+    void DumpTechsets(const AssetDumpingContext& context, const MaterialTechniqueSet& techset)
     {
         const auto commonTechset = ConvertToCommonTechset(techset);
-
         techset::DumpCommonTechset(commonTechniqueTypeNames, context, commonTechset);
     }
 } // namespace
@@ -323,7 +328,7 @@ namespace techset
     void DumperT6::DumpAsset(AssetDumpingContext& context, const XAssetInfo<AssetTechniqueSet::Type>& asset)
     {
         const auto* techniqueSet = asset.Asset();
-        DumpTechset(context, *techniqueSet);
+        DumpTechsets(context, *techniqueSet);
         DumpTechniques(context, *techniqueSet, m_debug);
         DumpShaders(context, *techniqueSet);
     }
