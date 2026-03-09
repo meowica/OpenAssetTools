@@ -3,7 +3,8 @@
 
 namespace T6
 {
-    inline cspField_t vehicle_fields[]{
+    inline cspField_t vehicle_fields[]
+    {
         {"type",                                        offsetof(VehicleDef, type),                                                   VFT_TYPE                    },
         {"remoteControl",                               offsetof(VehicleDef, remoteControl),                                          CSPFT_QBOOLEAN              },
         {"bulletDamage",                                offsetof(VehicleDef, bulletDamage),                                           CSPFT_QBOOLEAN              },
@@ -562,7 +563,8 @@ namespace T6
         {"customBool2",                                 offsetof(VehicleDef, customBool2),                                            CSPFT_BOOL                  },
     };
 
-    inline const char* s_vehicleClassNames[]{
+    inline const char* s_vehicleClassNames[]
+    {
         "4 wheel",
         "motorcycle",
         "tank",
@@ -572,7 +574,8 @@ namespace T6
         "helicopter",
     };
 
-    inline const char* s_vehicleCameraModes[]{
+    inline const char* s_vehicleCameraModes[]
+    {
         "first",
         "chase",
         "view",
@@ -583,7 +586,8 @@ namespace T6
         "vtol",
     };
 
-    inline const char* s_tractionTypeNames[]{
+    inline const char* s_tractionTypeNames[]
+    {
         "TRACTION_TYPE_FRONT",
         "TRACTION_TYPE_BACK",
         "TRACTION_TYPE_ALL_WD",

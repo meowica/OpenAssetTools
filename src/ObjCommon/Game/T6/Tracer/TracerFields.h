@@ -3,7 +3,8 @@
 
 namespace T6
 {
-    inline cspField_t tracer_fields[]{
+    inline cspField_t tracer_fields[]
+    {
         {"type",          offsetof(TracerDef, type),          TFT_TRACERTYPE},
         {"material",      offsetof(TracerDef, material),      CSPFT_MATERIAL},
         {"drawInterval",  offsetof(TracerDef, drawInterval),  CSPFT_INT     },
@@ -37,7 +38,8 @@ namespace T6
         {"colorA4",       offsetof(TracerDef, colors[4].a),   CSPFT_FLOAT   },
     };
 
-    inline const char* tracerTypeNames[]{
+    inline const char* tracerTypeNames[]
+    {
         "Laser",
         "Smoke",
     };

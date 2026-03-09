@@ -3,7 +3,8 @@
 
 namespace T6
 {
-    inline cspField_t weapon_fields[]{
+    inline cspField_t weapon_fields[]
+    {
         {"displayName",                        offsetof(WeaponFullDef, weapVariantDef.szDisplayName),                 CSPFT_STRING             },
         {"AIOverlayDescription",               offsetof(WeaponFullDef, weapDef.szOverlayName),                        CSPFT_STRING             },
         {"modeName",                           offsetof(WeaponFullDef, weapDef.szModeName),                           CSPFT_STRING             },

@@ -3,7 +3,8 @@
 
 namespace T6
 {
-    inline cspField_t zbarrier_fields[]{
+    inline cspField_t zbarrier_fields[]
+    {
         {"delayBetweenGeneralRepSounds",    offsetof(ZBarrierDef, delayBetweenRepSoundsDuration),         CSPFT_FLOAT         },
         {"earthquakeMaxDuration",           offsetof(ZBarrierDef, earthquakeMaxDuration),                 CSPFT_FLOAT         },
         {"earthquakeMaxScale",              offsetof(ZBarrierDef, earthquakeMaxScale),                    CSPFT_FLOAT         },
