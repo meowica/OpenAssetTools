@@ -36,7 +36,6 @@ namespace
         mapFileDumper.Init();
 
         auto& stream = *assetFile;
-
         stream.write("i wish", 6);
     }
 } // namespace

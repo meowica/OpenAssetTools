@@ -35,6 +35,7 @@
 #include "Weapon/AttachmentUniqueDumperT6.h"
 #include "Weapon/CamoJsonDumperT6.h"
 #include "Weapon/WeaponDumperT6.h"
+#include "XAnim/XAnimDumperT6.h"
 #include "ZBarrier/ZBarrierDumperT6.h"
 
 using namespace T6;
@@ -44,7 +45,7 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     RegisterAssetDumper(std::make_unique<phys_preset::InfoStringDumperT6>());
     RegisterAssetDumper(std::make_unique<phys_constraints::InfoStringDumperT6>());
     // RegisterAssetDumper(std::make_unique<destructible::InfoStringDumperT6>());
-    // RegisterAssetDumper(std::make_unique<xanim::DumperT6>());
+    RegisterAssetDumper(std::make_unique<xanim::DumperT6>());
     RegisterAssetDumper(std::make_unique<xmodel::DumperT6>());
     RegisterAssetDumper(std::make_unique<material::JsonDumperT6>());
     RegisterAssetDumper(std::make_unique<techset::DumperT6>(
