@@ -6,9 +6,7 @@
 #include <cassert>
 #include <iomanip>
 
-MapFileDumper::Vec3::Vec3(const float x,
-                          const float y,
-                          const float z)
+MapFileDumper::Vec3::Vec3(const float x, const float y, const float z)
     : v{}
 {
     m_x = x;
@@ -35,12 +33,18 @@ void MapFileDumper::Init()
     m_stream << "\"000_Global\" flags  active\n";
     m_stream << "\"The Map\" flags\n";
 
+    // always create a word spawn entity when making an iwmap file
+    InitWorldSpawn();
+}
+
+void MapFileDumper::InitWorldSpawn()
+{
     m_stream << "// entity 0\n";
     m_stream << "{\n";
     m_stream << "\"classname\" \"worldspawn\"\n";
     m_stream << "}\n";
 
-    m_entity_index = 1; // because of worldspawn
+    m_entity_index = 1; // set to 1 because worldspawn is always entity 0
 }
 
 void MapFileDumper::BeginEntity()

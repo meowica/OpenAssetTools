@@ -39,6 +39,7 @@ public:
     explicit MapFileDumper(std::ostream& stream);
 
     void Init();
+    void InitWorldSpawn();
 
     void BeginEntity();
     void EndEntity();
