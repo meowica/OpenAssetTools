@@ -51,7 +51,7 @@ The following section specify which assets are supported to be dumped to disk (u
 | MemoryBlock            | ❌              | ❌              |                                                                                             |
 | AddonMapEnts           | ✅              | ✅              |                                                                                             |
 | TracerDef              | ✅              | ✅              |                                                                                             |
-| SkinnedVertsDef        | ✅              | ❌              |                                                                                             |
+| SkinnedVertsDef        | ⁉️              | ❌              |                                                                                             |
 | Qdb                    | ⁉️              | ⁉️              | Dumped/loaded as rawfiles. Usage currently unknown.                                         |
 | Slug                   | ⁉️              | ⁉️              | Dumped/loaded as rawfiles. Usage currently unknown.                                         |
 | FootstepTableDef       | ❌              | ❌              |                                                                                             |
