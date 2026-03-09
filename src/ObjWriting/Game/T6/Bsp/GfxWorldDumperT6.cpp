@@ -48,7 +48,6 @@ namespace
             mapFileDumper.WriteKeyValue("origin", std::format("{:.1f} {:.1f} {:.1f}", placement.origin.x, placement.origin.y, placement.origin.z));
             mapFileDumper.WriteKeyValue("angles", std::format("{:.1f} {:.1f} {:.1f}", angles.x, angles.y, angles.z));
             mapFileDumper.WriteKeyValue("classname", "misc_model");
-
             mapFileDumper.EndEntity();
         }
     }
