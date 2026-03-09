@@ -8,6 +8,7 @@
 #include "Bsp/GfxWorldDumperT6.h"
 #include "Bsp/MapEntsDumperT6.h"
 #include "Bsp/AddonMapEntsDumperT6.h"
+#include "Destructible/DestructibleInfoStringDumperT6.h"
 #include "Font/FontDumperT6.h"
 #include "FontIcon/FontIconDumperT6.h"
 #include "Material/MaterialJsonDumperT6.h"
@@ -44,7 +45,7 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
 {
     RegisterAssetDumper(std::make_unique<phys_preset::InfoStringDumperT6>());
     RegisterAssetDumper(std::make_unique<phys_constraints::InfoStringDumperT6>());
-    // RegisterAssetDumper(std::make_unique<destructible::InfoStringDumperT6>());
+    RegisterAssetDumper(std::make_unique<destructible::InfoStringDumperT6>());
     RegisterAssetDumper(std::make_unique<xanim::DumperT6>());
     RegisterAssetDumper(std::make_unique<xmodel::DumperT6>());
     RegisterAssetDumper(std::make_unique<material::JsonDumperT6>());

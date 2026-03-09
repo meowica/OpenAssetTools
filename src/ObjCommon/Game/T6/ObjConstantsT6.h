@@ -7,6 +7,8 @@ namespace T6
         ObjConstants() = default;
 
     public:
+        static constexpr const char* INFO_STRING_PREFIX_DESTRUCTIBLE_DEF = "DESTRUCTIBLEDEF";
+        static constexpr const char* INFO_STRING_PREFIX_DESTRUCTIBLE_PIECE = "DESTRUCTIBLEPIECE";
         static constexpr const char* INFO_STRING_PREFIX_PHYS_CONSTRAINTS = "PHYSCONSTRAINTS";
         static constexpr const char* INFO_STRING_PREFIX_PHYS_PRESET = "PHYSIC";
         static constexpr const char* INFO_STRING_PREFIX_TRACER = "TRACER";
@@ -16,6 +18,8 @@ namespace T6
         static constexpr const char* INFO_STRING_PREFIX_WEAPON_ATTACHMENT_UNIQUE = "ATTACHMENTUNIQUEFILE";
         static constexpr const char* INFO_STRING_PREFIX_ZBARRIER = "ZBARRIER";
 
+        static constexpr const char* GDF_FILENAME_DESTRUCTIBLE_DEF = "destructibledef.gdf";
+        static constexpr const char* GDF_FILENAME_DESTRUCTIBLE_PIECE = "destructiblepiece.gdf";
         static constexpr const char* GDF_FILENAME_PHYS_CONSTRAINTS = "physconstraints.gdf";
         static constexpr const char* GDF_FILENAME_PHYS_PRESET = "physpreset.gdf";
         static constexpr const char* GDF_FILENAME_TRACER = "tracer.gdf";
