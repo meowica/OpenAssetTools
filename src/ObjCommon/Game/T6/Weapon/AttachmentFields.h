@@ -3,7 +3,8 @@
 
 namespace T6
 {
-    inline cspField_t attachment_fields[]{
+    inline cspField_t attachment_fields[]
+    {
         {"displayName",                 offsetof(WeaponAttachment, szDisplayName),                CSPFT_STRING      },
         {"attachmentType",              offsetof(WeaponAttachment, attachmentType),               AFT_ATTACHMENTTYPE},
         {"penetrateType",               offsetof(WeaponAttachment, penetrateType),                AFT_PENETRATE_TYPE},

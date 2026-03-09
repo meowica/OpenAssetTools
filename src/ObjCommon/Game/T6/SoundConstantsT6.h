@@ -7,7 +7,8 @@
 namespace T6
 {
     // From SndDriverGlobals
-    inline constexpr const char* SOUND_GROUPS[]{
+    inline constexpr const char* SOUND_GROUPS[]
+    {
         // clang-format off
         "grp_reference",
         "grp_master",
@@ -39,7 +40,8 @@ namespace T6
     };
 
     // From SndDriverGlobals
-    inline constexpr const char* SOUND_CURVES[]{
+    inline constexpr const char* SOUND_CURVES[]
+    {
         "default",
         "defaultmin",
         "allon",
@@ -60,7 +62,8 @@ namespace T6
     };
 
     // From SndDriverGlobals
-    inline constexpr const char* SOUND_DUCK_GROUPS[]{
+    inline constexpr const char* SOUND_DUCK_GROUPS[]
+    {
         "snp_alerts_gameplay",
         "snp_ambience",
         "snp_claw",
@@ -96,7 +99,8 @@ namespace T6
     };
 
     // From SndDriverGlobals
-    inline constexpr const char* SOUND_PANS[]{
+    inline constexpr const char* SOUND_PANS[]
+    {
         "default",
         "music",
         "wpn_all",
@@ -132,7 +136,8 @@ namespace T6
         "movie_vo",
     };
 
-    inline constexpr const char* SOUND_LIMIT_TYPES[]{
+    inline constexpr const char* SOUND_LIMIT_TYPES[]
+    {
         "none",
         "oldest",
         "reject",
@@ -141,7 +146,8 @@ namespace T6
     static_assert(std::extent_v<decltype(SOUND_LIMIT_TYPES)> == SND_LIMIT_COUNT);
 
     // From executable
-    inline constexpr const char* SOUND_MOVE_TYPES[]{
+    inline constexpr const char* SOUND_MOVE_TYPES[]
+    {
         "none",
         "left_player",
         "center_player",
@@ -152,7 +158,8 @@ namespace T6
         "right_shot",
     };
 
-    inline constexpr const char* SOUND_LOAD_TYPES[]{
+    inline constexpr const char* SOUND_LOAD_TYPES[]
+    {
         "unknown",
         "loaded",
         "streamed",
@@ -160,7 +167,8 @@ namespace T6
     };
     static_assert(std::extent_v<decltype(SOUND_LOAD_TYPES)> == SA_COUNT);
 
-    inline constexpr const char* SOUND_BUS_IDS[]{
+    inline constexpr const char* SOUND_BUS_IDS[]
+    {
         "bus_reverb",
         "bus_fx",
         "bus_voice",
@@ -174,23 +182,27 @@ namespace T6
     static_assert(std::extent_v<decltype(SOUND_BUS_IDS)> == SND_BUS_COUNT);
 
     // From executable
-    inline constexpr const char* SOUND_RANDOMIZE_TYPES[]{
+    inline constexpr const char* SOUND_RANDOMIZE_TYPES[]
+    {
         "volume",
         "pitch",
         "variant",
     };
 
-    inline constexpr const char* SOUND_NO_YES[]{
+    inline constexpr const char* SOUND_NO_YES[]
+    {
         "no",
         "yes",
     };
 
-    inline constexpr const char* SOUND_LOOP_TYPES[]{
+    inline constexpr const char* SOUND_LOOP_TYPES[]
+    {
         "nonlooping",
         "looping",
     };
 
-    inline constexpr const char* SOUND_PAN_TYPES[]{
+    inline constexpr const char* SOUND_PAN_TYPES[]
+    {
         "2d",
         "3d",
     };

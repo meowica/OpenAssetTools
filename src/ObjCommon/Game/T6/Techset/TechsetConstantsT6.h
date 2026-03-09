@@ -6,7 +6,8 @@
 
 namespace T6
 {
-    static inline const char* techniqueTypeNames[]{
+    static inline const char* techniqueTypeNames[]
+    {
         "depth prepass",
         "build shadowmap depth",
         "unlit",
@@ -47,7 +48,8 @@ namespace T6
     static_assert(std::extent_v<decltype(techniqueTypeNames)> == TECHNIQUE_COUNT);
     static inline techset::CommonTechniqueTypeNames commonTechniqueTypeNames(techniqueTypeNames, std::extent_v<decltype(techniqueTypeNames)>);
 
-    static inline techset::CommonStreamRoutingSourceInfo streamRoutingSources[]{
+    static inline techset::CommonStreamRoutingSourceInfo streamRoutingSources[]
+    {
         {
          .name = "position",
          .abbreviation = "p",
@@ -106,7 +108,8 @@ namespace T6
     };
     static_assert(std::extent_v<decltype(streamRoutingSources)> == STREAM_SRC_COUNT);
 
-    static inline techset::CommonStreamRoutingDestinationInfo streamRoutingDestinations[]{
+    static inline techset::CommonStreamRoutingDestinationInfo streamRoutingDestinations[]
+    {
         {
          .name = "position",
          .abbreviation = "p",
@@ -195,7 +198,8 @@ namespace T6
                                                                        streamRoutingDestinations,
                                                                        std::extent_v<decltype(streamRoutingDestinations)>);
 
-    static inline techset::CommonCodeConstSourceInfo commonCodeConstSources[]{
+    static inline techset::CommonCodeConstSourceInfo commonCodeConstSources[]
+    {
         {
          .value = CONST_SRC_CODE_LIGHT_POSITION,
          .accessor = "lightPosition",
@@ -1838,7 +1842,8 @@ namespace T6
     };
 
     // See MaterialShaderArgumentType
-    static inline techset::CommonShaderArgumentType commonArgumentTypes[]{
+    static inline techset::CommonShaderArgumentType commonArgumentTypes[]
+    {
         {.m_shader_type = techset::CommonTechniqueShaderType::VERTEX, .m_value_type = techset::CommonShaderValueType::MATERIAL_CONST  },
         {.m_shader_type = techset::CommonTechniqueShaderType::VERTEX, .m_value_type = techset::CommonShaderValueType::LITERAL_CONST   },
         {.m_shader_type = techset::CommonTechniqueShaderType::PIXEL,  .m_value_type = techset::CommonShaderValueType::MATERIAL_SAMPLER},
@@ -1850,7 +1855,8 @@ namespace T6
     };
     static_assert(std::extent_v<decltype(commonArgumentTypes)> == MLT_ARG_COUNT);
 
-    static inline const char* commonIgnoredArgAccessors[]{
+    static inline const char* commonIgnoredArgAccessors[]
+    {
         "combined_dlight",
         "combined_glight",
     };
@@ -1864,7 +1870,8 @@ namespace T6
                                                                        commonArgumentTypes,
                                                                        std::extent_v<decltype(commonArgumentTypes)>);
 
-    static inline MaterialTypeInfo g_materialTypeInfo[]{
+    static inline MaterialTypeInfo g_materialTypeInfo[]
+    {
         {"",     ""    },
         {"m/",   "m_"  },
         {"mc/",  "mc_" },

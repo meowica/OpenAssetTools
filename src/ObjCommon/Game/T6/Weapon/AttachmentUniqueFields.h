@@ -3,7 +3,8 @@
 
 namespace T6
 {
-    inline cspField_t attachment_unique_fields[]{
+    inline cspField_t attachment_unique_fields[]
+    {
         {"attachmentType",                      offsetof(WeaponAttachmentUniqueFull, attachment.attachmentType),                      AUFT_ATTACHMENTTYPE  },
         {"locNone",                             offsetof(WeaponAttachmentUniqueFull, locationDamageMultipliers[HITLOC_NONE]),         CSPFT_FLOAT          },
         {"locHelmet",                           offsetof(WeaponAttachmentUniqueFull, locationDamageMultipliers[HITLOC_HELMET]),       CSPFT_FLOAT          },

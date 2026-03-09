@@ -3,7 +3,8 @@
 
 namespace T6
 {
-    inline cspField_t phys_constraints_fields[]{
+    inline cspField_t phys_constraints_fields[]
+    {
         {"c1_type",        offsetof(PhysConstraints, data[0].type),         CFT_TYPE    },
         {"c1_bone1_name",  offsetof(PhysConstraints, data[0].target_bone1), CSPFT_STRING},
         {"c1_bone2_name",  offsetof(PhysConstraints, data[0].target_bone2), CSPFT_STRING},
@@ -82,7 +83,8 @@ namespace T6
         {"c4_pitch",       offsetof(PhysConstraints, data[3].scale.x),      CSPFT_FLOAT },
     };
 
-    inline const char* s_constraintTypeNames[]{
+    inline const char* s_constraintTypeNames[]
+    {
         "none",
         "point",
         "distance",
