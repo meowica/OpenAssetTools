@@ -18,25 +18,35 @@ namespace
         {
         case iwi27::IwiFormat::IMG_FORMAT_BITMAP_RGBA:
             return &ImageFormat::FORMAT_R8_G8_B8_A8;
+
         case iwi27::IwiFormat::IMG_FORMAT_BITMAP_ALPHA:
             return &ImageFormat::FORMAT_A8;
+
         case iwi27::IwiFormat::IMG_FORMAT_DXT1:
             return &ImageFormat::FORMAT_BC1;
+
         case iwi27::IwiFormat::IMG_FORMAT_DXT3:
             return &ImageFormat::FORMAT_BC2;
+
         case iwi27::IwiFormat::IMG_FORMAT_DXT5:
             return &ImageFormat::FORMAT_BC3;
+
         case iwi27::IwiFormat::IMG_FORMAT_DXN:
             return &ImageFormat::FORMAT_BC5;
+
         case iwi27::IwiFormat::IMG_FORMAT_A16B16G16R16F:
             assert(false); // Unsupported yet
             return &ImageFormat::FORMAT_R16_G16_B16_A16_FLOAT;
+
         case iwi27::IwiFormat::IMG_FORMAT_BITMAP_RGB:
             return &ImageFormat::FORMAT_R8_G8_B8;
+
         case iwi27::IwiFormat::IMG_FORMAT_BITMAP_LUMINANCE_ALPHA:
             return &ImageFormat::FORMAT_R8_A8;
+
         case iwi27::IwiFormat::IMG_FORMAT_BITMAP_LUMINANCE:
             return &ImageFormat::FORMAT_R8;
+
         case iwi27::IwiFormat::IMG_FORMAT_WAVELET_RGBA:
         case iwi27::IwiFormat::IMG_FORMAT_WAVELET_RGB:
         case iwi27::IwiFormat::IMG_FORMAT_WAVELET_LUMINANCE_ALPHA:
@@ -48,6 +58,7 @@ namespace
         case iwi27::IwiFormat::IMG_FORMAT_BITMAP_RGBA8:
             con::error("Unsupported IWI format: {}", format);
             break;
+
         default:
             con::error("Unknown IWI format: {}", format);
             break;
@@ -109,7 +120,8 @@ namespace
             }
         }
 
-        CommonIwiMetaData meta{
+        CommonIwiMetaData meta
+        {
             .m_no_picmip = (header.flags & iwi27::IwiFlags::IMG_FLAG_NOPICMIP) != 0,
             .m_streaming = (header.flags & iwi27::IwiFlags::IMG_FLAG_STREAMING) != 0,
             .m_clamp_u = (header.flags & iwi27::IwiFlags::IMG_FLAG_CLAMP_U) != 0,
@@ -118,7 +130,8 @@ namespace
             .m_gamma = header.gamma,
         };
 
-        return IwiLoaderResult{
+        return IwiLoaderResult
+        {
             .m_version = IwiVersion::IWI_27,
             .m_meta = meta,
             .m_texture = std::move(texture),
