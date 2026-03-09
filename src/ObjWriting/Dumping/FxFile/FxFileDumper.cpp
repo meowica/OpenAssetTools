@@ -7,7 +7,7 @@ FxFileDumper::FxFileDumper(std::ostream& stream)
 
 void FxFileDumper::Init() const
 {
-    m_stream << "iwfx 2\n\n";
+    m_stream << "iwfx 3\n\n";
     m_stream << "{\n\n";
     m_stream << "}\n\n";
 }
