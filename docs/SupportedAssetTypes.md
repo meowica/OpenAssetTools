@@ -11,7 +11,7 @@ The following section specify which assets are supported to be dumped to disk (u
 |------------------------|-----------------|-----------------|---------------------------------------------------------------------------------------------|
 | PhysPreset             | ✅              | ✅              |                                                                                             |
 | PhysConstraints        | ✅              | ✅              |                                                                                             |
-| DestructibleDef        | ❌              | ❌              |                                                                                             |
+| DestructibleDef        | ✅              | ❌              |                                                                                             |
 | XAnimParts             | ⁉️              | ❌              |                                                                                             |
 | XModel                 | ✅              | ✅              | Model data can be exported to `XMODEL_EXPORT/XMODEL_BIN`, `OBJ`, `GLB/GLTF`.               |
 | Material               | ✅              | ✅              | Dumping/Loading currently works for compiled materials. No material pipeline yet.          |
