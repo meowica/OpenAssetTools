@@ -1,7 +1,7 @@
 #include "CamoJsonDumperT6.h"
 
 #include "Game/T6/CommonT6.h"
-#include "Game/T6/Json/JsonWeaponCamo.h"
+#include "Game/T6/Weapon/JsonWeaponCamo.h"
 #include "Weapon/CamoCommon.h"
 
 #include <iomanip>
