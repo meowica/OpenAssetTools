@@ -1,6 +1,6 @@
 #include "CamoJsonLoaderT6.h"
 
-#include "Game/T6/Json/JsonWeaponCamo.h"
+#include "Game/T6/Weapon/JsonWeaponCamo.h"
 #include "Game/T6/T6.h"
 #include "Pool/GlobalAssetPool.h"
 #include "Utils/Logging/Log.h"
